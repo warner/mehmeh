@@ -18,12 +18,14 @@
 		373C910E164DC64B00602DBB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 373C910D164DC64B00602DBB /* Default-568h@2x.png */; };
 		373C9111164DC64B00602DBB /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 373C910F164DC64B00602DBB /* MainStoryboard_iPhone.storyboard */; };
 		373C9114164DC64B00602DBB /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 373C9112164DC64B00602DBB /* MainStoryboard_iPad.storyboard */; };
-		373C9117164DC64B00602DBB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C9116164DC64B00602DBB /* ViewController.m */; };
+		373C9117164DC64B00602DBB /* PINViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C9116164DC64B00602DBB /* PINViewController.m */; };
 		373C911F164DC64B00602DBB /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373C911E164DC64B00602DBB /* SenTestingKit.framework */; };
 		373C9120164DC64B00602DBB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373C90F7164DC64B00602DBB /* UIKit.framework */; };
 		373C9121164DC64B00602DBB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373C90F9164DC64B00602DBB /* Foundation.framework */; };
 		373C9129164DC64B00602DBB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 373C9127164DC64B00602DBB /* InfoPlist.strings */; };
 		373C912C164DC64C00602DBB /* SkyCraneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C912B164DC64C00602DBB /* SkyCraneTests.m */; };
+		373C913A164DCDAE00602DBB /* sites.json in Resources */ = {isa = PBXBuildFile; fileRef = 373C9139164DCDAE00602DBB /* sites.json */; };
+		373C913D164DD31200602DBB /* SiteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C913C164DD31200602DBB /* SiteViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,14 +54,17 @@
 		373C910D164DC64B00602DBB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		373C9110164DC64B00602DBB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		373C9113164DC64B00602DBB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		373C9115164DC64B00602DBB /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		373C9116164DC64B00602DBB /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		373C9115164DC64B00602DBB /* PINViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PINViewController.h; sourceTree = "<group>"; };
+		373C9116164DC64B00602DBB /* PINViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PINViewController.m; sourceTree = "<group>"; };
 		373C911D164DC64B00602DBB /* SkyCraneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkyCraneTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		373C911E164DC64B00602DBB /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		373C9126164DC64B00602DBB /* SkyCraneTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SkyCraneTests-Info.plist"; sourceTree = "<group>"; };
 		373C9128164DC64B00602DBB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		373C912A164DC64B00602DBB /* SkyCraneTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkyCraneTests.h; sourceTree = "<group>"; };
 		373C912B164DC64C00602DBB /* SkyCraneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SkyCraneTests.m; sourceTree = "<group>"; };
+		373C9139164DCDAE00602DBB /* sites.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sites.json; sourceTree = "<group>"; };
+		373C913B164DD31200602DBB /* SiteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SiteViewController.h; sourceTree = "<group>"; };
+		373C913C164DD31200602DBB /* SiteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SiteViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,8 +128,10 @@
 				373C9107164DC64B00602DBB /* AppDelegate.m */,
 				373C910F164DC64B00602DBB /* MainStoryboard_iPhone.storyboard */,
 				373C9112164DC64B00602DBB /* MainStoryboard_iPad.storyboard */,
-				373C9115164DC64B00602DBB /* ViewController.h */,
-				373C9116164DC64B00602DBB /* ViewController.m */,
+				373C9115164DC64B00602DBB /* PINViewController.h */,
+				373C9116164DC64B00602DBB /* PINViewController.m */,
+				373C913B164DD31200602DBB /* SiteViewController.h */,
+				373C913C164DD31200602DBB /* SiteViewController.m */,
 				373C90FE164DC64B00602DBB /* Supporting Files */,
 			);
 			path = SkyCrane;
@@ -133,6 +140,7 @@
 		373C90FE164DC64B00602DBB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				373C9139164DCDAE00602DBB /* sites.json */,
 				373C90FF164DC64B00602DBB /* SkyCrane-Info.plist */,
 				373C9100164DC64B00602DBB /* InfoPlist.strings */,
 				373C9103164DC64B00602DBB /* main.m */,
@@ -240,6 +248,7 @@
 				373C910E164DC64B00602DBB /* Default-568h@2x.png in Resources */,
 				373C9111164DC64B00602DBB /* MainStoryboard_iPhone.storyboard in Resources */,
 				373C9114164DC64B00602DBB /* MainStoryboard_iPad.storyboard in Resources */,
+				373C913A164DCDAE00602DBB /* sites.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,7 +285,8 @@
 			files = (
 				373C9104164DC64B00602DBB /* main.m in Sources */,
 				373C9108164DC64B00602DBB /* AppDelegate.m in Sources */,
-				373C9117164DC64B00602DBB /* ViewController.m in Sources */,
+				373C9117164DC64B00602DBB /* PINViewController.m in Sources */,
+				373C913D164DD31200602DBB /* SiteViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

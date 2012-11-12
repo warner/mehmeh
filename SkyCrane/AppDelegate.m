@@ -13,6 +13,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [self copyFakePasswords];
     return YES;
 }
 							
@@ -41,6 +42,26 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
   // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+
+//adds fake passwords file if there is none
+-(void) copyFakePasswords
+{
+  NSFileManager *fileManager = [NSFileManager defaultManager];
+  NSError *error;
+  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+  NSString *documentsDirectory = [paths objectAtIndex:0];
+  
+  NSString *sitesPath = [documentsDirectory stringByAppendingPathComponent:@"sites.json"];
+  
+  //if ([fileManager fileExistsAtPath:sitesPath] == NO) {
+  NSString *resourcePath = [[NSBundle mainBundle] pathForResource:@"sites" ofType:@"json"];
+  [fileManager removeItemAtPath:sitesPath error:&error];
+  
+  [fileManager copyItemAtPath:resourcePath toPath:sitesPath error:&error];
+  if (error) NSLog(@"error overwriting file: %@", error);
+  //}
 }
 
 @end

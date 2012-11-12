@@ -1,0 +1,35 @@
+{
+  "pin": 1234,
+  "passwords": {
+    "http://www.mozilla.com": {
+      "name": "Mozilla",
+      "protected": true,
+      "password": "mozillapass"
+    },
+    "http://www.google.com": {
+      "name": "Google Search",
+      "protected": false,
+      "password": "googlepass"
+    },
+    "http://www.nbc.com": {
+      "name": "NBC News",
+      "protected": false,
+      "password": "nbcpass"
+    },
+    "http://www.apple.com": {
+      "name": "Apple Computer",
+      "protected": true,
+      "password": "applepass"
+    },
+    "http://www.amazon.com": {
+      "name": "Amazon Shopping",
+      "protected": true,
+      "password": "amazonpass"
+    },
+    "http://www.fark.com": {
+      "name": "Fark News",
+      "protected": true,
+      "password": "farkpass"
+    }
+  }
+}
