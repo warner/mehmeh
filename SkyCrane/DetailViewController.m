@@ -1,20 +1,18 @@
 //
-//  SiteViewController.m
+//  DetailViewController.m
 //  SkyCrane
 //
-//  Created by Dan Walkowski on 11/9/12.
+//  Created by Dan Walkowski on 11/12/12.
 //  Copyright (c) 2012 Mozilla. All rights reserved.
 //
 
-#import "SiteViewController.h"
-#import "LaunchCell.h"
 #import "DetailViewController.h"
 
-@interface SiteViewController ()
+@interface DetailViewController ()
 
 @end
 
-@implementation SiteViewController
+@implementation DetailViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -34,9 +32,6 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-  
-  //not actually sorting at the moment
-  _sortedKeys = [_sites allKeys];
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,41 +51,16 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-  return [[_sites allKeys] count];
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"LaunchCell";
-    LaunchCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+  UITableViewCell *cell  = [[UITableViewCell alloc] init];
   
-    // Configure the cell...
-
-    NSDictionary* siteItem = [_sites objectForKey:[_sortedKeys objectAtIndex:[indexPath row]]];
-  
-    cell.name = [siteItem objectForKey:@"name"];
-    cell.login = [siteItem objectForKey:@"login"];
-    cell.url = [_sortedKeys objectAtIndex:[indexPath row]];
-    cell.pass = [siteItem objectForKey:@"password"];
-
-    cell.nameLbl.text = cell.name;
-    cell.loginLbl.text = cell.login;
-    cell.urlLbl.text = cell.url;
-    return cell;
+  cell.textLabel.text = [_data objectAtIndex:[indexPath row]];
+  return cell;
 }
-
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-  LaunchCell *cell = (LaunchCell*)sender;
-  //NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-  
-  NSArray* selectionData = @[cell.name, cell.login, cell.url, cell.pass];
-
-  DetailViewController *destination = segue.destinationViewController;
-  [destination setData: selectionData];
-}
-
 
 /*
 // Override to support conditional editing of the table view.
@@ -135,19 +105,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  LaunchCell* selectedCell = (LaunchCell*)[tableView cellForRowAtIndexPath:indexPath];
-  [selectedCell setSelected:FALSE];
-  
-  //put password on the pasteboard
-  UIPasteboard *board = [UIPasteboard generalPasteboard];
-  [board setString:selectedCell.pass];
-
-  //launch to the site
-  NSURL *url = [NSURL URLWithString:selectedCell.url];
-  NSLog(@"%@", url);
-  BOOL result = [[UIApplication sharedApplication] openURL:url];
-  if (!result) NSLog(@": url launch failed: %@", url);
-
+    // Navigation logic may go here. Create and push another view controller.
+    /*
+     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+     // ...
+     // Pass the selected object to the new view controller.
+     [self.navigationController pushViewController:detailViewController animated:YES];
+     */
 }
 
 @end

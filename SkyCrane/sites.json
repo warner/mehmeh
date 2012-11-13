@@ -3,31 +3,37 @@
   "passwords": {
     "http://www.mozilla.com": {
       "name": "Mozilla",
+      "login": "joeyjoe@yahoo.com",
       "protected": true,
       "password": "mozillapass"
     },
     "http://www.google.com": {
       "name": "Google Search",
+      "login": "joseph@yahoo.com",
       "protected": false,
       "password": "googlepass"
     },
     "http://www.nbc.com": {
       "name": "NBC News",
+      "login": "joe@yahoo.com",
       "protected": false,
       "password": "nbcpass"
     },
     "http://www.apple.com": {
       "name": "Apple Computer",
+      "login": "eoj@yahoo.com",
       "protected": true,
       "password": "applepass"
     },
     "http://www.amazon.com": {
       "name": "Amazon Shopping",
+      "login": "joebob@yahoo.com",
       "protected": true,
       "password": "amazonpass"
     },
     "http://www.fark.com": {
       "name": "Fark News",
+      "login": "joeyjoejoejrshabadoo@yahoo.com",
       "protected": true,
       "password": "farkpass"
     }

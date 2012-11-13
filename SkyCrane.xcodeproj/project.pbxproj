@@ -26,6 +26,8 @@
 		373C912C164DC64C00602DBB /* SkyCraneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C912B164DC64C00602DBB /* SkyCraneTests.m */; };
 		373C913A164DCDAE00602DBB /* sites.json in Resources */ = {isa = PBXBuildFile; fileRef = 373C9139164DCDAE00602DBB /* sites.json */; };
 		373C913D164DD31200602DBB /* SiteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C913C164DD31200602DBB /* SiteViewController.m */; };
+		376004DD1651A645000E879C /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 376004DC1651A645000E879C /* DetailViewController.m */; };
+		376004E11651A842000E879C /* LaunchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 376004E01651A842000E879C /* LaunchCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,10 @@
 		373C9139164DCDAE00602DBB /* sites.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sites.json; sourceTree = "<group>"; };
 		373C913B164DD31200602DBB /* SiteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SiteViewController.h; sourceTree = "<group>"; };
 		373C913C164DD31200602DBB /* SiteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SiteViewController.m; sourceTree = "<group>"; };
+		376004DB1651A645000E879C /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		376004DC1651A645000E879C /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		376004DF1651A842000E879C /* LaunchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchCell.h; sourceTree = "<group>"; };
+		376004E01651A842000E879C /* LaunchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +138,10 @@
 				373C9116164DC64B00602DBB /* PINViewController.m */,
 				373C913B164DD31200602DBB /* SiteViewController.h */,
 				373C913C164DD31200602DBB /* SiteViewController.m */,
+				376004DF1651A842000E879C /* LaunchCell.h */,
+				376004E01651A842000E879C /* LaunchCell.m */,
+				376004DB1651A645000E879C /* DetailViewController.h */,
+				376004DC1651A645000E879C /* DetailViewController.m */,
 				373C90FE164DC64B00602DBB /* Supporting Files */,
 			);
 			path = SkyCrane;
@@ -287,6 +297,8 @@
 				373C9108164DC64B00602DBB /* AppDelegate.m in Sources */,
 				373C9117164DC64B00602DBB /* PINViewController.m in Sources */,
 				373C913D164DD31200602DBB /* SiteViewController.m in Sources */,
+				376004DD1651A645000E879C /* DetailViewController.m in Sources */,
+				376004E11651A842000E879C /* LaunchCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,6 +483,7 @@
 				373C9131164DC64C00602DBB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		373C9132164DC64C00602DBB /* Build configuration list for PBXNativeTarget "SkyCraneTests" */ = {
 			isa = XCConfigurationList;
@@ -479,6 +492,7 @@
 				373C9134164DC64C00602DBB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
