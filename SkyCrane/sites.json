@@ -1,5 +1,5 @@
 {
-  "pin": 1234,
+  "pin": "1357",
   "passwords": {
     "http://www.mozilla.com": {
       "name": "Mozilla",
