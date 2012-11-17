@@ -68,12 +68,13 @@
   } else {
     
    _plaintext  = [self parseJSONdata:fileData];
+    NSLog(@"%@", _plaintext);
+    
     NSString* pinStr = [_plaintext objectForKey:@"pin"];
     
     for (int j=0; j<4; j++)
     {
       actualPin[j] = [[pinStr substringWithRange:NSMakeRange(j, 1)] intValue];
-//      NSLog(@"PIN digit %i = %i", j, actualPin[j]);
     }
   }
 
@@ -104,7 +105,7 @@
 {
   if ([[segue identifier] isEqualToString:@"Unlock"]) {
     SiteViewController* siteTable = (SiteViewController*)[segue destinationViewController];
-    siteTable.sites =  [_plaintext objectForKey:@"passwords"];
+    siteTable.rawSiteList =  [_plaintext objectForKey:@"passwords"];
   }
 }
 

@@ -15,9 +15,17 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+      [self reset];
     }
     return self;
 }
+
+- (void) reset {
+  _nameLbl.text = _site.name;
+  _loginLbl.text = _site.login;
+  _urlLbl.text = _site.url;
+}
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {

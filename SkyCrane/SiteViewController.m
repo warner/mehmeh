@@ -9,6 +9,7 @@
 #import "SiteViewController.h"
 #import "LaunchCell.h"
 #import "DetailViewController.h"
+#import "Site.h"
 
 @interface SiteViewController ()
 
@@ -29,14 +30,34 @@
 {
     [super viewDidLoad];
 
+    //make black background
+    //self.tableView.backgroundView = nil;
+    //self.tableView.backgroundColor = [UIColor blackColor];
+
+  //[self.searchDisplayController.searchResultsTableView registerClass:[LaunchCell class] forCellReuseIdentifier:@"LaunchCell"];
+  
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
   
-  //not actually sorting at the moment
-  _sortedKeys = [_sites allKeys];
+  _sites = [NSMutableArray array];
+  
+  for (NSDictionary* value in _rawSiteList)
+  {    
+    Site* next = [[Site alloc] initWithName:[value objectForKey:@"name"] login:[value objectForKey:@"login"] url:[value objectForKey:@"url"] password:[value objectForKey:@"password"]];
+    //NSLog(@"%@", next);
+    
+    [_sites addObject:next];
+  }
+  
+  //Sort the results
+  NSSortDescriptor *nameSort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+  NSSortDescriptor *loginSort = [NSSortDescriptor sortDescriptorWithKey:@"login" ascending:YES];
+
+  [_sites sortUsingDescriptors:@[nameSort, loginSort]];
+  _searchHits = [NSMutableArray array];
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,28 +77,29 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-  return [[_sites allKeys] count];
+  if (tableView == self.tableView)
+    return [_sites count];
+  else
+    return [_searchHits count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  return 90;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"LaunchCell";
-    LaunchCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-  
-    // Configure the cell...
-
-    NSDictionary* siteItem = [_sites objectForKey:[_sortedKeys objectAtIndex:[indexPath row]]];
-  
-    cell.name = [siteItem objectForKey:@"name"];
-    cell.login = [siteItem objectForKey:@"login"];
-    cell.url = [_sortedKeys objectAtIndex:[indexPath row]];
-    cell.pass = [siteItem objectForKey:@"password"];
-
-    cell.nameLbl.text = cell.name;
-    cell.loginLbl.text = cell.login;
-    cell.urlLbl.text = cell.url;
+    LaunchCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    if (tableView == self.tableView)
+      cell.site = [_sites objectAtIndex:[indexPath row]];
+    else
+      cell.site = [_searchHits objectAtIndex:[indexPath row]];
+    [cell reset];
     return cell;
 }
+
 
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -85,10 +107,17 @@
   LaunchCell *cell = (LaunchCell*)sender;
   //NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
   
-  NSArray* selectionData = @[cell.name, cell.login, cell.url, cell.pass];
-
   DetailViewController *destination = segue.destinationViewController;
-  [destination setData: selectionData];
+  [destination setSite: cell.site];
+}
+
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+  NSPredicate *match = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@", searchString];
+ _searchHits = [_sites filteredArrayUsingPredicate:match];
+
+  return YES;
 }
 
 
@@ -140,10 +169,10 @@
   
   //put password on the pasteboard
   UIPasteboard *board = [UIPasteboard generalPasteboard];
-  [board setString:selectedCell.pass];
+  [board setString:selectedCell.site.pass];
 
   //launch to the site
-  NSURL *url = [NSURL URLWithString:selectedCell.url];
+  NSURL *url = [NSURL URLWithString:selectedCell.site.url];
   NSLog(@"%@", url);
   BOOL result = [[UIApplication sharedApplication] openURL:url];
   if (!result) NSLog(@": url launch failed: %@", url);

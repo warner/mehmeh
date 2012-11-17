@@ -58,7 +58,24 @@
 {
   UITableViewCell *cell  = [[UITableViewCell alloc] init];
   
-  cell.textLabel.text = [_data objectAtIndex:[indexPath row]];
+  switch ([indexPath row]) {
+    case 0:
+      cell.textLabel.text = _site.name;
+      break;
+    case 1:
+      cell.textLabel.text = _site.login;
+      break;
+    case 2:
+      cell.textLabel.text = _site.url;
+      break;
+    case 3:
+      cell.textLabel.text = _site.pass;
+      break;
+
+    default:
+      break;
+  }
+  
   return cell;
 }
 
@@ -114,4 +131,31 @@
      */
 }
 
+
+#pragma mark - Cell Menus
+-(void)tableView:(UITableView*)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath*)indexPath withSender:(id)sender
+{
+  UIPasteboard *gpBoard = [UIPasteboard generalPasteboard];
+  UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+  if (cell.detailTextLabel.text && ![cell.detailTextLabel.text isEqual:@""])
+  {
+    [gpBoard setString:cell.detailTextLabel.text];
+	}
+  else
+  {
+    [gpBoard setString:cell.textLabel.text];
+	}
+}
+
+-(BOOL)tableView:(UITableView*)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath*)indexPath withSender:(id)sender
+{
+  if (action == @selector(copy:))
+    return YES;
+  else return [super canPerformAction:action withSender:sender];
+}
+
+-(BOOL)tableView:(UITableView*)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath*)indexPath
+{
+  return YES;
+}
 @end

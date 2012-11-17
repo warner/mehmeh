@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "Site.h"
 @interface DetailViewController : UITableViewController
 
-@property (nonatomic, retain) NSArray* data;
+@property (nonatomic, retain) Site* site;
 @end
