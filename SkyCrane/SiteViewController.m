@@ -78,9 +78,31 @@
 {
     // Return the number of rows in the section.
   if (tableView == self.tableView)
+  {
     return [_sites count];
+  }
   else
     return [_searchHits count];
+}
+- (UIView*) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+  if (section == 0)
+  {
+    UILabel* info = [[UILabel alloc] init];
+    info.numberOfLines = 1;
+    info.text = @"tap to copy password and launch";
+    info.backgroundColor = [UIColor blackColor];
+    info.textColor = [UIColor whiteColor];
+    info.font = [UIFont boldSystemFontOfSize:12];
+    info.textAlignment = NSTextAlignmentCenter;
+    return info;
+  }
+  return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+  return 16;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -101,6 +123,7 @@
 }
 
 
+#pragma mark - segue code
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
