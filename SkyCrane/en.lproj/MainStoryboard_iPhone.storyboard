@@ -447,44 +447,49 @@
                         <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="GomBot!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="267" translatesAutoresizingMaskIntoConstraints="NO" id="7ir-vT-xE7">
+                            <imageView userInteractionEnabled="NO" contentMode="center" image="starburst.png" translatesAutoresizingMaskIntoConstraints="NO" id="ucg-RI-n9S"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="GomBot!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="7ir-vT-xE7">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="267" id="0tc-c6-MYD"/>
-                                    <constraint firstAttribute="height" constant="77" id="mnK-YO-6LA"/>
+                                    <constraint firstAttribute="height" constant="99" id="AK3-m3-2UZ"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
-                                <color key="textColor" red="0.92629076086956519" green="0.23453614257491495" blue="0.90157858039666372" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="AcademyEngravedLetPlain" family="Academy Engraved LET" pointSize="72"/>
                                 <nil key="highlightedColor"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <size key="shadowOffset" width="2" height="2"/>
+                                <color key="shadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUQ-PG-erH">
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUQ-PG-erH">
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" image="robot.png" translatesAutoresizingMaskIntoConstraints="NO" id="CkO-Tn-7Sl">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="gombot_small.png" translatesAutoresizingMaskIntoConstraints="NO" id="CkO-Tn-7Sl">
                                         <constraints>
                                             <constraint firstAttribute="height" constant="160" type="user" id="0Zz-iX-VOf"/>
                                             <constraint firstAttribute="width" constant="160" type="user" id="qpG-SJ-mbH"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="CkO-Tn-7Sl" firstAttribute="centerY" secondItem="qUQ-PG-erH" secondAttribute="centerY" type="default" id="cgm-6Z-Stj"/>
                                     <constraint firstAttribute="centerX" secondItem="CkO-Tn-7Sl" secondAttribute="centerX" type="user" id="fhi-cT-Fkb"/>
-                                    <constraint firstItem="CkO-Tn-7Sl" firstAttribute="leading" secondItem="qUQ-PG-erH" secondAttribute="leading" constant="45" id="snT-Bz-0HD"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="qUQ-PG-erH" firstAttribute="centerY" secondItem="J8x-nS-XKt" secondAttribute="centerY" type="default" id="23i-qn-4Qb"/>
-                            <constraint firstItem="qUQ-PG-erH" firstAttribute="centerX" secondItem="J8x-nS-XKt" secondAttribute="centerX" type="default" id="4gd-xD-3lK"/>
+                            <constraint firstItem="7ir-vT-xE7" firstAttribute="leading" secondItem="J8x-nS-XKt" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="A0G-qv-jwc"/>
+                            <constraint firstItem="ucg-RI-n9S" firstAttribute="leading" secondItem="J8x-nS-XKt" secondAttribute="leading" type="default" id="BT3-Dt-opV"/>
+                            <constraint firstItem="ucg-RI-n9S" firstAttribute="top" secondItem="J8x-nS-XKt" secondAttribute="top" type="default" id="Edy-1N-jY6"/>
                             <constraint firstItem="7ir-vT-xE7" firstAttribute="top" secondItem="J8x-nS-XKt" secondAttribute="top" constant="51" id="Eor-B9-TF8"/>
-                            <constraint firstItem="qUQ-PG-erH" firstAttribute="centerX" secondItem="7ir-vT-xE7" secondAttribute="centerX" type="default" id="Kws-JC-RfH"/>
+                            <constraint firstItem="qUQ-PG-erH" firstAttribute="leading" secondItem="J8x-nS-XKt" secondAttribute="leading" constant="35" id="Gaz-mv-FdN"/>
+                            <constraint firstItem="ucg-RI-n9S" firstAttribute="trailing" secondItem="J8x-nS-XKt" secondAttribute="trailing" type="default" id="Hzx-c5-aqU"/>
+                            <constraint firstItem="ucg-RI-n9S" firstAttribute="bottom" secondItem="J8x-nS-XKt" secondAttribute="bottom" type="default" id="Ooo-cO-KDh"/>
+                            <constraint firstAttribute="trailing" secondItem="7ir-vT-xE7" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="ZDj-PI-2gH"/>
+                            <constraint firstItem="qUQ-PG-erH" firstAttribute="centerY" secondItem="ucg-RI-n9S" secondAttribute="centerY" type="default" id="pd5-0a-ifT"/>
+                            <constraint firstItem="7ir-vT-xE7" firstAttribute="centerX" secondItem="qUQ-PG-erH" secondAttribute="centerX" type="default" id="qhr-yj-xAi"/>
                             <constraint firstItem="qUQ-PG-erH" firstAttribute="top" secondItem="J8x-nS-XKt" secondAttribute="top" constant="149" id="uxl-0z-DF9"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="background" destination="ucg-RI-n9S" id="djT-dz-xdh"/>
                         <outlet property="robotView" destination="CkO-Tn-7Sl" id="GD0-Ce-y9i"/>
                         <outlet property="titleView" destination="7ir-vT-xE7" id="s44-1J-Q0W"/>
                         <segue destination="JeT-2k-8y0" kind="modal" identifier="SplashToPin" modalTransitionStyle="crossDissolve" id="sBM-D3-MnJ"/>
@@ -601,7 +606,8 @@
     <resources>
         <image name="Fail.png" width="50" height="50"/>
         <image name="digidot.png" width="50" height="50"/>
-        <image name="robot.png" width="86" height="100"/>
+        <image name="gombot_small.png" width="500" height="526"/>
+        <image name="starburst.png" width="720" height="720"/>
     </resources>
     <classes>
         <class className="DetailViewController" superclassName="UITableViewController">
@@ -646,6 +652,7 @@
         <class className="SplashViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SplashViewController.h"/>
             <relationships>
+                <relationship kind="outlet" name="background" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="robotView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="titleView" candidateClass="UILabel"/>
             </relationships>
@@ -657,7 +664,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="ii5-p4-EPu"/>
         <segue reference="sBM-D3-MnJ"/>
-        <segue reference="D0p-no-4IB"/>
     </inferredMetricsTieBreakers>
 </document>

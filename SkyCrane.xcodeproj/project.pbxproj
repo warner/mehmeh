@@ -34,6 +34,10 @@
 		376004DD1651A645000E879C /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 376004DC1651A645000E879C /* DetailViewController.m */; };
 		376004E11651A842000E879C /* LaunchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 376004E01651A842000E879C /* LaunchCell.m */; };
 		3774367F1654524F005B0F43 /* Site.m in Sources */ = {isa = PBXBuildFile; fileRef = 3774367E1654524F005B0F43 /* Site.m */; };
+		37D5794F16657EEA004077F7 /* gombot_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 37D5794E16657EEA004077F7 /* gombot_small.png */; };
+		37D5795616658877004077F7 /* OneAxisBounceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D5795516658877004077F7 /* OneAxisBounceController.m */; };
+		37D57959166588F9004077F7 /* SKBounceAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D57958166588F9004077F7 /* SKBounceAnimation.m */; };
+		37D5795B16658CBA004077F7 /* starburst.png in Resources */ = {isa = PBXBuildFile; fileRef = 37D5795A16658CBA004077F7 /* starburst.png */; };
 		37FC68001665459500CD480C /* GombotDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 37FC67FF1665459500CD480C /* GombotDB.m */; };
 /* End PBXBuildFile section */
 
@@ -87,6 +91,12 @@
 		376004E01651A842000E879C /* LaunchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchCell.m; sourceTree = "<group>"; };
 		3774367D1654524E005B0F43 /* Site.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Site.h; sourceTree = "<group>"; };
 		3774367E1654524F005B0F43 /* Site.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Site.m; sourceTree = "<group>"; };
+		37D5794E16657EEA004077F7 /* gombot_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gombot_small.png; sourceTree = "<group>"; };
+		37D5795416658877004077F7 /* OneAxisBounceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OneAxisBounceController.h; path = "../../../../Downloads/SKBounceAnimation-master/SKBounceAnimation/OneAxisBounceController.h"; sourceTree = "<group>"; };
+		37D5795516658877004077F7 /* OneAxisBounceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OneAxisBounceController.m; path = "../../../../Downloads/SKBounceAnimation-master/SKBounceAnimation/OneAxisBounceController.m"; sourceTree = "<group>"; };
+		37D57957166588F9004077F7 /* SKBounceAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKBounceAnimation.h; path = "../../../../Downloads/SKBounceAnimation-master/SKBounceAnimation/SKBounceAnimation.h"; sourceTree = "<group>"; };
+		37D57958166588F9004077F7 /* SKBounceAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKBounceAnimation.m; path = "../../../../Downloads/SKBounceAnimation-master/SKBounceAnimation/SKBounceAnimation.m"; sourceTree = "<group>"; };
+		37D5795A16658CBA004077F7 /* starburst.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starburst.png; sourceTree = "<group>"; };
 		37FC67FE1665459500CD480C /* GombotDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GombotDB.h; sourceTree = "<group>"; };
 		37FC67FF1665459500CD480C /* GombotDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GombotDB.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -177,6 +187,12 @@
 		373C90FE164DC64B00602DBB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				37D5795A16658CBA004077F7 /* starburst.png */,
+				37D57957166588F9004077F7 /* SKBounceAnimation.h */,
+				37D57958166588F9004077F7 /* SKBounceAnimation.m */,
+				37D5795416658877004077F7 /* OneAxisBounceController.h */,
+				37D5795516658877004077F7 /* OneAxisBounceController.m */,
+				37D5794E16657EEA004077F7 /* gombot_small.png */,
 				3719A32A165C0BF5000755DE /* robot.png */,
 				37058659165AF7F2006E50E9 /* Fail.png */,
 				37058656165ABA26006E50E9 /* digidot.png */,
@@ -292,6 +308,8 @@
 				37058657165ABA26006E50E9 /* digidot.png in Resources */,
 				3705865A165AF7F2006E50E9 /* Fail.png in Resources */,
 				3719A32B165C0BF5000755DE /* robot.png in Resources */,
+				37D5794F16657EEA004077F7 /* gombot_small.png in Resources */,
+				37D5795B16658CBA004077F7 /* starburst.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +353,8 @@
 				3774367F1654524F005B0F43 /* Site.m in Sources */,
 				3740D696165C3A64005B1B88 /* SplashViewController.m in Sources */,
 				37FC68001665459500CD480C /* GombotDB.m in Sources */,
+				37D5795616658877004077F7 /* OneAxisBounceController.m in Sources */,
+				37D57959166588F9004077F7 /* SKBounceAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
