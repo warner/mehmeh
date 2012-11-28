@@ -14,6 +14,6 @@
 
 @property (strong, nonatomic) IBOutlet UIImageView* background;
 @property (strong, nonatomic) IBOutlet UIImageView* robotView;
-@property (strong, nonatomic) IBOutlet UILabel* titleView;
+@property (strong, nonatomic) IBOutlet UIImageView* titleView;
 
 @end

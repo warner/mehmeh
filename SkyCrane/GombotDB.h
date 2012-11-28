@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #define SITES_FILE @"sites.json"
 
+static NSDictionary* _sites;
+
 @interface GombotDB : NSObject
+
 
 @end

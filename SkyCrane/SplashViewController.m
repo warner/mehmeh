@@ -9,7 +9,6 @@
 
 #import "SplashViewController.h"
 #import "PINViewController.h"
-#import "OneAxisBounceController.h"
 
 #define SITES_FILE @"sites.json"
 
@@ -105,26 +104,10 @@
 	// Do any additional setup after loading the view.
 
   
-//  [UIView animateWithDuration:0.4 delay:0.0 options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat animations:^{_titleView.transform =CGAffineTransformMakeScale(1.25, 1.25);} completion:^(BOOL done){}];
+  [UIView animateWithDuration:3 delay:0.0 options:0|UIViewAnimationOptionRepeat animations:^{_titleView.transform =CGAffineTransformMakeScale(1.25, 1.25);} completion:^(BOOL done){}];
 
-  [UIView animateWithDuration:8.0 delay:0.0 options:UIViewAnimationOptionRepeat|UIViewAnimationOptionCurveLinear animations:^{_background.transform = CGAffineTransformMakeRotation(M_PI);} completion:^(BOOL done){}];
+  [UIView animateWithDuration:8.0 delay:0.0 options:UIViewAnimationOptionRepeat|UIViewAnimationOptionCurveLinear|UIViewAnimationOptionBeginFromCurrentState animations:^{_background.transform = CGAffineTransformMakeRotation(M_PI/2);} completion:^(BOOL done){}];
   
-//  [UIView animateWithDuration:0.2 delay:0.0 options:0 animations:^{_robotView.transform = CGAffineTransformMakeRotation(-M_PI/48);} completion:^(BOOL done){
-//          [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat animations:^{_robotView.transform = CGAffineTransformMakeRotation(M_PI/48);} completion:^(BOOL done){}];  }];
-
-//  NSString *keyPath = @"position.y";
-//  id finalValue = [NSNumber numberWithFloat:_robotView.center.x];
-//  [_robotView.layer setValue:finalValue forKeyPath:keyPath];
-//  
-//  SKBounceAnimation *bounceAnimation = [SKBounceAnimation animationWithKeyPath:keyPath];
-//  bounceAnimation.fromValue = [NSNumber numberWithFloat:_robotView.center.x +40 ];
-//  bounceAnimation.toValue = finalValue;
-//  bounceAnimation.duration = 2.0f;
-//  bounceAnimation.shake = YES;
-//  bounceAnimation.numberOfBounces = 4;
-//  
-//  [_robotView.layer addAnimation:bounceAnimation forKey:@"someKey"];
-
   
   BOOL hasDataFile = [self getSiteData];
   

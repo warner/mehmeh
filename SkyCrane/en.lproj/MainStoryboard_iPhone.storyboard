@@ -448,15 +448,6 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="center" image="starburst.png" translatesAutoresizingMaskIntoConstraints="NO" id="ucg-RI-n9S"/>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="GomBot!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="7ir-vT-xE7">
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="99" id="AK3-m3-2UZ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AcademyEngravedLetPlain" family="Academy Engraved LET" pointSize="72"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <size key="shadowOffset" width="0.0" height="0.0"/>
-                            </label>
                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUQ-PG-erH">
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="gombot_small.png" translatesAutoresizingMaskIntoConstraints="NO" id="CkO-Tn-7Sl">
@@ -472,26 +463,31 @@
                                     <constraint firstAttribute="centerX" secondItem="CkO-Tn-7Sl" secondAttribute="centerX" type="user" id="fhi-cT-Fkb"/>
                                 </constraints>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="gombottitle.png" translatesAutoresizingMaskIntoConstraints="NO" id="WEZ-m0-QdE">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="QEU-im-eil"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="7ir-vT-xE7" firstAttribute="leading" secondItem="J8x-nS-XKt" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="A0G-qv-jwc"/>
+                            <constraint firstItem="WEZ-m0-QdE" firstAttribute="top" secondItem="J8x-nS-XKt" secondAttribute="top" constant="57" id="6td-3B-a9y"/>
                             <constraint firstItem="ucg-RI-n9S" firstAttribute="leading" secondItem="J8x-nS-XKt" secondAttribute="leading" type="default" id="BT3-Dt-opV"/>
                             <constraint firstItem="ucg-RI-n9S" firstAttribute="top" secondItem="J8x-nS-XKt" secondAttribute="top" type="default" id="Edy-1N-jY6"/>
-                            <constraint firstItem="7ir-vT-xE7" firstAttribute="top" secondItem="J8x-nS-XKt" secondAttribute="top" constant="51" id="Eor-B9-TF8"/>
                             <constraint firstItem="qUQ-PG-erH" firstAttribute="leading" secondItem="J8x-nS-XKt" secondAttribute="leading" constant="35" id="Gaz-mv-FdN"/>
                             <constraint firstItem="ucg-RI-n9S" firstAttribute="trailing" secondItem="J8x-nS-XKt" secondAttribute="trailing" type="default" id="Hzx-c5-aqU"/>
+                            <constraint firstItem="WEZ-m0-QdE" firstAttribute="leading" secondItem="J8x-nS-XKt" secondAttribute="leading" type="default" id="Lxj-WA-H0Y"/>
                             <constraint firstItem="ucg-RI-n9S" firstAttribute="bottom" secondItem="J8x-nS-XKt" secondAttribute="bottom" type="default" id="Ooo-cO-KDh"/>
-                            <constraint firstAttribute="trailing" secondItem="7ir-vT-xE7" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="ZDj-PI-2gH"/>
+                            <constraint firstItem="WEZ-m0-QdE" firstAttribute="centerX" secondItem="qUQ-PG-erH" secondAttribute="centerX" type="default" id="ZXU-8B-315"/>
                             <constraint firstItem="qUQ-PG-erH" firstAttribute="centerY" secondItem="ucg-RI-n9S" secondAttribute="centerY" type="default" id="pd5-0a-ifT"/>
-                            <constraint firstItem="7ir-vT-xE7" firstAttribute="centerX" secondItem="qUQ-PG-erH" secondAttribute="centerX" type="default" id="qhr-yj-xAi"/>
-                            <constraint firstItem="qUQ-PG-erH" firstAttribute="top" secondItem="J8x-nS-XKt" secondAttribute="top" constant="149" id="uxl-0z-DF9"/>
+                            <constraint firstItem="WEZ-m0-QdE" firstAttribute="trailing" secondItem="J8x-nS-XKt" secondAttribute="trailing" type="default" id="sWP-rp-WsY"/>
+                            <constraint firstItem="qUQ-PG-erH" firstAttribute="top" secondItem="J8x-nS-XKt" secondAttribute="top" constant="149" id="v5J-11-1AZ"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="background" destination="ucg-RI-n9S" id="djT-dz-xdh"/>
                         <outlet property="robotView" destination="CkO-Tn-7Sl" id="GD0-Ce-y9i"/>
-                        <outlet property="titleView" destination="7ir-vT-xE7" id="s44-1J-Q0W"/>
+                        <outlet property="titleView" destination="WEZ-m0-QdE" id="VQA-hK-jOd"/>
                         <segue destination="JeT-2k-8y0" kind="modal" identifier="SplashToPin" modalTransitionStyle="crossDissolve" id="sBM-D3-MnJ"/>
                         <segue destination="f7G-zs-veL" kind="modal" identifier="SplashToFetch" modalTransitionStyle="flipHorizontal" id="ii5-p4-EPu"/>
                     </connections>
@@ -607,6 +603,7 @@
         <image name="Fail.png" width="50" height="50"/>
         <image name="digidot.png" width="50" height="50"/>
         <image name="gombot_small.png" width="500" height="526"/>
+        <image name="gombottitle.png" width="1000" height="500"/>
         <image name="starburst.png" width="720" height="720"/>
     </resources>
     <classes>
@@ -654,7 +651,7 @@
             <relationships>
                 <relationship kind="outlet" name="background" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="robotView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="titleView" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="titleView" candidateClass="UIImageView"/>
             </relationships>
         </class>
     </classes>

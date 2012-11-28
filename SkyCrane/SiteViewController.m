@@ -30,17 +30,11 @@
 {
     [super viewDidLoad];
 
-    //make black background
-    //self.tableView.backgroundView = nil;
-    //self.tableView.backgroundColor = [UIColor blackColor];
-
-  //[self.searchDisplayController.searchResultsTableView registerClass:[LaunchCell class] forCellReuseIdentifier:@"LaunchCell"];
-  
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+  
+  //hide the search bar until they swipe it down
+  self.tableView.contentOffset = CGPointMake(0, self.searchDisplayController.searchBar.frame.size.height);
   
   _sites = [NSMutableArray array];
   
