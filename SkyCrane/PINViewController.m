@@ -20,8 +20,8 @@
 - (void) unlock
 {
   pinAttempt[0] = pinAttempt[1] = pinAttempt[2] = pinAttempt[3] = nextDigit = failedAttempts = 0;
-  for (int i=0; i<4; i++) [digits[i] setHidden:YES];
-  for (int j=0; j<3; j++) [fails[j] setHidden:YES];
+  for (int i=0; i<4; i++) [digits[i] setImage:greenoff];
+  for (int j=0; j<3; j++) [fails[j] setImage:redoff];
   [self enableKeypad:TRUE];
   [self performSegueWithIdentifier: @"Unlock" sender: self];
 }
@@ -29,7 +29,8 @@
 - (void) eraseData
 {
   pinAttempt[0] = pinAttempt[1] = pinAttempt[2] = pinAttempt[3] = nextDigit = failedAttempts = 0;
-  for (int i=0; i<4; i++) [digits[i] setHidden:YES];
+  for (int i=0; i<4; i++) [digits[i] setImage:greenoff];
+  for (int j=0; j<3; j++) [fails[j] setImage:redoff];
   NSLog(@"ERASING DATA");
   [self enableKeypad:TRUE];
   [self performSegueWithIdentifier: @"PinToFetch" sender: self];
@@ -38,7 +39,7 @@
 - (void) blinkAndClear
 {
   pinAttempt[0] = pinAttempt[1] = pinAttempt[2] = pinAttempt[3] = nextDigit = 0;
-  for (int i=0; i<4; i++) [digits[i] setHidden:YES];
+  for (int i=0; i<4; i++) [digits[i] setImage:greenoff];
   [self enableKeypad:TRUE];
 }
 
@@ -55,7 +56,7 @@
   NSString* buttonString = ((UIButton*)sender).titleLabel.text;
   int value = [buttonString intValue];
   pinAttempt[nextDigit] = value;
-  [digits[nextDigit] setHidden:NO];
+  [digits[nextDigit] setImage:greenon];
   nextDigit++;
 
   if (nextDigit == 4)  //check for correctness
@@ -73,7 +74,7 @@
     else
     {
       //fail!
-      [fails[failedAttempts] setHidden:NO];
+      [fails[failedAttempts] setImage:redon];
       failedAttempts++;
 
       if (failedAttempts >2)
@@ -112,6 +113,11 @@
   fails[1] = _fail1;
   fails[2] = _fail2;
 
+  greenon = [UIImage imageNamed: @"greenlight.png"];
+  greenoff = [UIImage imageNamed: @"greenlightoff.png"];
+
+  redon = [UIImage imageNamed: @"redlight.png"];
+  redoff = [UIImage imageNamed: @"redlightoff.png"];
 
 	// Do any additional setup after loading the view, typically from a nib.
   pinAttempt[0] = pinAttempt[1] = pinAttempt[2] = pinAttempt[3] = nextDigit = 0;

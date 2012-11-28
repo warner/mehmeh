@@ -18,6 +18,10 @@
   UIButton* buttons[9];
   UIImageView* digits[4];
   UIImageView* fails[3];
+  UIImage* greenon;
+  UIImage* greenoff;
+  UIImage* redon;
+  UIImage* redoff;
 }
 
 @property (strong, nonatomic) NSDictionary* plaintext; //the raw dictionary of stuff from the JSON file

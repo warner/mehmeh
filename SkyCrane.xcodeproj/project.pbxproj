@@ -7,9 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		37058657165ABA26006E50E9 /* digidot.png in Resources */ = {isa = PBXBuildFile; fileRef = 37058656165ABA26006E50E9 /* digidot.png */; };
-		3705865A165AF7F2006E50E9 /* Fail.png in Resources */ = {isa = PBXBuildFile; fileRef = 37058659165AF7F2006E50E9 /* Fail.png */; };
-		3719A32B165C0BF5000755DE /* robot.png in Resources */ = {isa = PBXBuildFile; fileRef = 3719A32A165C0BF5000755DE /* robot.png */; };
+		370653F11666905B006FE67E /* Key.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653F01666905B006FE67E /* Key.png */; };
+		370653F416669628006FE67E /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653F316669628006FE67E /* gradient.png */; };
+		370653F6166699E6006FE67E /* Key@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653F5166699E6006FE67E /* Key@2x.png */; };
+		370653F916669A0A006FE67E /* greenlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653F716669A0A006FE67E /* greenlight.png */; };
+		370653FA16669A0A006FE67E /* greenlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653F816669A0A006FE67E /* greenlight@2x.png */; };
+		370653FD16669B71006FE67E /* redlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653FB16669B71006FE67E /* redlight.png */; };
+		370653FE16669B71006FE67E /* redlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653FC16669B71006FE67E /* redlight@2x.png */; };
+		370654031666C46E006FE67E /* greenlightoff.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653FF1666C46E006FE67E /* greenlightoff.png */; };
+		370654041666C46E006FE67E /* greenlightoff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370654001666C46E006FE67E /* greenlightoff@2x.png */; };
+		370654051666C46E006FE67E /* redlightoff.png in Resources */ = {isa = PBXBuildFile; fileRef = 370654011666C46E006FE67E /* redlightoff.png */; };
+		370654061666C46E006FE67E /* redlightoff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370654021666C46E006FE67E /* redlightoff@2x.png */; };
+		370654081666CB1D006FE67E /* gombot_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370654071666CB1D006FE67E /* gombot_small@2x.png */; };
 		3722D069165D95420036156C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3722D067165D94C30036156C /* QuartzCore.framework */; };
 		373481C21665D6CF00521ECA /* gombottitle.png in Resources */ = {isa = PBXBuildFile; fileRef = 373481C11665D6CF00521ECA /* gombottitle.png */; };
 		373C90F8164DC64B00602DBB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373C90F7164DC64B00602DBB /* UIKit.framework */; };
@@ -51,9 +60,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		37058656165ABA26006E50E9 /* digidot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = digidot.png; sourceTree = "<group>"; };
-		37058659165AF7F2006E50E9 /* Fail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Fail.png; sourceTree = "<group>"; };
-		3719A32A165C0BF5000755DE /* robot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = robot.png; sourceTree = "<group>"; };
+		370653F01666905B006FE67E /* Key.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Key.png; sourceTree = "<group>"; };
+		370653F316669628006FE67E /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradient.png; sourceTree = "<group>"; };
+		370653F5166699E6006FE67E /* Key@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Key@2x.png"; sourceTree = "<group>"; };
+		370653F716669A0A006FE67E /* greenlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenlight.png; sourceTree = "<group>"; };
+		370653F816669A0A006FE67E /* greenlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenlight@2x.png"; sourceTree = "<group>"; };
+		370653FB16669B71006FE67E /* redlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redlight.png; sourceTree = "<group>"; };
+		370653FC16669B71006FE67E /* redlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redlight@2x.png"; sourceTree = "<group>"; };
+		370653FF1666C46E006FE67E /* greenlightoff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenlightoff.png; sourceTree = "<group>"; };
+		370654001666C46E006FE67E /* greenlightoff@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenlightoff@2x.png"; sourceTree = "<group>"; };
+		370654011666C46E006FE67E /* redlightoff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redlightoff.png; sourceTree = "<group>"; };
+		370654021666C46E006FE67E /* redlightoff@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redlightoff@2x.png"; sourceTree = "<group>"; };
+		370654071666CB1D006FE67E /* gombot_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gombot_small@2x.png"; sourceTree = "<group>"; };
 		3722D064165D94660036156C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		3722D067165D94C30036156C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		373481C11665D6CF00521ECA /* gombottitle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gombottitle.png; sourceTree = "<group>"; };
@@ -183,12 +201,21 @@
 		373C90FE164DC64B00602DBB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				370653FF1666C46E006FE67E /* greenlightoff.png */,
+				370654001666C46E006FE67E /* greenlightoff@2x.png */,
+				370654011666C46E006FE67E /* redlightoff.png */,
+				370654021666C46E006FE67E /* redlightoff@2x.png */,
+				370653FB16669B71006FE67E /* redlight.png */,
+				370653FC16669B71006FE67E /* redlight@2x.png */,
+				370653F716669A0A006FE67E /* greenlight.png */,
+				370653F816669A0A006FE67E /* greenlight@2x.png */,
+				370653F5166699E6006FE67E /* Key@2x.png */,
+				370653F316669628006FE67E /* gradient.png */,
+				370653F01666905B006FE67E /* Key.png */,
 				373481C11665D6CF00521ECA /* gombottitle.png */,
 				37D5795A16658CBA004077F7 /* starburst.png */,
 				37D5794E16657EEA004077F7 /* gombot_small.png */,
-				3719A32A165C0BF5000755DE /* robot.png */,
-				37058659165AF7F2006E50E9 /* Fail.png */,
-				37058656165ABA26006E50E9 /* digidot.png */,
+				370654071666CB1D006FE67E /* gombot_small@2x.png */,
 				373C9139164DCDAE00602DBB /* sites.json */,
 				373C90FF164DC64B00602DBB /* SkyCrane-Info.plist */,
 				373C9100164DC64B00602DBB /* InfoPlist.strings */,
@@ -223,9 +250,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		373C90F2164DC64B00602DBB /* SkyCrane */ = {
+		373C90F2164DC64B00602DBB /* Gombot */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 373C912F164DC64C00602DBB /* Build configuration list for PBXNativeTarget "SkyCrane" */;
+			buildConfigurationList = 373C912F164DC64C00602DBB /* Build configuration list for PBXNativeTarget "Gombot" */;
 			buildPhases = (
 				373C90EF164DC64B00602DBB /* Sources */,
 				373C90F0164DC64B00602DBB /* Frameworks */,
@@ -235,7 +262,7 @@
 			);
 			dependencies = (
 			);
-			name = SkyCrane;
+			name = Gombot;
 			productName = SkyCrane;
 			productReference = 373C90F3164DC64B00602DBB /* SkyCrane.app */;
 			productType = "com.apple.product-type.application";
@@ -280,7 +307,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				373C90F2164DC64B00602DBB /* SkyCrane */,
+				373C90F2164DC64B00602DBB /* Gombot */,
 				373C911C164DC64B00602DBB /* SkyCraneTests */,
 			);
 		};
@@ -298,12 +325,21 @@
 				373C9111164DC64B00602DBB /* MainStoryboard_iPhone.storyboard in Resources */,
 				373C9114164DC64B00602DBB /* MainStoryboard_iPad.storyboard in Resources */,
 				373C913A164DCDAE00602DBB /* sites.json in Resources */,
-				37058657165ABA26006E50E9 /* digidot.png in Resources */,
-				3705865A165AF7F2006E50E9 /* Fail.png in Resources */,
-				3719A32B165C0BF5000755DE /* robot.png in Resources */,
 				37D5794F16657EEA004077F7 /* gombot_small.png in Resources */,
 				37D5795B16658CBA004077F7 /* starburst.png in Resources */,
 				373481C21665D6CF00521ECA /* gombottitle.png in Resources */,
+				370653F11666905B006FE67E /* Key.png in Resources */,
+				370653F416669628006FE67E /* gradient.png in Resources */,
+				370653F6166699E6006FE67E /* Key@2x.png in Resources */,
+				370653F916669A0A006FE67E /* greenlight.png in Resources */,
+				370653FA16669A0A006FE67E /* greenlight@2x.png in Resources */,
+				370653FD16669B71006FE67E /* redlight.png in Resources */,
+				370653FE16669B71006FE67E /* redlight@2x.png in Resources */,
+				370654031666C46E006FE67E /* greenlightoff.png in Resources */,
+				370654041666C46E006FE67E /* greenlightoff@2x.png in Resources */,
+				370654051666C46E006FE67E /* redlightoff.png in Resources */,
+				370654061666C46E006FE67E /* redlightoff@2x.png in Resources */,
+				370654081666CB1D006FE67E /* gombot_small@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,7 +399,7 @@
 /* Begin PBXTargetDependency section */
 		373C9123164DC64B00602DBB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 373C90F2164DC64B00602DBB /* SkyCrane */;
+			target = 373C90F2164DC64B00602DBB /* Gombot */;
 			targetProxy = 373C9122164DC64B00602DBB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -524,7 +560,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		373C912F164DC64C00602DBB /* Build configuration list for PBXNativeTarget "SkyCrane" */ = {
+		373C912F164DC64C00602DBB /* Build configuration list for PBXNativeTarget "Gombot" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				373C9130164DC64C00602DBB /* Debug */,
