@@ -23,7 +23,7 @@
 - (void) reset {
   _nameLbl.text = _site.name;
   _loginLbl.text = _site.login;
-  _urlLbl.text = _site.url;
+  //_urlLbl.text = _site.url;
 }
 
 

@@ -8,8 +8,7 @@
 
 #import "PINViewController.h"
 #import "SiteViewController.h"
-
-#define SITES_FILE @"sites.json"
+#import "GombotDB.h"
 
 @interface PINViewController ()
 
@@ -17,22 +16,24 @@
 
 @implementation PINViewController
 
-- (void) unlock
+- (void) resetState
 {
   pinAttempt[0] = pinAttempt[1] = pinAttempt[2] = pinAttempt[3] = nextDigit = failedAttempts = 0;
   for (int i=0; i<4; i++) [digits[i] setImage:greenoff];
   for (int j=0; j<3; j++) [fails[j] setImage:redoff];
   [self enableKeypad:TRUE];
+}
+
+- (void) unlock
+{
+  [self resetState];
   [self performSegueWithIdentifier: @"Unlock" sender: self];
 }
 
 - (void) eraseData
 {
-  pinAttempt[0] = pinAttempt[1] = pinAttempt[2] = pinAttempt[3] = nextDigit = failedAttempts = 0;
-  for (int i=0; i<4; i++) [digits[i] setImage:greenoff];
-  for (int j=0; j<3; j++) [fails[j] setImage:redoff];
   NSLog(@"ERASING DATA");
-  [self enableKeypad:TRUE];
+  [self resetState];
   [self performSegueWithIdentifier: @"PinToFetch" sender: self];
 }
 
@@ -45,7 +46,7 @@
 
 - (void) enableKeypad:(BOOL) enable
 {
-  for (int i=0; i<9; i++)
+  for (int i=0; i<10; i++)
  {
    buttons[i].enabled = enable;
  }
@@ -103,6 +104,7 @@
   buttons[6] = _button6;
   buttons[7] = _button7;
   buttons[8] = _button8;
+  buttons[9] = _button9;
 
   digits[0] = _digit0;
   digits[1] = _digit1;
@@ -123,7 +125,7 @@
   pinAttempt[0] = pinAttempt[1] = pinAttempt[2] = pinAttempt[3] = nextDigit = 0;
   failedAttempts = 0;
     
-  NSString* pinStr = [_plaintext objectForKey:@"pin"];
+  NSString* pinStr = [GombotDB getPin];
   
   for (int j=0; j<4; j++)
   {
@@ -142,7 +144,7 @@
 {
   if ([[segue identifier] isEqualToString:@"Unlock"]) {
     SiteViewController* siteTable = (SiteViewController*)[segue destinationViewController];
-    siteTable.rawSiteList =  [_plaintext objectForKey:@"passwords"];
+    siteTable.rawSiteList =  [GombotDB getSites];
   }
 }
 

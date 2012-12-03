@@ -43,9 +43,14 @@
 		3740D696165C3A64005B1B88 /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3740D695165C3A64005B1B88 /* SplashViewController.m */; };
 		376004DD1651A645000E879C /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 376004DC1651A645000E879C /* DetailViewController.m */; };
 		376004E11651A842000E879C /* LaunchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 376004E01651A842000E879C /* LaunchCell.m */; };
+		376350F016697CCA00328A00 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 376350EF16697CCA00328A00 /* Icon.png */; };
+		376350F216697CD600328A00 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 376350F116697CD600328A00 /* Icon@2x.png */; };
 		3774367F1654524F005B0F43 /* Site.m in Sources */ = {isa = PBXBuildFile; fileRef = 3774367E1654524F005B0F43 /* Site.m */; };
 		37D5794F16657EEA004077F7 /* gombot_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 37D5794E16657EEA004077F7 /* gombot_small.png */; };
 		37D5795B16658CBA004077F7 /* starburst.png in Resources */ = {isa = PBXBuildFile; fileRef = 37D5795A16658CBA004077F7 /* starburst.png */; };
+		37E6DAEA1667D829007B5BF5 /* MzPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E6DAE91667D829007B5BF5 /* MzPassword.m */; };
+		37E6DAF11667D875007B5BF5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E6DAF01667D875007B5BF5 /* Security.framework */; };
+		37E6DAF816681B15007B5BF5 /* AuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E6DAF716681B15007B5BF5 /* AuthViewController.m */; };
 		37FC68001665459500CD480C /* GombotDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 37FC67FF1665459500CD480C /* GombotDB.m */; };
 /* End PBXBuildFile section */
 
@@ -75,7 +80,7 @@
 		3722D064165D94660036156C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		3722D067165D94C30036156C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		373481C11665D6CF00521ECA /* gombottitle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gombottitle.png; sourceTree = "<group>"; };
-		373C90F3164DC64B00602DBB /* SkyCrane.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkyCrane.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		373C90F3164DC64B00602DBB /* Gombot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gombot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		373C90F7164DC64B00602DBB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		373C90F9164DC64B00602DBB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		373C90FB164DC64B00602DBB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -107,10 +112,17 @@
 		376004DC1651A645000E879C /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		376004DF1651A842000E879C /* LaunchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchCell.h; sourceTree = "<group>"; };
 		376004E01651A842000E879C /* LaunchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchCell.m; sourceTree = "<group>"; };
+		376350EF16697CCA00328A00 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		376350F116697CD600328A00 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		3774367D1654524E005B0F43 /* Site.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Site.h; sourceTree = "<group>"; };
 		3774367E1654524F005B0F43 /* Site.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Site.m; sourceTree = "<group>"; };
 		37D5794E16657EEA004077F7 /* gombot_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gombot_small.png; sourceTree = "<group>"; };
 		37D5795A16658CBA004077F7 /* starburst.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starburst.png; sourceTree = "<group>"; };
+		37E6DAE81667D829007B5BF5 /* MzPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MzPassword.h; sourceTree = "<group>"; };
+		37E6DAE91667D829007B5BF5 /* MzPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MzPassword.m; sourceTree = "<group>"; };
+		37E6DAF01667D875007B5BF5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		37E6DAF616681B15007B5BF5 /* AuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthViewController.h; sourceTree = "<group>"; };
+		37E6DAF716681B15007B5BF5 /* AuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthViewController.m; sourceTree = "<group>"; };
 		37FC67FE1665459500CD480C /* GombotDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GombotDB.h; sourceTree = "<group>"; };
 		37FC67FF1665459500CD480C /* GombotDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GombotDB.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -120,6 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37E6DAF11667D875007B5BF5 /* Security.framework in Frameworks */,
 				3722D069165D95420036156C /* QuartzCore.framework in Frameworks */,
 				373C90F8164DC64B00602DBB /* UIKit.framework in Frameworks */,
 				373C90FA164DC64B00602DBB /* Foundation.framework in Frameworks */,
@@ -143,6 +156,8 @@
 		373C90E8164DC64B00602DBB = {
 			isa = PBXGroup;
 			children = (
+				376350F116697CD600328A00 /* Icon@2x.png */,
+				376350EF16697CCA00328A00 /* Icon.png */,
 				373C90FD164DC64B00602DBB /* SkyCrane */,
 				373C9124164DC64B00602DBB /* SkyCraneTests */,
 				373C90F6164DC64B00602DBB /* Frameworks */,
@@ -153,7 +168,7 @@
 		373C90F4164DC64B00602DBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				373C90F3164DC64B00602DBB /* SkyCrane.app */,
+				373C90F3164DC64B00602DBB /* Gombot.app */,
 				373C911D164DC64B00602DBB /* SkyCraneTests.octest */,
 			);
 			name = Products;
@@ -162,6 +177,7 @@
 		373C90F6164DC64B00602DBB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37E6DAF01667D875007B5BF5 /* Security.framework */,
 				3722D067165D94C30036156C /* QuartzCore.framework */,
 				3722D064165D94660036156C /* CoreText.framework */,
 				373C90F7164DC64B00602DBB /* UIKit.framework */,
@@ -179,10 +195,14 @@
 				373C9112164DC64B00602DBB /* MainStoryboard_iPad.storyboard */,
 				37FC67FE1665459500CD480C /* GombotDB.h */,
 				37FC67FF1665459500CD480C /* GombotDB.m */,
+				37E6DAE81667D829007B5BF5 /* MzPassword.h */,
+				37E6DAE91667D829007B5BF5 /* MzPassword.m */,
 				373C9106164DC64B00602DBB /* AppDelegate.h */,
 				373C9107164DC64B00602DBB /* AppDelegate.m */,
 				3740D694165C3A64005B1B88 /* SplashViewController.h */,
 				3740D695165C3A64005B1B88 /* SplashViewController.m */,
+				37E6DAF616681B15007B5BF5 /* AuthViewController.h */,
+				37E6DAF716681B15007B5BF5 /* AuthViewController.m */,
 				373C9115164DC64B00602DBB /* PINViewController.h */,
 				373C9116164DC64B00602DBB /* PINViewController.m */,
 				373C913B164DD31200602DBB /* SiteViewController.h */,
@@ -264,7 +284,7 @@
 			);
 			name = Gombot;
 			productName = SkyCrane;
-			productReference = 373C90F3164DC64B00602DBB /* SkyCrane.app */;
+			productReference = 373C90F3164DC64B00602DBB /* Gombot.app */;
 			productType = "com.apple.product-type.application";
 		};
 		373C911C164DC64B00602DBB /* SkyCraneTests */ = {
@@ -340,6 +360,8 @@
 				370654051666C46E006FE67E /* redlightoff.png in Resources */,
 				370654061666C46E006FE67E /* redlightoff@2x.png in Resources */,
 				370654081666CB1D006FE67E /* gombot_small@2x.png in Resources */,
+				376350F016697CCA00328A00 /* Icon.png in Resources */,
+				376350F216697CD600328A00 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,6 +405,8 @@
 				3774367F1654524F005B0F43 /* Site.m in Sources */,
 				3740D696165C3A64005B1B88 /* SplashViewController.m in Sources */,
 				37FC68001665459500CD480C /* GombotDB.m in Sources */,
+				37E6DAEA1667D829007B5BF5 /* MzPassword.m in Sources */,
+				37E6DAF816681B15007B5BF5 /* AuthViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,10 +519,13 @@
 		373C9130164DC64C00602DBB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SkyCrane/SkyCrane-Prefix.pch";
 				INFOPLIST_FILE = "SkyCrane/SkyCrane-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -506,10 +533,13 @@
 		373C9131164DC64C00602DBB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SkyCrane/SkyCrane-Prefix.pch";
 				INFOPLIST_FILE = "SkyCrane/SkyCrane-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

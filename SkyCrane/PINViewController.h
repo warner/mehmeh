@@ -15,7 +15,7 @@
   int failedAttempts;
   int actualPin[4];
   
-  UIButton* buttons[9];
+  UIButton* buttons[10];
   UIImageView* digits[4];
   UIImageView* fails[3];
   UIImage* greenon;
@@ -23,9 +23,6 @@
   UIImage* redon;
   UIImage* redoff;
 }
-
-@property (strong, nonatomic) NSDictionary* plaintext; //the raw dictionary of stuff from the JSON file
-@property (strong, nonatomic) NSArray* pin; //the correct pin, extracted from the json above
 
 @property IBOutlet UIButton* button0;
 @property IBOutlet UIButton* button1;
@@ -36,6 +33,7 @@
 @property IBOutlet UIButton* button6;
 @property IBOutlet UIButton* button7;
 @property IBOutlet UIButton* button8;
+@property IBOutlet UIButton* button9;
 
 @property IBOutlet UIImageView* digit0;
 @property IBOutlet UIImageView* digit1;

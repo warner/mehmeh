@@ -87,7 +87,7 @@
     info.text = @"tap to copy password and launch";
     info.backgroundColor = [UIColor blackColor];
     info.textColor = [UIColor whiteColor];
-    info.font = [UIFont boldSystemFontOfSize:12];
+    info.font = [UIFont boldSystemFontOfSize:16];
     info.textAlignment = NSTextAlignmentCenter;
     return info;
   }
@@ -96,12 +96,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-  return 16;
+  return 21;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  return 90;
+  return 65;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
