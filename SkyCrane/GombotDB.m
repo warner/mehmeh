@@ -10,46 +10,58 @@
 #import "MzPassword.h"
 #import <CommonCrypto/CommonKeyDerivation.h>
 
+#define GOMBOT_URL @"https://www.gombot.org"
+
 #define DATA_FILE @"encryptedDB"
 
 #define _SERVER @"www.gombot.org"
 #define _SCHEME @"https"
 #define _PORT @443
 //replace with real path to db on server
-#define _AUTHPATH @"/auth_key"  
+#define _AUTHPATH @"/auth_key"
 #define _CRYPTPATH @"/crypt_key"
 
 static NSDictionary* private_data = nil;
 
 @implementation GombotDB
 
-+ (NSString*) getAuthSalt
+/*
+ salt = "identity.mozilla.com/gombot/v1/derivation:" + email.encode("utf-8")
+ derivedKey = PBKDF2(password, salt, 250*1000, 256/8)
+ authKey = PBKDF2(derivedKey,
+ "identity.mozilla.com/gombot/v1/authentication",
+ 1, 256/8)
+ cryptKey = PBKDF2(derivedKey,
+ "identity.mozilla.com/gombot/v1/encryption",
+ 1, 256/8)
+ return authKey, cryptKey
+*/
+
++ (NSData*) getAuthSalt
 {
   //for now, return fixed string
-  return @"authSalt";
+  return [@"identity.mozilla.com/gombot/v1/authentication" dataUsingEncoding:NSUTF8StringEncoding];
 }
-+ (NSString*) getCryptSalt
+
++ (NSData*) getCryptSalt
 {
   //for now, return fixed string
-  return @"cryptSalt";
+  return [@"identity.mozilla.com/gombot/v1/encryption" dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-
-
-+ (NSData*) makeKeyWithPassword:(NSString*)password andSalt:(NSString*)salt
++ (NSData*) getDerivedSalt:(NSString*)account
 {
-  //for now, just concatenate them
-  
-  NSData* passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
-  NSData* saltData = [salt dataUsingEncoding:NSUTF8StringEncoding];
-  int rounds = 100000;
-  
+  NSString* temp = [NSString stringWithFormat: @"identity.mozilla.com/gombot/v1/derivation:%@", account];
+  return [temp dataUsingEncoding:NSUTF8StringEncoding];
+}
+
++ (NSData*) makeKeyWithPassword:(NSData*)password andSalt:(NSData*)salt andRounds:(int)rounds
+{
   // How many rounds to use so that it takes 0.1s ?
-  //int rounds = CCCalibratePBKDF(kCCPBKDF2, myPassData.length, salt.length, kCCPRFHmacAlgSHA256, 32, 100);
-  
-  // Open CommonKeyDerivation.h for help
+//  int testRounds = CCCalibratePBKDF(kCCPBKDF2, passwordData.length, saltData.length, kCCPRFHmacAlgSHA256, 32, 100);
+//  NSLog(@"testRounds: %d", testRounds);
   unsigned char key[32];
-  CCKeyDerivationPBKDF(kCCPBKDF2, passwordData.bytes, passwordData.length, saltData.bytes, saltData.length, kCCPRFHmacAlgSHA256, rounds, key, 32);
+  CCKeyDerivationPBKDF(kCCPBKDF2, password.bytes, password.length, salt.bytes, salt.length, kCCPRFHmacAlgSHA256, rounds, key, 32);
   NSData* keyData = [NSData dataWithBytes:key length:32];
 
   return keyData;
@@ -59,12 +71,16 @@ static NSDictionary* private_data = nil;
 
 + (void) updateCredentialsWithAccount:(NSString*)account andPassword:(NSString*)password
 {
+  //make initial derived key
+  NSData* derivedKey = [self makeKeyWithPassword: [password dataUsingEncoding:NSUTF8StringEncoding] andSalt:[self getDerivedSalt:account] andRounds:250000];
+  NSLog(@"derived: %@", derivedKey);
+
   //first, use the password to create the auth and crypt key
-  NSData* authKey = [self makeKeyWithPassword: password andSalt:[self getAuthSalt]];
-  NSLog(@"%@", authKey);
+  NSData* authKey = [self makeKeyWithPassword: derivedKey andSalt:[self getAuthSalt] andRounds:1];
+  NSLog(@"auth: %@", authKey);
         
-  NSData* cryptKey = [self makeKeyWithPassword: password andSalt:[self getCryptSalt]];
-  NSLog(@"%@", cryptKey);
+  NSData* cryptKey = [self makeKeyWithPassword: derivedKey andSalt:[self getCryptSalt] andRounds:1];
+  NSLog(@"crypt: %@", cryptKey);
 
   //save both keychain items
   MzPassword* authKeychainItem = [[MzPassword alloc] initWithServer:_SERVER account:account scheme: _SCHEME port:_PORT path:_AUTHPATH];
@@ -237,6 +253,34 @@ static NSDictionary* private_data = nil;
     @throw exception;
   }
   return fileData;
+}
+
+
+//DOWNLOAD DATAFILE
+- (void) retrieveDataFile
+{
+  
+  id completionHandler = ^(NSHTTPURLResponse* response, NSData* data, NSError* error)
+  {
+    if (error)
+    {
+      //Handle error
+    }
+    else
+    {
+      //Get data, save to file, tell UI to update.
+    }
+  };
+  
+  NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString:GOMBOT_URL] cachePolicy: NSURLCacheStorageAllowed timeoutInterval: 5.0];
+
+  [request setHTTPShouldHandleCookies: YES];
+  [request setHTTPMethod: @"POST"];
+//  [request setHTTPBody: [HTTP_BODY_DATA dataUsingEncoding: NSUTF8StringEncoding]];
+  [request setValue: @"text/plain" forHTTPHeaderField: @"content-type"];
+  
+  [NSURLConnection sendAsynchronousRequest: request queue: [NSOperationQueue mainQueue]
+                         completionHandler: completionHandler];
 }
 
 @end
