@@ -11,9 +11,6 @@
 #import "PINViewController.h"
 #import "GombotDB.h"
 
-
-#define SITES_FILE @"sites.json"
-
 @interface SplashViewController ()
 
 @end
@@ -36,7 +33,7 @@
 	// Do any additional setup after loading the view.
 
   
-  [UIView animateWithDuration:2 delay:0.0 options:0 animations:^{_titleView.transform =CGAffineTransformMakeScale(1.25, 1.25);} completion:^(BOOL done){}];
+  [UIView animateWithDuration:2 delay:0.0 options:UIViewAnimationCurveEaseOut animations:^{_titleView.transform =CGAffineTransformMakeScale(1.4, 1.4);} completion:^(BOOL done){}];
 
   [UIView animateWithDuration:8.0 delay:0.0 options:UIViewAnimationOptionRepeat|UIViewAnimationOptionCurveLinear|UIViewAnimationOptionBeginFromCurrentState animations:^{_background.transform = CGAffineTransformMakeRotation(M_PI/2);} completion:^(BOOL done){}];
   
@@ -47,7 +44,7 @@
 {
   @try
   {
-    [GombotDB loadDataFile:SITES_FILE];
+    [GombotDB loadDataFile];
   }
   @catch (NSException *exception)
   {

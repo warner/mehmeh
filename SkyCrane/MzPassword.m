@@ -233,11 +233,16 @@
 + (MzPassword*) convertToMzPassword:(NSDictionary*)secItemDict
 {
   NSString* scheme;
-  NSNumber* encodedScheme = [secItemDict objectForKey:(__bridge id)kSecAttrProtocol];
-  if ([encodedScheme intValue] == [(__bridge NSNumber *)kSecAttrProtocolHTTP intValue])
+  NSString* encodedScheme = [secItemDict objectForKey:(__bridge id)kSecAttrProtocol];
+  if ([encodedScheme isEqualToString: (__bridge NSString *)(kSecAttrProtocolHTTP)])
     scheme = @"http";
-  else if ([encodedScheme intValue] == [(__bridge NSNumber *)kSecAttrProtocolHTTP intValue])
+  else if ([encodedScheme isEqualToString: (__bridge NSString *)(kSecAttrProtocolHTTPS)])
     scheme = @"https";
+
+//  if ([encodedScheme intValue] == [(__bridge NSNumber *)kSecAttrProtocolHTTP intValue])
+//    scheme = @"http";
+//  else if ([encodedScheme intValue] == [(__bridge NSNumber *)kSecAttrProtocolHTTP intValue])
+//    scheme = @"https";
 
   NSData *encodedServer = [secItemDict objectForKey:(__bridge id)kSecAttrServer];
   NSString *server = [[NSString alloc] initWithBytes:[encodedServer bytes] length:[encodedServer length] encoding:NSUTF8StringEncoding];
@@ -251,10 +256,10 @@
   NSString* account = [[NSString alloc] initWithBytes:[encodedAccount bytes] length:[encodedAccount length] encoding:NSUTF8StringEncoding];
 
   NSData* encodedPassword = [secItemDict objectForKey:(__bridge id)kSecValueData];
-  NSString* password = [[NSString alloc] initWithBytes:[encodedPassword bytes] length:[encodedPassword length] encoding:NSUTF8StringEncoding];
+  //NSString* password = [[NSString alloc] initWithBytes:[encodedPassword bytes] length:[encodedPassword length] encoding:NSUTF8StringEncoding];
   
   MzPassword* newItem = [[MzPassword alloc] initWithServer:server account:account scheme:scheme port:port path:path];
-  newItem.pass = password;
+  newItem.pass = encodedPassword;
   
   return newItem;
 }
@@ -326,8 +331,7 @@
   //password is optional, only required if you are saving, and it is checked there.
   if (xpwd.pass)
   {
-    NSData *passwordData = [xpwd.pass dataUsingEncoding:NSUTF8StringEncoding];
-    [secDict setObject:passwordData forKey:(__bridge id)kSecValueData];
+    [secDict setObject:xpwd.pass forKey:(__bridge id)kSecValueData];
   }
   
   return secDict;

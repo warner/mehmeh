@@ -29,15 +29,23 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+  
+  //ERASE THE DATA FILE
+  [GombotDB eraseDB];
+  //CLEAR THE KEYCHAIN
+  [GombotDB clearKeychain];
 }
 
 - (IBAction) connect:(id)sender
 {
   //get the account and password, and send it off to GombotDB to be saved in the keychain
 
-  [GombotDB updateCredentialWithAccount:_account.text andPassword:_password.text];
+  [GombotDB updateCredentialsWithAccount:_account.text andPassword:_password.text];
+  
+  //put up spinner while we -synchronously get their data, since we have no file at all.
+  
+  
   [self dismissViewControllerAnimated:YES completion:^(void){}];
-
 }
 
 - (void)didReceiveMemoryWarning

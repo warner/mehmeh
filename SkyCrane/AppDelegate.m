@@ -49,19 +49,25 @@
 -(void) copyFakePasswords
 {
   NSFileManager *fileManager = [NSFileManager defaultManager];
-  NSError *error;
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
   NSString *documentsDirectory = [paths objectAtIndex:0];
   
-  NSString *sitesPath = [documentsDirectory stringByAppendingPathComponent:@"sites.json"];
+  NSString *sitesPath = [documentsDirectory stringByAppendingPathComponent:@"encryptedDB"];
   
-  //if ([fileManager fileExistsAtPath:sitesPath] == NO) {
-  NSString *resourcePath = [[NSBundle mainBundle] pathForResource:@"sites" ofType:@"json"];
-  [fileManager removeItemAtPath:sitesPath error:&error];
   
-  [fileManager copyItemAtPath:resourcePath toPath:sitesPath error:&error];
-  if (error) NSLog(@"error overwriting file: %@", error);
-  //}
+  if ([fileManager fileExistsAtPath:sitesPath] == YES)
+  {
+    NSError *error;
+    [fileManager removeItemAtPath:sitesPath error:&error];
+    NSLog(@"error deleting file: %@", error);
+  }
+  
+  {
+    NSError *error;
+    NSString *resourcePath = [[NSBundle mainBundle] pathForResource:@"encryptedDB" ofType:@""];
+    [fileManager copyItemAtPath:resourcePath toPath:sitesPath error:&error];
+    if (error) NSLog(@"error copying file: %@", error);
+  }
 }
 
 @end

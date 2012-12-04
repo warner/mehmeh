@@ -52,7 +52,7 @@
 @property (readonly, copy) NSString* scheme;
 @property (readonly, copy) NSNumber* port;
 @property (readonly, copy) NSString* path;
-@property (copy) NSString* pass;
+@property (copy) NSData* pass;
 
 
 // THESE 5 FIELDS ARE IMMUTABLE
@@ -60,7 +60,7 @@
 - (id) initWithServer:(NSString*)server account:(NSString*)account scheme: (NSString*)scheme port:(NSNumber*)port path:(NSString*)path;
 
 //You can also just get/set to <MzPassword>.pass, it is the only mutable field in the object.
-- (void) setPass:(NSString *)pass;
+- (void) setPass:(NSData *)pass;
 
 //Save the current state of this password object to the keychain.  If the current key field values match more than one keychain item,
 // it is an error.

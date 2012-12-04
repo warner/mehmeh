@@ -38,9 +38,9 @@
 		373C9121164DC64B00602DBB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373C90F9164DC64B00602DBB /* Foundation.framework */; };
 		373C9129164DC64B00602DBB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 373C9127164DC64B00602DBB /* InfoPlist.strings */; };
 		373C912C164DC64C00602DBB /* SkyCraneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C912B164DC64C00602DBB /* SkyCraneTests.m */; };
-		373C913A164DCDAE00602DBB /* sites.json in Resources */ = {isa = PBXBuildFile; fileRef = 373C9139164DCDAE00602DBB /* sites.json */; };
 		373C913D164DD31200602DBB /* SiteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C913C164DD31200602DBB /* SiteViewController.m */; };
 		3740D696165C3A64005B1B88 /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3740D695165C3A64005B1B88 /* SplashViewController.m */; };
+		375A4409166D6F9D00229E13 /* encryptedDB in Resources */ = {isa = PBXBuildFile; fileRef = 375A4408166D6F9D00229E13 /* encryptedDB */; };
 		376004DD1651A645000E879C /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 376004DC1651A645000E879C /* DetailViewController.m */; };
 		376004E11651A842000E879C /* LaunchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 376004E01651A842000E879C /* LaunchCell.m */; };
 		376350F016697CCA00328A00 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 376350EF16697CCA00328A00 /* Icon.png */; };
@@ -103,11 +103,11 @@
 		373C9128164DC64B00602DBB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		373C912A164DC64B00602DBB /* SkyCraneTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkyCraneTests.h; sourceTree = "<group>"; };
 		373C912B164DC64C00602DBB /* SkyCraneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SkyCraneTests.m; sourceTree = "<group>"; };
-		373C9139164DCDAE00602DBB /* sites.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sites.json; sourceTree = "<group>"; };
 		373C913B164DD31200602DBB /* SiteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SiteViewController.h; sourceTree = "<group>"; };
 		373C913C164DD31200602DBB /* SiteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SiteViewController.m; sourceTree = "<group>"; };
 		3740D694165C3A64005B1B88 /* SplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplashViewController.h; sourceTree = "<group>"; };
 		3740D695165C3A64005B1B88 /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
+		375A4408166D6F9D00229E13 /* encryptedDB */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = encryptedDB; sourceTree = "<group>"; };
 		376004DB1651A645000E879C /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		376004DC1651A645000E879C /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		376004DF1651A842000E879C /* LaunchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchCell.h; sourceTree = "<group>"; };
@@ -221,6 +221,7 @@
 		373C90FE164DC64B00602DBB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				375A4408166D6F9D00229E13 /* encryptedDB */,
 				370653FF1666C46E006FE67E /* greenlightoff.png */,
 				370654001666C46E006FE67E /* greenlightoff@2x.png */,
 				370654011666C46E006FE67E /* redlightoff.png */,
@@ -236,7 +237,6 @@
 				37D5795A16658CBA004077F7 /* starburst.png */,
 				37D5794E16657EEA004077F7 /* gombot_small.png */,
 				370654071666CB1D006FE67E /* gombot_small@2x.png */,
-				373C9139164DCDAE00602DBB /* sites.json */,
 				373C90FF164DC64B00602DBB /* SkyCrane-Info.plist */,
 				373C9100164DC64B00602DBB /* InfoPlist.strings */,
 				373C9103164DC64B00602DBB /* main.m */,
@@ -344,7 +344,6 @@
 				373C910E164DC64B00602DBB /* Default-568h@2x.png in Resources */,
 				373C9111164DC64B00602DBB /* MainStoryboard_iPhone.storyboard in Resources */,
 				373C9114164DC64B00602DBB /* MainStoryboard_iPad.storyboard in Resources */,
-				373C913A164DCDAE00602DBB /* sites.json in Resources */,
 				37D5794F16657EEA004077F7 /* gombot_small.png in Resources */,
 				37D5795B16658CBA004077F7 /* starburst.png in Resources */,
 				373481C21665D6CF00521ECA /* gombottitle.png in Resources */,
@@ -362,6 +361,7 @@
 				370654081666CB1D006FE67E /* gombot_small@2x.png in Resources */,
 				376350F016697CCA00328A00 /* Icon.png in Resources */,
 				376350F216697CD600328A00 /* Icon@2x.png in Resources */,
+				375A4409166D6F9D00229E13 /* encryptedDB in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

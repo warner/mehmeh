@@ -300,7 +300,7 @@
             <objects>
                 <tableViewController id="DIU-ww-IYa" customClass="SiteViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" id="XYn-Hg-lcO">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" barStyle="blackOpaque" id="wAI-oc-VLc">
@@ -392,7 +392,7 @@
             <objects>
                 <tableViewController id="8kz-aj-mS7" customClass="DetailViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="top" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" dataMode="static" style="grouped" separatorStyle="singleLineEtched" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="7yl-1o-xke">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
@@ -492,40 +492,30 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="center" image="starburst.png" translatesAutoresizingMaskIntoConstraints="NO" id="ucg-RI-n9S"/>
-                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUQ-PG-erH">
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="gombot_small.png" translatesAutoresizingMaskIntoConstraints="NO" id="CkO-Tn-7Sl">
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="160" type="user" id="0Zz-iX-VOf"/>
-                                            <constraint firstAttribute="width" constant="160" type="user" id="qpG-SJ-mbH"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="gombot_small.png" translatesAutoresizingMaskIntoConstraints="NO" id="CkO-Tn-7Sl">
                                 <constraints>
-                                    <constraint firstItem="CkO-Tn-7Sl" firstAttribute="centerY" secondItem="qUQ-PG-erH" secondAttribute="centerY" type="default" id="cgm-6Z-Stj"/>
-                                    <constraint firstAttribute="centerX" secondItem="CkO-Tn-7Sl" secondAttribute="centerX" type="user" id="fhi-cT-Fkb"/>
+                                    <constraint firstAttribute="height" constant="200" type="user" id="4xw-ij-1Nv"/>
+                                    <constraint firstAttribute="width" constant="200" id="m0Z-HS-ch5"/>
                                 </constraints>
-                            </view>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="gombottitle.png" translatesAutoresizingMaskIntoConstraints="NO" id="WEZ-m0-QdE">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="QEU-im-eil"/>
+                                    <constraint firstAttribute="height" constant="60" id="dfQ-zY-pyM"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="WEZ-m0-QdE" firstAttribute="top" secondItem="J8x-nS-XKt" secondAttribute="top" constant="57" id="6td-3B-a9y"/>
+                            <constraint firstItem="WEZ-m0-QdE" firstAttribute="top" secondItem="J8x-nS-XKt" secondAttribute="top" constant="40" id="2Am-3g-E5j"/>
+                            <constraint firstItem="WEZ-m0-QdE" firstAttribute="top" relation="lessThanOrEqual" secondItem="J8x-nS-XKt" secondAttribute="top" constant="40" type="user" id="Agg-Jo-SWg"/>
                             <constraint firstItem="ucg-RI-n9S" firstAttribute="leading" secondItem="J8x-nS-XKt" secondAttribute="leading" type="default" id="BT3-Dt-opV"/>
-                            <constraint firstItem="ucg-RI-n9S" firstAttribute="top" secondItem="J8x-nS-XKt" secondAttribute="top" type="default" id="Edy-1N-jY6"/>
-                            <constraint firstItem="qUQ-PG-erH" firstAttribute="leading" secondItem="J8x-nS-XKt" secondAttribute="leading" constant="35" id="Gaz-mv-FdN"/>
-                            <constraint firstItem="ucg-RI-n9S" firstAttribute="trailing" secondItem="J8x-nS-XKt" secondAttribute="trailing" type="default" id="Hzx-c5-aqU"/>
+                            <constraint firstItem="ucg-RI-n9S" firstAttribute="top" secondItem="J8x-nS-XKt" secondAttribute="top" type="user" id="Edy-1N-jY6"/>
                             <constraint firstItem="WEZ-m0-QdE" firstAttribute="leading" secondItem="J8x-nS-XKt" secondAttribute="leading" type="default" id="Lxj-WA-H0Y"/>
-                            <constraint firstItem="ucg-RI-n9S" firstAttribute="bottom" secondItem="J8x-nS-XKt" secondAttribute="bottom" type="default" id="Ooo-cO-KDh"/>
-                            <constraint firstItem="WEZ-m0-QdE" firstAttribute="centerX" secondItem="qUQ-PG-erH" secondAttribute="centerX" type="default" id="ZXU-8B-315"/>
-                            <constraint firstItem="qUQ-PG-erH" firstAttribute="centerY" secondItem="ucg-RI-n9S" secondAttribute="centerY" type="default" id="pd5-0a-ifT"/>
-                            <constraint firstItem="WEZ-m0-QdE" firstAttribute="trailing" secondItem="J8x-nS-XKt" secondAttribute="trailing" type="default" id="sWP-rp-WsY"/>
-                            <constraint firstItem="qUQ-PG-erH" firstAttribute="top" secondItem="J8x-nS-XKt" secondAttribute="top" constant="149" id="v5J-11-1AZ"/>
+                            <constraint firstItem="CkO-Tn-7Sl" firstAttribute="centerY" secondItem="ucg-RI-n9S" secondAttribute="centerY" type="default" id="O3P-7A-ayu"/>
+                            <constraint firstAttribute="centerX" secondItem="ucg-RI-n9S" secondAttribute="centerX" type="user" id="S3I-Lf-Bhp"/>
+                            <constraint firstItem="CkO-Tn-7Sl" firstAttribute="centerX" secondItem="WEZ-m0-QdE" secondAttribute="centerX" type="user" id="Sni-6S-p1H"/>
+                            <constraint firstItem="CkO-Tn-7Sl" firstAttribute="centerY" secondItem="J8x-nS-XKt" secondAttribute="centerY" type="default" id="Yjz-Vg-W3E"/>
+                            <constraint firstAttribute="centerX" secondItem="CkO-Tn-7Sl" secondAttribute="centerX" type="user" id="isl-Ba-PvM"/>
                         </constraints>
                     </view>
                     <connections>
@@ -653,7 +643,7 @@
     <resources>
         <image name="Key.png" width="72" height="72"/>
         <image name="gombot_small.png" width="250" height="263"/>
-        <image name="gombottitle.png" width="1000" height="500"/>
+        <image name="gombottitle.png" width="1000" height="346"/>
         <image name="gradient.png" width="100" height="480"/>
         <image name="greenlightoff.png" width="50" height="50"/>
         <image name="redlightoff.png" width="50" height="50"/>
@@ -724,7 +714,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="PoF-Sc-eVt"/>
-        <segue reference="7lU-Yn-qvt"/>
+        <segue reference="sBM-D3-MnJ"/>
+        <segue reference="ii5-p4-EPu"/>
     </inferredMetricsTieBreakers>
 </document>
