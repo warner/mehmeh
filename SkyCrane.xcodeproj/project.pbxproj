@@ -1,0 +1,618 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		370653F11666905B006FE67E /* Key.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653F01666905B006FE67E /* Key.png */; };
+		370653F416669628006FE67E /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653F316669628006FE67E /* gradient.png */; };
+		370653F6166699E6006FE67E /* Key@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653F5166699E6006FE67E /* Key@2x.png */; };
+		370653F916669A0A006FE67E /* greenlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653F716669A0A006FE67E /* greenlight.png */; };
+		370653FA16669A0A006FE67E /* greenlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653F816669A0A006FE67E /* greenlight@2x.png */; };
+		370653FD16669B71006FE67E /* redlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653FB16669B71006FE67E /* redlight.png */; };
+		370653FE16669B71006FE67E /* redlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653FC16669B71006FE67E /* redlight@2x.png */; };
+		370654031666C46E006FE67E /* greenlightoff.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653FF1666C46E006FE67E /* greenlightoff.png */; };
+		370654041666C46E006FE67E /* greenlightoff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370654001666C46E006FE67E /* greenlightoff@2x.png */; };
+		370654051666C46E006FE67E /* redlightoff.png in Resources */ = {isa = PBXBuildFile; fileRef = 370654011666C46E006FE67E /* redlightoff.png */; };
+		370654061666C46E006FE67E /* redlightoff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370654021666C46E006FE67E /* redlightoff@2x.png */; };
+		370654081666CB1D006FE67E /* gombot_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370654071666CB1D006FE67E /* gombot_small@2x.png */; };
+		3722D069165D95420036156C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3722D067165D94C30036156C /* QuartzCore.framework */; };
+		373481C21665D6CF00521ECA /* gombottitle.png in Resources */ = {isa = PBXBuildFile; fileRef = 373481C11665D6CF00521ECA /* gombottitle.png */; };
+		373C90F8164DC64B00602DBB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373C90F7164DC64B00602DBB /* UIKit.framework */; };
+		373C90FA164DC64B00602DBB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373C90F9164DC64B00602DBB /* Foundation.framework */; };
+		373C90FC164DC64B00602DBB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373C90FB164DC64B00602DBB /* CoreGraphics.framework */; };
+		373C9102164DC64B00602DBB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 373C9100164DC64B00602DBB /* InfoPlist.strings */; };
+		373C9104164DC64B00602DBB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C9103164DC64B00602DBB /* main.m */; };
+		373C9108164DC64B00602DBB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C9107164DC64B00602DBB /* AppDelegate.m */; };
+		373C910A164DC64B00602DBB /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 373C9109164DC64B00602DBB /* Default.png */; };
+		373C910C164DC64B00602DBB /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 373C910B164DC64B00602DBB /* Default@2x.png */; };
+		373C910E164DC64B00602DBB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 373C910D164DC64B00602DBB /* Default-568h@2x.png */; };
+		373C9111164DC64B00602DBB /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 373C910F164DC64B00602DBB /* MainStoryboard_iPhone.storyboard */; };
+		373C9114164DC64B00602DBB /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 373C9112164DC64B00602DBB /* MainStoryboard_iPad.storyboard */; };
+		373C9117164DC64B00602DBB /* PINViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C9116164DC64B00602DBB /* PINViewController.m */; };
+		373C911F164DC64B00602DBB /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373C911E164DC64B00602DBB /* SenTestingKit.framework */; };
+		373C9120164DC64B00602DBB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373C90F7164DC64B00602DBB /* UIKit.framework */; };
+		373C9121164DC64B00602DBB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373C90F9164DC64B00602DBB /* Foundation.framework */; };
+		373C9129164DC64B00602DBB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 373C9127164DC64B00602DBB /* InfoPlist.strings */; };
+		373C912C164DC64C00602DBB /* SkyCraneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C912B164DC64C00602DBB /* SkyCraneTests.m */; };
+		373C913D164DD31200602DBB /* SiteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C913C164DD31200602DBB /* SiteViewController.m */; };
+		3740D696165C3A64005B1B88 /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3740D695165C3A64005B1B88 /* SplashViewController.m */; };
+		375A4409166D6F9D00229E13 /* encryptedDB in Resources */ = {isa = PBXBuildFile; fileRef = 375A4408166D6F9D00229E13 /* encryptedDB */; };
+		376004DD1651A645000E879C /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 376004DC1651A645000E879C /* DetailViewController.m */; };
+		376004E11651A842000E879C /* LaunchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 376004E01651A842000E879C /* LaunchCell.m */; };
+		376350F016697CCA00328A00 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 376350EF16697CCA00328A00 /* Icon.png */; };
+		376350F216697CD600328A00 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 376350F116697CD600328A00 /* Icon@2x.png */; };
+		3774367F1654524F005B0F43 /* Site.m in Sources */ = {isa = PBXBuildFile; fileRef = 3774367E1654524F005B0F43 /* Site.m */; };
+		37D5794F16657EEA004077F7 /* gombot_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 37D5794E16657EEA004077F7 /* gombot_small.png */; };
+		37D5795B16658CBA004077F7 /* starburst.png in Resources */ = {isa = PBXBuildFile; fileRef = 37D5795A16658CBA004077F7 /* starburst.png */; };
+		37E6DAEA1667D829007B5BF5 /* MzPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E6DAE91667D829007B5BF5 /* MzPassword.m */; };
+		37E6DAF11667D875007B5BF5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E6DAF01667D875007B5BF5 /* Security.framework */; };
+		37E6DAF816681B15007B5BF5 /* AuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E6DAF716681B15007B5BF5 /* AuthViewController.m */; };
+		37FC68001665459500CD480C /* GombotDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 37FC67FF1665459500CD480C /* GombotDB.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		373C9122164DC64B00602DBB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 373C90EA164DC64B00602DBB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 373C90F2164DC64B00602DBB;
+			remoteInfo = SkyCrane;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		370653F01666905B006FE67E /* Key.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Key.png; sourceTree = "<group>"; };
+		370653F316669628006FE67E /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradient.png; sourceTree = "<group>"; };
+		370653F5166699E6006FE67E /* Key@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Key@2x.png"; sourceTree = "<group>"; };
+		370653F716669A0A006FE67E /* greenlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenlight.png; sourceTree = "<group>"; };
+		370653F816669A0A006FE67E /* greenlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenlight@2x.png"; sourceTree = "<group>"; };
+		370653FB16669B71006FE67E /* redlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redlight.png; sourceTree = "<group>"; };
+		370653FC16669B71006FE67E /* redlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redlight@2x.png"; sourceTree = "<group>"; };
+		370653FF1666C46E006FE67E /* greenlightoff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenlightoff.png; sourceTree = "<group>"; };
+		370654001666C46E006FE67E /* greenlightoff@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenlightoff@2x.png"; sourceTree = "<group>"; };
+		370654011666C46E006FE67E /* redlightoff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redlightoff.png; sourceTree = "<group>"; };
+		370654021666C46E006FE67E /* redlightoff@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redlightoff@2x.png"; sourceTree = "<group>"; };
+		370654071666CB1D006FE67E /* gombot_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gombot_small@2x.png"; sourceTree = "<group>"; };
+		3722D064165D94660036156C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		3722D067165D94C30036156C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		373481C11665D6CF00521ECA /* gombottitle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gombottitle.png; sourceTree = "<group>"; };
+		373C90F3164DC64B00602DBB /* Gombot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gombot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		373C90F7164DC64B00602DBB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		373C90F9164DC64B00602DBB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		373C90FB164DC64B00602DBB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		373C90FF164DC64B00602DBB /* SkyCrane-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SkyCrane-Info.plist"; sourceTree = "<group>"; };
+		373C9101164DC64B00602DBB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		373C9103164DC64B00602DBB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		373C9105164DC64B00602DBB /* SkyCrane-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SkyCrane-Prefix.pch"; sourceTree = "<group>"; };
+		373C9106164DC64B00602DBB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		373C9107164DC64B00602DBB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		373C9109164DC64B00602DBB /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		373C910B164DC64B00602DBB /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		373C910D164DC64B00602DBB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		373C9110164DC64B00602DBB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		373C9113164DC64B00602DBB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		373C9115164DC64B00602DBB /* PINViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PINViewController.h; sourceTree = "<group>"; };
+		373C9116164DC64B00602DBB /* PINViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PINViewController.m; sourceTree = "<group>"; };
+		373C911D164DC64B00602DBB /* SkyCraneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkyCraneTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		373C911E164DC64B00602DBB /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		373C9126164DC64B00602DBB /* SkyCraneTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SkyCraneTests-Info.plist"; sourceTree = "<group>"; };
+		373C9128164DC64B00602DBB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		373C912A164DC64B00602DBB /* SkyCraneTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkyCraneTests.h; sourceTree = "<group>"; };
+		373C912B164DC64C00602DBB /* SkyCraneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SkyCraneTests.m; sourceTree = "<group>"; };
+		373C913B164DD31200602DBB /* SiteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SiteViewController.h; sourceTree = "<group>"; };
+		373C913C164DD31200602DBB /* SiteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SiteViewController.m; sourceTree = "<group>"; };
+		3740D694165C3A64005B1B88 /* SplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplashViewController.h; sourceTree = "<group>"; };
+		3740D695165C3A64005B1B88 /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
+		375A4408166D6F9D00229E13 /* encryptedDB */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = encryptedDB; sourceTree = "<group>"; };
+		376004DB1651A645000E879C /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		376004DC1651A645000E879C /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		376004DF1651A842000E879C /* LaunchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchCell.h; sourceTree = "<group>"; };
+		376004E01651A842000E879C /* LaunchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchCell.m; sourceTree = "<group>"; };
+		376350EF16697CCA00328A00 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		376350F116697CD600328A00 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		3774367D1654524E005B0F43 /* Site.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Site.h; sourceTree = "<group>"; };
+		3774367E1654524F005B0F43 /* Site.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Site.m; sourceTree = "<group>"; };
+		37D5794E16657EEA004077F7 /* gombot_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gombot_small.png; sourceTree = "<group>"; };
+		37D5795A16658CBA004077F7 /* starburst.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starburst.png; sourceTree = "<group>"; };
+		37E6DAE81667D829007B5BF5 /* MzPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MzPassword.h; sourceTree = "<group>"; };
+		37E6DAE91667D829007B5BF5 /* MzPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MzPassword.m; sourceTree = "<group>"; };
+		37E6DAF01667D875007B5BF5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		37E6DAF616681B15007B5BF5 /* AuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthViewController.h; sourceTree = "<group>"; };
+		37E6DAF716681B15007B5BF5 /* AuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthViewController.m; sourceTree = "<group>"; };
+		37FC67FE1665459500CD480C /* GombotDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GombotDB.h; sourceTree = "<group>"; };
+		37FC67FF1665459500CD480C /* GombotDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GombotDB.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		373C90F0164DC64B00602DBB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37E6DAF11667D875007B5BF5 /* Security.framework in Frameworks */,
+				3722D069165D95420036156C /* QuartzCore.framework in Frameworks */,
+				373C90F8164DC64B00602DBB /* UIKit.framework in Frameworks */,
+				373C90FA164DC64B00602DBB /* Foundation.framework in Frameworks */,
+				373C90FC164DC64B00602DBB /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		373C9119164DC64B00602DBB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				373C911F164DC64B00602DBB /* SenTestingKit.framework in Frameworks */,
+				373C9120164DC64B00602DBB /* UIKit.framework in Frameworks */,
+				373C9121164DC64B00602DBB /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		373C90E8164DC64B00602DBB = {
+			isa = PBXGroup;
+			children = (
+				376350F116697CD600328A00 /* Icon@2x.png */,
+				376350EF16697CCA00328A00 /* Icon.png */,
+				373C90FD164DC64B00602DBB /* SkyCrane */,
+				373C9124164DC64B00602DBB /* SkyCraneTests */,
+				373C90F6164DC64B00602DBB /* Frameworks */,
+				373C90F4164DC64B00602DBB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		373C90F4164DC64B00602DBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				373C90F3164DC64B00602DBB /* Gombot.app */,
+				373C911D164DC64B00602DBB /* SkyCraneTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		373C90F6164DC64B00602DBB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				37E6DAF01667D875007B5BF5 /* Security.framework */,
+				3722D067165D94C30036156C /* QuartzCore.framework */,
+				3722D064165D94660036156C /* CoreText.framework */,
+				373C90F7164DC64B00602DBB /* UIKit.framework */,
+				373C90F9164DC64B00602DBB /* Foundation.framework */,
+				373C90FB164DC64B00602DBB /* CoreGraphics.framework */,
+				373C911E164DC64B00602DBB /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		373C90FD164DC64B00602DBB /* SkyCrane */ = {
+			isa = PBXGroup;
+			children = (
+				373C910F164DC64B00602DBB /* MainStoryboard_iPhone.storyboard */,
+				373C9112164DC64B00602DBB /* MainStoryboard_iPad.storyboard */,
+				37FC67FE1665459500CD480C /* GombotDB.h */,
+				37FC67FF1665459500CD480C /* GombotDB.m */,
+				37E6DAE81667D829007B5BF5 /* MzPassword.h */,
+				37E6DAE91667D829007B5BF5 /* MzPassword.m */,
+				373C9106164DC64B00602DBB /* AppDelegate.h */,
+				373C9107164DC64B00602DBB /* AppDelegate.m */,
+				3740D694165C3A64005B1B88 /* SplashViewController.h */,
+				3740D695165C3A64005B1B88 /* SplashViewController.m */,
+				37E6DAF616681B15007B5BF5 /* AuthViewController.h */,
+				37E6DAF716681B15007B5BF5 /* AuthViewController.m */,
+				373C9115164DC64B00602DBB /* PINViewController.h */,
+				373C9116164DC64B00602DBB /* PINViewController.m */,
+				373C913B164DD31200602DBB /* SiteViewController.h */,
+				373C913C164DD31200602DBB /* SiteViewController.m */,
+				376004DF1651A842000E879C /* LaunchCell.h */,
+				376004E01651A842000E879C /* LaunchCell.m */,
+				3774367D1654524E005B0F43 /* Site.h */,
+				3774367E1654524F005B0F43 /* Site.m */,
+				376004DB1651A645000E879C /* DetailViewController.h */,
+				376004DC1651A645000E879C /* DetailViewController.m */,
+				373C90FE164DC64B00602DBB /* Supporting Files */,
+			);
+			path = SkyCrane;
+			sourceTree = "<group>";
+		};
+		373C90FE164DC64B00602DBB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				375A4408166D6F9D00229E13 /* encryptedDB */,
+				370653FF1666C46E006FE67E /* greenlightoff.png */,
+				370654001666C46E006FE67E /* greenlightoff@2x.png */,
+				370654011666C46E006FE67E /* redlightoff.png */,
+				370654021666C46E006FE67E /* redlightoff@2x.png */,
+				370653FB16669B71006FE67E /* redlight.png */,
+				370653FC16669B71006FE67E /* redlight@2x.png */,
+				370653F716669A0A006FE67E /* greenlight.png */,
+				370653F816669A0A006FE67E /* greenlight@2x.png */,
+				370653F5166699E6006FE67E /* Key@2x.png */,
+				370653F316669628006FE67E /* gradient.png */,
+				370653F01666905B006FE67E /* Key.png */,
+				373481C11665D6CF00521ECA /* gombottitle.png */,
+				37D5795A16658CBA004077F7 /* starburst.png */,
+				37D5794E16657EEA004077F7 /* gombot_small.png */,
+				370654071666CB1D006FE67E /* gombot_small@2x.png */,
+				373C90FF164DC64B00602DBB /* SkyCrane-Info.plist */,
+				373C9100164DC64B00602DBB /* InfoPlist.strings */,
+				373C9103164DC64B00602DBB /* main.m */,
+				373C9105164DC64B00602DBB /* SkyCrane-Prefix.pch */,
+				373C9109164DC64B00602DBB /* Default.png */,
+				373C910B164DC64B00602DBB /* Default@2x.png */,
+				373C910D164DC64B00602DBB /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		373C9124164DC64B00602DBB /* SkyCraneTests */ = {
+			isa = PBXGroup;
+			children = (
+				373C912A164DC64B00602DBB /* SkyCraneTests.h */,
+				373C912B164DC64C00602DBB /* SkyCraneTests.m */,
+				373C9125164DC64B00602DBB /* Supporting Files */,
+			);
+			path = SkyCraneTests;
+			sourceTree = "<group>";
+		};
+		373C9125164DC64B00602DBB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				373C9126164DC64B00602DBB /* SkyCraneTests-Info.plist */,
+				373C9127164DC64B00602DBB /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		373C90F2164DC64B00602DBB /* Gombot */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 373C912F164DC64C00602DBB /* Build configuration list for PBXNativeTarget "Gombot" */;
+			buildPhases = (
+				373C90EF164DC64B00602DBB /* Sources */,
+				373C90F0164DC64B00602DBB /* Frameworks */,
+				373C90F1164DC64B00602DBB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Gombot;
+			productName = SkyCrane;
+			productReference = 373C90F3164DC64B00602DBB /* Gombot.app */;
+			productType = "com.apple.product-type.application";
+		};
+		373C911C164DC64B00602DBB /* SkyCraneTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 373C9132164DC64C00602DBB /* Build configuration list for PBXNativeTarget "SkyCraneTests" */;
+			buildPhases = (
+				373C9118164DC64B00602DBB /* Sources */,
+				373C9119164DC64B00602DBB /* Frameworks */,
+				373C911A164DC64B00602DBB /* Resources */,
+				373C911B164DC64B00602DBB /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				373C9123164DC64B00602DBB /* PBXTargetDependency */,
+			);
+			name = SkyCraneTests;
+			productName = SkyCraneTests;
+			productReference = 373C911D164DC64B00602DBB /* SkyCraneTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		373C90EA164DC64B00602DBB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = Mozilla;
+			};
+			buildConfigurationList = 373C90ED164DC64B00602DBB /* Build configuration list for PBXProject "SkyCrane" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 373C90E8164DC64B00602DBB;
+			productRefGroup = 373C90F4164DC64B00602DBB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				373C90F2164DC64B00602DBB /* Gombot */,
+				373C911C164DC64B00602DBB /* SkyCraneTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		373C90F1164DC64B00602DBB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				373C9102164DC64B00602DBB /* InfoPlist.strings in Resources */,
+				373C910A164DC64B00602DBB /* Default.png in Resources */,
+				373C910C164DC64B00602DBB /* Default@2x.png in Resources */,
+				373C910E164DC64B00602DBB /* Default-568h@2x.png in Resources */,
+				373C9111164DC64B00602DBB /* MainStoryboard_iPhone.storyboard in Resources */,
+				373C9114164DC64B00602DBB /* MainStoryboard_iPad.storyboard in Resources */,
+				37D5794F16657EEA004077F7 /* gombot_small.png in Resources */,
+				37D5795B16658CBA004077F7 /* starburst.png in Resources */,
+				373481C21665D6CF00521ECA /* gombottitle.png in Resources */,
+				370653F11666905B006FE67E /* Key.png in Resources */,
+				370653F416669628006FE67E /* gradient.png in Resources */,
+				370653F6166699E6006FE67E /* Key@2x.png in Resources */,
+				370653F916669A0A006FE67E /* greenlight.png in Resources */,
+				370653FA16669A0A006FE67E /* greenlight@2x.png in Resources */,
+				370653FD16669B71006FE67E /* redlight.png in Resources */,
+				370653FE16669B71006FE67E /* redlight@2x.png in Resources */,
+				370654031666C46E006FE67E /* greenlightoff.png in Resources */,
+				370654041666C46E006FE67E /* greenlightoff@2x.png in Resources */,
+				370654051666C46E006FE67E /* redlightoff.png in Resources */,
+				370654061666C46E006FE67E /* redlightoff@2x.png in Resources */,
+				370654081666CB1D006FE67E /* gombot_small@2x.png in Resources */,
+				376350F016697CCA00328A00 /* Icon.png in Resources */,
+				376350F216697CD600328A00 /* Icon@2x.png in Resources */,
+				375A4409166D6F9D00229E13 /* encryptedDB in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		373C911A164DC64B00602DBB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				373C9129164DC64B00602DBB /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		373C911B164DC64B00602DBB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		373C90EF164DC64B00602DBB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				373C9104164DC64B00602DBB /* main.m in Sources */,
+				373C9108164DC64B00602DBB /* AppDelegate.m in Sources */,
+				373C9117164DC64B00602DBB /* PINViewController.m in Sources */,
+				373C913D164DD31200602DBB /* SiteViewController.m in Sources */,
+				376004DD1651A645000E879C /* DetailViewController.m in Sources */,
+				376004E11651A842000E879C /* LaunchCell.m in Sources */,
+				3774367F1654524F005B0F43 /* Site.m in Sources */,
+				3740D696165C3A64005B1B88 /* SplashViewController.m in Sources */,
+				37FC68001665459500CD480C /* GombotDB.m in Sources */,
+				37E6DAEA1667D829007B5BF5 /* MzPassword.m in Sources */,
+				37E6DAF816681B15007B5BF5 /* AuthViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		373C9118164DC64B00602DBB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				373C912C164DC64C00602DBB /* SkyCraneTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		373C9123164DC64B00602DBB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 373C90F2164DC64B00602DBB /* Gombot */;
+			targetProxy = 373C9122164DC64B00602DBB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		373C9100164DC64B00602DBB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				373C9101164DC64B00602DBB /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		373C910F164DC64B00602DBB /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				373C9110164DC64B00602DBB /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		373C9112164DC64B00602DBB /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				373C9113164DC64B00602DBB /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		373C9127164DC64B00602DBB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				373C9128164DC64B00602DBB /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		373C912D164DC64C00602DBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		373C912E164DC64C00602DBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		373C9130164DC64C00602DBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SkyCrane/SkyCrane-Prefix.pch";
+				INFOPLIST_FILE = "SkyCrane/SkyCrane-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		373C9131164DC64C00602DBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SkyCrane/SkyCrane-Prefix.pch";
+				INFOPLIST_FILE = "SkyCrane/SkyCrane-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		373C9133164DC64C00602DBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SkyCrane.app/SkyCrane";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SkyCrane/SkyCrane-Prefix.pch";
+				INFOPLIST_FILE = "SkyCraneTests/SkyCraneTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		373C9134164DC64C00602DBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SkyCrane.app/SkyCrane";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SkyCrane/SkyCrane-Prefix.pch";
+				INFOPLIST_FILE = "SkyCraneTests/SkyCraneTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		373C90ED164DC64B00602DBB /* Build configuration list for PBXProject "SkyCrane" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				373C912D164DC64C00602DBB /* Debug */,
+				373C912E164DC64C00602DBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		373C912F164DC64C00602DBB /* Build configuration list for PBXNativeTarget "Gombot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				373C9130164DC64C00602DBB /* Debug */,
+				373C9131164DC64C00602DBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		373C9132164DC64C00602DBB /* Build configuration list for PBXNativeTarget "SkyCraneTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				373C9133164DC64C00602DBB /* Debug */,
+				373C9134164DC64C00602DBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 373C90EA164DC64B00602DBB /* Project object */;
+}
