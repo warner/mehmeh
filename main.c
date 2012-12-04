@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <string.h>
 #include "sha256.h"
+#include <string.h>
+#include <stdio.h>
 
 int main()
 {
-    static unsigned char *passwd = "password";
-    static unsigned char *salt =
-        "identity.mozilla.com/gombot/v1/derivation:foo@example.org";
-    static unsigned char *saltAuth = "identity.mozilla.com/gombot/v1/authentication";
-    static unsigned char *saltCrypt = "identity.mozilla.com/gombot/v1/encryption";
+    static unsigned const char * passwd = "password";
+    static unsigned const char * salt = "identity.mozilla.com/gombot/v1/derivation:foo@example.org";
+    static unsigned const char * saltAuth = "identity.mozilla.com/gombot/v1/authentication";
+    static unsigned const char * saltCrypt = "identity.mozilla.com/gombot/v1/encryption";
 
     unsigned char dkey[32];
     unsigned char akey[32];
