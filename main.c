@@ -41,5 +41,6 @@ void kdf(int which, const char *email, const char *passwd) {
 int main()
 {
     kdf(1, "foo@example.org", "password");
+    kdf(2, "andr\xc3\xa9@example.org", "p\xc3\xa4ssw\xc3\xb6rd");
     return 0;
 }
