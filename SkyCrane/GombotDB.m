@@ -25,17 +25,6 @@ static NSDictionary* private_data = nil;
 
 @implementation GombotDB
 
-/*
- salt = "identity.mozilla.com/gombot/v1/derivation:" + email.encode("utf-8")
- derivedKey = PBKDF2(password, salt, 250*1000, 256/8)
- authKey = PBKDF2(derivedKey,
- "identity.mozilla.com/gombot/v1/authentication",
- 1, 256/8)
- cryptKey = PBKDF2(derivedKey,
- "identity.mozilla.com/gombot/v1/encryption",
- 1, 256/8)
- return authKey, cryptKey
-*/
 
 + (NSData*) getAuthSalt
 {
