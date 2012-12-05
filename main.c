@@ -1,8 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "sha256.h"
-#include <string.h>
-#include <stdio.h>
 
 static unsigned const char *saltDerive = "identity.mozilla.com/gombot/v1/derivation:";
 static unsigned const char * saltAuth = "identity.mozilla.com/gombot/v1/authentication";
