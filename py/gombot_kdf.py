@@ -33,6 +33,7 @@ from pbkdf2 import PBKDF2
 def do(email, password):
     salt = "identity.mozilla.com/gombot/v1/derivation:" + email.encode("utf-8")
     derivedKey = PBKDF2(password.encode("utf-8"), salt, 250*1000, 256/8)
+    #print "derived", tohex(derivedKey)
     authKey = PBKDF2(derivedKey,
                      "identity.mozilla.com/gombot/v1/authentication",
                      1, 256/8)
