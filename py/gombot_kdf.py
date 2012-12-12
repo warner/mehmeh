@@ -40,20 +40,21 @@ def do(email, password):
                      "identity.mozilla.com/gombot/v1/encryption",
                       1, 256/8)
     return authKey, cryptKey
-    
-def one():
-    email = u"foo@example.org"
-    password = u"password"
-    authKey, cryptKey = do(email, password)
-    print "1 authKey :", tohex(authKey)
-    print "1 cryptKey:", tohex(cryptKey)
-one()
-    
-def two():
-    email = u"andré@example.org"
-    password = u"pässwörd"
-    authKey, cryptKey = do(email, password)
-    print "2 authKey :", tohex(authKey)
-    print "2 cryptKey:", tohex(cryptKey)
-two()
+
+if __name__ == '__main__':
+    def one():
+        email = u"foo@example.org"
+        password = u"password"
+        authKey, cryptKey = do(email, password)
+        print "1 authKey :", tohex(authKey)
+        print "1 cryptKey:", tohex(cryptKey)
+    one()
+
+    def two():
+        email = u"andré@example.org"
+        password = u"pässwörd"
+        authKey, cryptKey = do(email, password)
+        print "2 authKey :", tohex(authKey)
+        print "2 cryptKey:", tohex(cryptKey)
+    two()
 
