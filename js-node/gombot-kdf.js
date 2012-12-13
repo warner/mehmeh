@@ -114,11 +114,11 @@ function test_two() {
                 });
 }
 
-if (require.main === module) {
+exports.run_tests = function() {
     test_one();
     test_two();
     //console.log("'"+pbkdf2_sha256(Buffer("password"), Buffer("salt"), 100, 200).toString("hex")+"'");
 }
 
-
-
+if (require.main === module)
+    exports.run_tests();
