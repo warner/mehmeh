@@ -53,3 +53,6 @@ def decrypt(email, password, msgmac):
 msgmac = encrypt(u"foo@example.org", u"password", "data")
 print "msgmac is", tohex(msgmac)
 print decrypt(u"foo@example.org", u"password", msgmac)
+
+print decrypt(u"foo@example.org", u"password",
+              binascii.unhexlify("342d06fafcc71db7a06a123ec0791ff1a7fc62640da43dd5c33eaee83f8f38575fd713528f231dc4ce3e1033e7a2c274ce349a4871eb59d7f3d4feb6ac6fb85d"))
