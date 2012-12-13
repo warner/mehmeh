@@ -19,6 +19,8 @@ def encrypt(email, password, data):
     authKey, cryptKey = do_kdf(email, password)
     aesKey = PBKDF2(cryptKey, "identity.mozilla.com/gombot/v1/data/AES", 1, 32)
     hmacKey = PBKDF2(cryptKey, "identity.mozilla.com/gombot/v1/data/HMAC", 1, 32)
+    #print "aesKey", tohex(aesKey)
+    #print "hmacKey", tohex(hmacKey)
     IV = os.urandom(16)
     c = AES.new(aesKey, mode=AES.MODE_CBC, IV=IV)
     padded_data = data + pkcs5_padding(len(data))
@@ -34,6 +36,7 @@ def encrypt(email, password, data):
 def decrypt(email, password, msgmac):
     authKey, cryptKey = do_kdf(email, password)
     aesKey = PBKDF2(cryptKey, "identity.mozilla.com/gombot/v1/data/AES", 1, 32)
+    #print "aesKey", tohex(aesKey)
     hmacKey = PBKDF2(cryptKey, "identity.mozilla.com/gombot/v1/data/HMAC", 1, 32)
     msg,mac = msgmac[:-32], msgmac[-32:]
     # mac covers everything else: (IV+enc(data+padding))
