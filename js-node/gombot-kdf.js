@@ -42,7 +42,7 @@ function pbkdf2_sha1(password, salt, iterations, keylen) {
 }
 
 var xor = require("./util").xor;
-function pbkdf2_sha256(password, salt, iterations, keylen) {
+function pbkdf2_sha256_sync(password, salt, iterations, keylen) {
     // roll our own
     function PRF(data) {
         return HMAC(password, data);
@@ -60,7 +60,12 @@ function pbkdf2_sha256(password, salt, iterations, keylen) {
         output.push(u);
         generated += u.length;
     }
-    return Q.resolve(Buffer.concat(output).slice(0, keylen));
+    return Buffer.concat(output).slice(0, keylen);
+}
+exports.pbkdf2_sha256_sync = pbkdf2_sha256_sync;
+
+function pbkdf2_sha256(password, salt, iterations, keylen) {
+    return Q.resolve(pbkdf2_sha256_sync(password, salt, iterations, keylen));
 }
 
 function makeSalt(name, extra) {
@@ -71,6 +76,7 @@ function makeSalt(name, extra) {
                           Buffer(name),
                           append]);
 }
+exports.makeSalt = makeSalt;
 
 function gombot_kdf(email, password) {
     var deriveSalt = makeSalt("derivation", Buffer(email, "utf-8"));
@@ -79,11 +85,12 @@ function gombot_kdf(email, password) {
     return derivedKey_d
         .then(function(dKey) {
             //console.log("derived", dKey.toString("hex"));
-            var authKey_d = pbkdf2_sha256(dKey, makeSalt("authentication"), 1, 32);
-            var cryptKey_d = pbkdf2_sha256(dKey, makeSalt("encryption"), 1, 32);
-        return Q.all([authKey_d, cryptKey_d]);
+            var authKey = pbkdf2_sha256_sync(dKey, makeSalt("authentication"), 1, 32);
+            var cryptKey = pbkdf2_sha256_sync(dKey, makeSalt("encryption"), 1, 32);
+            return [authKey, cryptKey];
         });
 }
+exports.gombot_kdf = gombot_kdf;
 
 function test_one() {
     gombot_kdf("foo@example.org", "password")
@@ -107,8 +114,11 @@ function test_two() {
                 });
 }
 
-test_one();
-test_two();
-//console.log("'"+pbkdf2_sha256(Buffer("password"), Buffer("salt"), 100, 200).toString("hex")+"'");
+if (require.main === module) {
+    test_one();
+    test_two();
+    //console.log("'"+pbkdf2_sha256(Buffer("password"), Buffer("salt"), 100, 200).toString("hex")+"'");
+}
+
 
 
