@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface AuthViewController : UIViewController <UITextFieldDelegate>
+{
+  UIActivityIndicatorView* spinner;
+}
 
 @property (strong, nonatomic) IBOutlet UITextField* account;
 @property (strong, nonatomic) IBOutlet UITextField* password;
