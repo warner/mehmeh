@@ -35,13 +35,10 @@ typedef void (^NotifyBlock)(void);
 //will return nil if no data file
 + (NSArray*) getSites;
 
-
-//TEMP for testing :/
-+ (NSData*) decryptData: (NSData*)encryptedData withHMACKey: (NSData*)HMACkey andCryptKey: (NSData*)cryptKey;
-+ (NSData*) getKeyForPath:(NSString*)keyPath;
-
 @end
 
+
+//Useful utilities exposed for other classes
 @interface NSString (NSStringHexToBytes)
 -(NSData*) hexToBytes ;
 @end
