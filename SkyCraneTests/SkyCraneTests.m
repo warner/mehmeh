@@ -8,6 +8,9 @@
 
 #import "SkyCraneTests.h"
 #import "GombotDB.h"
+#import "GombotDBTest.h"
+
+
 @implementation SkyCraneTests
 
 - (void)setUp
@@ -73,14 +76,18 @@
 //  
 //}
 
-- (void) testFullDecrypt
+- (void) testDecryptWithUserInfoAndData
 {
   [GombotDB updateCredentialsWithAccount:@"foo@example.org" andPassword:@"password"];
   NSData* DATA =  [@"6a329494341af362581f7bf4c0577e4e73165ae273aafb2033ec7286727f24694b57122dc84d7832089887f6c9a9f64eca516a7324976b58a93738b956f81c20" hexToBytes];
   NSData* plain = [GombotDB decryptData:DATA withHMACKey:[GombotDB getKeyForPath:_HMACPATH] andCryptKey:[GombotDB getKeyForPath:_AESPATH]];
   NSString* readable = [[NSString alloc] initWithData:plain encoding:NSUTF8StringEncoding];
+  
+  if (!readable || ![readable isEqualToString:@"data"])
+  {
+      STFail(@"testDecryptWithUserInfoAndData FAILED. Result was supposed to be 'data', but was '%@' instead.", readable);
+  }
 
-  NSLog(@"final output: %@", readable);
 }
 
 ////TEST CODE
