@@ -218,9 +218,10 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 
 + (NSData*) decryptData: (NSData*)message withHMACKey: (NSData*)HMACkey andAESKey: (NSData*)AESKey
 {
-  // before anything else, check and remove the version prefix
-  NSData *versionPrefix = [@"identity.mozilla.com/gombot/v1:" dataUsingEncoding:NSUTF8StringEncoding];
-  NSData *gotPrefix = [message subdataWithRange:NSMakeRange(0, [versionPrefix length])];
+  // before anything else, check the version prefix
+  NSData *versionPrefix = [@"identity.mozilla.com/gombot/v1/data:" dataUsingEncoding:NSUTF8StringEncoding];
+  NSUInteger verlen = [versionPrefix length];
+  NSData *gotPrefix = [message subdataWithRange:NSMakeRange(0, verlen)];
   if (![gotPrefix isEqualToData:versionPrefix]) {
     NSLog(@"unrecognized version prefix '%@'", gotPrefix);
     NSException *exception = [NSException exceptionWithName:@"ParseException"
@@ -228,7 +229,6 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
                                                   userInfo:nil];
     @throw exception;
   }
-  message = [message subdataWithRange:NSMakeRange([versionPrefix length], [message length])];
 
   //First, compute hmac of everything except the last 32 bytes
   NSData* hmacInput = [message subdataWithRange:NSMakeRange(0, [message length]-32)];
@@ -248,11 +248,13 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
     @throw exception;
   }
 
+  // remove the version prefix after the MAC check but before decryption
+
   //Second, extract the IV and payload, and decrypt
-  NSData* IV = [message subdataWithRange:NSMakeRange(0, 16)];
+  NSData* IV = [message subdataWithRange:NSMakeRange(verlen, 16)];
   NSLog(@"message IV: %@", IV);
 
-  NSData* payload = [message subdataWithRange:NSMakeRange(16, [message length]-48)];
+  NSData* payload = [message subdataWithRange:NSMakeRange(verlen+16, [message length]-verlen-16-32)];
   NSLog(@"message payload: %@", payload);
 
 /* TEST!! */
