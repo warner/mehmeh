@@ -115,6 +115,8 @@ if __name__ == '__main__':
         email = u"andré@example.org"
         password = u"pässwörd"
         data = '{"kéy": "valuë2"}'
-        m = encrypt(email, password, data)
+        m = encrypt(email, password, data,
+                    #forceIV="45fea09e3db6333762a8c6ab8ac50548".decode("hex")
+                    )
         print decrypt(email, password, m)
     two()
