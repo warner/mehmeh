@@ -31,9 +31,10 @@ def HKDF(XTS, SKM, CTXinfo, length_bytes):
     return HKDF_K(HKDF_PRK(XTS, SKM), length_bytes, CTXinfo)
 
 def dump(which, s, stride=16):
-    print "%s: %s" % (which, "\n".join([tohex(s)[i:i+stride]
-                                        for i in range(0, len(tohex(s)), stride)
-                                        ]))
+    print "%s:\n%s\n" % (which,
+                         "\n".join([tohex(s)[i:i+stride]
+                                    for i in range(0, len(tohex(s)), stride)
+                                    ]))
 
 version_prefix = "identity.mozilla.com/gombot/v1:"
 def salt(name):
@@ -62,13 +63,13 @@ def pkcs5_padding(datalen):
     needed = 16-(datalen%16)
     return chr(needed)*needed
 
-def encrypt(email, password, data, secret=""):
+def encrypt(email, password, data, secret="", forceIV=None):
     authKey, cryptKey = do_kdf(email, password, secret)
     aesKey = PBKDF2(cryptKey, salt("data/AES"), 1, 32)
     hmacKey = PBKDF2(cryptKey, salt("data/HMAC"), 1, 32)
     dump("aesKey", aesKey)
     dump("hmacKey", hmacKey)
-    IV = os.urandom(16)
+    IV = forceIV or os.urandom(16)
     dump("IV", IV)
     c = AES.new(aesKey, mode=AES.MODE_CBC, IV=IV)
     padded_data = data + pkcs5_padding(len(data))
@@ -79,6 +80,7 @@ def encrypt(email, password, data, secret=""):
     mac = hmac.new(hmacKey, msg, hashlib.sha256).digest()
     print "enc", [tohex(IV), tohex(ct), tohex(mac)]
     dump("ct", ct)
+    dump("mac", mac)
     versioned_msgmac = version_prefix+msg+mac
     dump("versioned_msgmac", versioned_msgmac, stride=32)
     return versioned_msgmac
