@@ -91,12 +91,15 @@ function gombot_kdf(email, password) {
             var authKey = pbkdf2_sha256_sync(masterKey, makeSalt("authentication"), 1, 32);
             var aesKey = pbkdf2_sha256_sync(masterKey, makeSalt("data/AES"), 1, 32);
             var hmacKey = pbkdf2_sha256_sync(masterKey, makeSalt("data/HMAC"), 1, 32);
+            console.log("authKey", authKey.toString("hex"));
+            console.log("aesKey", aesKey.toString("hex"));
+            console.log("hmacKey", hmacKey.toString("hex"));
             return {authKey: authKey, aesKey: aesKey, hmacKey: hmacKey};
         });
 }
 exports.gombot_kdf = gombot_kdf;
 
-function test_one() {
+function test_keys() {
     gombot_kdf("andré@example.org", "pässwörd")
         .then(function(keys) {
             console.log("authKey :", keys.authKey.toString("hex"));
@@ -108,9 +111,82 @@ function test_one() {
         });
 }
 
+var version_prefix = Buffer("identity.mozilla.com/gombot/v1:");
+
+function encrypt(email, password, data, forceIV) {
+    return gombot_kdf(email, password)
+        .then(function(keys) {
+            var IV = Buffer(crypto.randomBytes(16), "binary");
+            if (forceIV)
+                IV = forceIV;
+            var c = crypto.createCipheriv("aes256", keys.aesKey.toString("binary"), IV);
+            var ct = Buffer.concat([IV, 
+                                    Buffer(c.update(data), "binary"), 
+                                    Buffer(c.final(), "binary")]);
+            var h = crypto.createHmac("sha256", keys.hmacKey.toString("binary"));
+            h.update(ct.toString("binary"));
+            var mac = Buffer(h.digest(), "binary");
+            //console.log([IV.toString("hex"), ct.toString("hex"), mac.toString("hex")]);
+            return Buffer.concat([version_prefix, ct, mac]);
+        })
+    ;
+}
+exports.encrypt = encrypt;
+
+function compare(a, b) { // vaguely constant-time
+    if (a.length != b.length)
+        return false;
+    var reduction = 0;
+    for (var i=0; i < a.length; i++)
+        reduction |= (a[i] ^ b[i]);
+    return reduction == 0;
+}
+exports.compare = compare;
+
+function decrypt(email, password, versioned_msgmac) {
+    return gombot_kdf(email, password)
+        .then(function(keys) {
+            var gotPrefix = versioned_msgmac.slice(0, version_prefix.length);
+            if (gotPrefix.toString("hex") != version_prefix.toString("hex"))
+                throw Error("Unrecognized version prefix '"+gotPrefix+"'");
+            var msgmac = versioned_msgmac.slice(version_prefix.length);
+            var h = crypto.createHmac("sha256", keys.hmacKey.toString("binary"));
+            h.update(msgmac.slice(0, msgmac.length-32).toString("binary"));
+            var expectedHmac = Buffer(h.digest(), "binary");
+            var gotHmac = msgmac.slice(msgmac.length-32, msgmac.length);
+            if (!compare(expectedHmac, gotHmac))
+                throw Error("Corrupt encrypted data");
+            var IV = msgmac.slice(0, 16);
+            var msg = msgmac.slice(16, msgmac.length-32);
+            var c = crypto.createDecipheriv("aes256", keys.aesKey.toString("binary"), IV);
+            var data = Buffer.concat([Buffer(c.update(msg.toString("binary")), "binary"), 
+                                      Buffer(c.final(), "binary")]);
+            return data;
+        })
+    ;
+}
+exports.decrypt = decrypt;
+
+function test_one() {
+    var data = Buffer('{"kéy": "valuë2"}');
+    encrypt("andré@example.org", "pässwörd", data
+            //,Buffer("45fea09e3db6333762a8c6ab8ac50548", "hex")
+           )
+        .then(function(m) {console.log("m", m.toString("hex"));
+                           return decrypt("andré@example.org", "pässwörd", m);})
+        .then(function(data2) {console.log("data:", data2.toString("hex"));
+                              if (data.toString("hex") == data2.toString("hex"))
+                                  console.log("ok");
+                              else
+                                  console.log("NOT OK");
+                              })
+        .then(null, console.log)
+    ;
+}
+
 exports.run_tests = function() {
+    //test_keys();
     test_one();
-    //console.log("'"+pbkdf2_sha256(Buffer("password"), Buffer("salt"), 100, 200).toString("hex")+"'");
 }
 
 if (require.main === module)
