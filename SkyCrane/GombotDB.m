@@ -237,6 +237,16 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
   NSData* hmacValue = [message subdataWithRange:NSMakeRange([message length]-32, 32)];
   NSLog(@"message hmac: %@", hmacValue);
 
+  NSData* computedHMAC = [GombotDB makeHMACFor:hmacInput withKey:[GombotDB getKeyForPath:_HMACPATH]];
+  NSLog(@"computed hmac: %@", computedHMAC);
+  if (![computedHMAC isEqualToData:hmacValue]) {
+    NSLog(@"invalid HMAC: encrypted data is corrupt");
+    NSException *exception = [NSException exceptionWithName:@"ParseException"
+                                                     reason:@"invalid HMAC"
+                                                   userInfo:nil];
+    @throw exception;
+  }
+
   //Second, extract the IV and payload, and decrypt
   NSData* IV = [message subdataWithRange:NSMakeRange(0, 16)];
   NSLog(@"message IV: %@", IV);
@@ -259,9 +269,6 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 //  {
 //    NSLog(@"FAIL reconstructed data NO MATCH!  original:  %@      constructed: %@", message, test);
 //  }
-  
-  NSData* computedHMAC = [GombotDB makeHMACFor:hmacInput withKey:[GombotDB getKeyForPath:_HMACPATH]];
-  NSLog(@"computed hmac: %@", computedHMAC);
   
   NSData* plaintext = [payload AES256DecryptWithKey:[GombotDB getKeyForPath:_AESPATH] andIV:IV];
 
