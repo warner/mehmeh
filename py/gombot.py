@@ -36,7 +36,7 @@ def dump(which, s, stride=16):
                                     for i in range(0, len(tohex(s)), stride)
                                     ]))
 
-version_prefix = "identity.mozilla.com/gombot/v1:"
+version_prefix = "identity.mozilla.com/gombot/v1/data:"
 def salt(name):
     return "identity.mozilla.com/gombot/v1/%s" % name
 
@@ -73,26 +73,30 @@ def encrypt(email, password, data, secret="", forceIV=None):
     padded_data = data + pkcs5_padding(len(data))
     assert len(padded_data)%AES.block_size == 0, (len(padded_data), AES.block_size)
     ct = c.encrypt(padded_data)
-    msg = IV+ct
-    # [IV, enc(PADDEDDATA), mac(IV+enc(PADDEDDATA))]
+    msg = version_prefix+IV+ct
+    # [prefix, IV, enc(PADDEDDATA), mac(prefix+IV+enc(PADDEDDATA))]
     mac = hmac.new(hmacKey, msg, hashlib.sha256).digest()
-    print "enc", [tohex(IV), tohex(ct), tohex(mac)]
+    msgmac = msg+mac
+    print "enc", [tohex(version_prefix), tohex(IV), tohex(ct), tohex(mac)]
     dump("ct", ct)
     dump("mac", mac)
-    versioned_msgmac = version_prefix+msg+mac
-    dump("versioned_msgmac", versioned_msgmac, stride=32)
-    return versioned_msgmac
+    dump("msgmac", msgmac, stride=32)
+    return msgmac
 
-def decrypt(email, password, versioned_msgmac, secret=""):
-    assert versioned_msgmac.startswith(version_prefix)
-    msgmac = versioned_msgmac[len(version_prefix):]
+def decrypt(email, password, msgmac, secret=""):
+    # we check this before checking the MAC, since it isn't secret, and will
+    # detect gross version mismatches early
+    prelen = len(version_prefix)
+    if not msgmac.startswith(version_prefix):
+        raise ValueError("unrecognized version prefix '%s'" % msgmac[:prelen])
+
     authKey, aesKey, hmacKey = do_kdf(email, password, secret)
     msg,mac = msgmac[:-32], msgmac[-32:]
-    # mac covers everything else: (IV+enc(data+padding))
+    # mac covers everything else: (prefix+IV+enc(data+padding))
     if mac != hmac.new(hmacKey, msg, hashlib.sha256).digest():
         raise ValueError("Corrupt encrypted data")
-    IV,ct = msg[:16], msg[16:]
-    print "dec", [tohex(IV), tohex(ct), tohex(mac)]
+    prefix,IV,ct = msg[:prelen], msg[prelen:prelen+16], msg[prelen+16:]
+    print "dec", [tohex(prefix), tohex(IV), tohex(ct), tohex(mac)]
     c = AES.new(aesKey, mode=AES.MODE_CBC, IV=IV)
     padded_data = c.decrypt(ct)
     print "padded data", tohex(padded_data)

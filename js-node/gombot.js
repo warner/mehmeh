@@ -111,7 +111,7 @@ function test_keys() {
         });
 }
 
-var version_prefix = Buffer("identity.mozilla.com/gombot/v1:");
+var version_prefix = Buffer("identity.mozilla.com/gombot/v1/data:");
 
 function encrypt(email, password, data, forceIV) {
     return gombot_kdf(email, password)
@@ -120,14 +120,15 @@ function encrypt(email, password, data, forceIV) {
             if (forceIV)
                 IV = forceIV;
             var c = crypto.createCipheriv("aes256", keys.aesKey.toString("binary"), IV);
-            var ct = Buffer.concat([IV, 
-                                    Buffer(c.update(data), "binary"), 
-                                    Buffer(c.final(), "binary")]);
+            var msg = Buffer.concat([version_prefix,
+                                     IV,
+                                     Buffer(c.update(data), "binary"),
+                                     Buffer(c.final(), "binary")]);
             var h = crypto.createHmac("sha256", keys.hmacKey.toString("binary"));
-            h.update(ct.toString("binary"));
+            h.update(msg.toString("binary"));
             var mac = Buffer(h.digest(), "binary");
-            //console.log([IV.toString("hex"), ct.toString("hex"), mac.toString("hex")]);
-            return Buffer.concat([version_prefix, ct, mac]);
+            //console.log([IV.toString("hex"), msg.toString("hex"), mac.toString("hex")]);
+            return Buffer.concat([msg, mac]);
         })
     ;
 }
@@ -143,21 +144,22 @@ function compare(a, b) { // vaguely constant-time
 }
 exports.compare = compare;
 
-function decrypt(email, password, versioned_msgmac) {
+function decrypt(email, password, msgmac) {
     return gombot_kdf(email, password)
         .then(function(keys) {
-            var gotPrefix = versioned_msgmac.slice(0, version_prefix.length);
+            console.log("msgmac", msgmac.toString("hex"));
+            var prelen = version_prefix.length;
+            var gotPrefix = msgmac.slice(0, prelen);
             if (gotPrefix.toString("hex") != version_prefix.toString("hex"))
                 throw Error("Unrecognized version prefix '"+gotPrefix+"'");
-            var msgmac = versioned_msgmac.slice(version_prefix.length);
             var h = crypto.createHmac("sha256", keys.hmacKey.toString("binary"));
             h.update(msgmac.slice(0, msgmac.length-32).toString("binary"));
             var expectedHmac = Buffer(h.digest(), "binary");
             var gotHmac = msgmac.slice(msgmac.length-32, msgmac.length);
             if (!compare(expectedHmac, gotHmac))
                 throw Error("Corrupt encrypted data");
-            var IV = msgmac.slice(0, 16);
-            var msg = msgmac.slice(16, msgmac.length-32);
+            var IV = msgmac.slice(prelen, prelen+16);
+            var msg = msgmac.slice(prelen+16, msgmac.length-32);
             var c = crypto.createDecipheriv("aes256", keys.aesKey.toString("binary"), IV);
             var data = Buffer.concat([Buffer(c.update(msg.toString("binary")), "binary"), 
                                       Buffer(c.final(), "binary")]);
