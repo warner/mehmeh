@@ -33,10 +33,25 @@
 	// Do any additional setup after loading the view.
 
   
+  
+}
+- (void) viewWillAppear:(BOOL)animated
+{
+  [self startAnimations];
+}
+
+-(void) startAnimations
+{
+  [_titleView.layer removeAllAnimations];
+  _titleView.transform = CGAffineTransformIdentity;
+  
   [UIView animateWithDuration:2 delay:0.0 options:UIViewAnimationCurveEaseOut animations:^{_titleView.transform =CGAffineTransformMakeScale(1.4, 1.4);} completion:^(BOOL done){}];
+  
+  [_background.layer removeAllAnimations];
+  _background.transform = CGAffineTransformIdentity;
 
   [UIView animateWithDuration:8.0 delay:0.0 options:UIViewAnimationOptionRepeat|UIViewAnimationOptionCurveLinear|UIViewAnimationOptionBeginFromCurrentState animations:^{_background.transform = CGAffineTransformMakeRotation(M_PI/2);} completion:^(BOOL done){}];
-  
+
 }
 
 
@@ -74,7 +89,7 @@
 //{
 //  if ([[segue identifier] isEqualToString:@"SplashToPin"])
 //  {
-//    //The GombotDB is now a singleton global, since multiple pages need access tot,
+//    //The GombotDB is now a singleton global, since multiple pages need access to it,
 //    // so there's nothing to do here
 //    
 //    // Get reference to the destination view controller

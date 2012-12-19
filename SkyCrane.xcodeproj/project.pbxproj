@@ -40,27 +40,36 @@
 		373C912C164DC64C00602DBB /* SkyCraneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C912B164DC64C00602DBB /* SkyCraneTests.m */; };
 		373C913D164DD31200602DBB /* SiteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C913C164DD31200602DBB /* SiteViewController.m */; };
 		3740D696165C3A64005B1B88 /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3740D695165C3A64005B1B88 /* SplashViewController.m */; };
-		375A4409166D6F9D00229E13 /* encryptedDB in Resources */ = {isa = PBXBuildFile; fileRef = 375A4408166D6F9D00229E13 /* encryptedDB */; };
 		376004DD1651A645000E879C /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 376004DC1651A645000E879C /* DetailViewController.m */; };
 		376004E11651A842000E879C /* LaunchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 376004E01651A842000E879C /* LaunchCell.m */; };
 		376350F016697CCA00328A00 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 376350EF16697CCA00328A00 /* Icon.png */; };
 		376350F216697CD600328A00 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 376350F116697CD600328A00 /* Icon@2x.png */; };
 		3774367F1654524F005B0F43 /* Site.m in Sources */ = {isa = PBXBuildFile; fileRef = 3774367E1654524F005B0F43 /* Site.m */; };
+		37B90BE016769DFA006BC423 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B90BDD16769DFA006BC423 /* NSData+Base64.m */; };
+		37B90BE116769DFA006BC423 /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B90BDF16769DFA006BC423 /* NSString+Base64.m */; };
 		37D5794F16657EEA004077F7 /* gombot_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 37D5794E16657EEA004077F7 /* gombot_small.png */; };
 		37D5795B16658CBA004077F7 /* starburst.png in Resources */ = {isa = PBXBuildFile; fileRef = 37D5795A16658CBA004077F7 /* starburst.png */; };
 		37E6DAEA1667D829007B5BF5 /* MzPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E6DAE91667D829007B5BF5 /* MzPassword.m */; };
 		37E6DAF11667D875007B5BF5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E6DAF01667D875007B5BF5 /* Security.framework */; };
 		37E6DAF816681B15007B5BF5 /* AuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E6DAF716681B15007B5BF5 /* AuthViewController.m */; };
+		37F562E3167A925B00333CFE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E6DAF01667D875007B5BF5 /* Security.framework */; };
+		37F562E5167A929900333CFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373C90FB164DC64B00602DBB /* CoreGraphics.framework */; };
+		37F562E6167A92A000333CFE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3722D067165D94C30036156C /* QuartzCore.framework */; };
+		37F562E8167A92ED00333CFE /* GombotDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 37FC67FF1665459500CD480C /* GombotDB.m */; };
+		37F562EA167A92ED00333CFE /* MzPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E6DAE91667D829007B5BF5 /* MzPassword.m */; };
+		37F562EC167A92ED00333CFE /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B90BDD16769DFA006BC423 /* NSData+Base64.m */; };
+		37F562EE167A92ED00333CFE /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B90BDF16769DFA006BC423 /* NSString+Base64.m */; };
+		37F562EF167A932C00333CFE /* Site.m in Sources */ = {isa = PBXBuildFile; fileRef = 3774367E1654524F005B0F43 /* Site.m */; };
 		37FC68001665459500CD480C /* GombotDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 37FC67FF1665459500CD480C /* GombotDB.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		373C9122164DC64B00602DBB /* PBXContainerItemProxy */ = {
+		37F562F0167A988100333CFE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 373C90EA164DC64B00602DBB /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 373C90F2164DC64B00602DBB;
-			remoteInfo = SkyCrane;
+			remoteInfo = Gombot;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -97,7 +106,7 @@
 		373C9113164DC64B00602DBB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		373C9115164DC64B00602DBB /* PINViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PINViewController.h; sourceTree = "<group>"; };
 		373C9116164DC64B00602DBB /* PINViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PINViewController.m; sourceTree = "<group>"; };
-		373C911D164DC64B00602DBB /* SkyCraneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkyCraneTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		373C911D164DC64B00602DBB /* SkyCraneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = SkyCraneTests.octest; path = GombotTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		373C911E164DC64B00602DBB /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		373C9126164DC64B00602DBB /* SkyCraneTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SkyCraneTests-Info.plist"; sourceTree = "<group>"; };
 		373C9128164DC64B00602DBB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -107,7 +116,6 @@
 		373C913C164DD31200602DBB /* SiteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SiteViewController.m; sourceTree = "<group>"; };
 		3740D694165C3A64005B1B88 /* SplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplashViewController.h; sourceTree = "<group>"; };
 		3740D695165C3A64005B1B88 /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
-		375A4408166D6F9D00229E13 /* encryptedDB */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = encryptedDB; sourceTree = "<group>"; };
 		376004DB1651A645000E879C /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		376004DC1651A645000E879C /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		376004DF1651A842000E879C /* LaunchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchCell.h; sourceTree = "<group>"; };
@@ -116,6 +124,11 @@
 		376350F116697CD600328A00 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		3774367D1654524E005B0F43 /* Site.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Site.h; sourceTree = "<group>"; };
 		3774367E1654524F005B0F43 /* Site.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Site.m; sourceTree = "<group>"; };
+		37B90BDC16769DFA006BC423 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		37B90BDD16769DFA006BC423 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+		37B90BDE16769DFA006BC423 /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
+		37B90BDF16769DFA006BC423 /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
+		37C7C19C16812C0D0030E9E3 /* GombotDBTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GombotDBTest.h; path = SkyCraneTests/GombotDBTest.h; sourceTree = SOURCE_ROOT; };
 		37D5794E16657EEA004077F7 /* gombot_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gombot_small.png; sourceTree = "<group>"; };
 		37D5795A16658CBA004077F7 /* starburst.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starburst.png; sourceTree = "<group>"; };
 		37E6DAE81667D829007B5BF5 /* MzPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MzPassword.h; sourceTree = "<group>"; };
@@ -144,6 +157,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37F562E6167A92A000333CFE /* QuartzCore.framework in Frameworks */,
+				37F562E5167A929900333CFE /* CoreGraphics.framework in Frameworks */,
+				37F562E3167A925B00333CFE /* Security.framework in Frameworks */,
 				373C911F164DC64B00602DBB /* SenTestingKit.framework in Frameworks */,
 				373C9120164DC64B00602DBB /* UIKit.framework in Frameworks */,
 				373C9121164DC64B00602DBB /* Foundation.framework in Frameworks */,
@@ -194,6 +210,7 @@
 				373C910F164DC64B00602DBB /* MainStoryboard_iPhone.storyboard */,
 				373C9112164DC64B00602DBB /* MainStoryboard_iPad.storyboard */,
 				37FC67FE1665459500CD480C /* GombotDB.h */,
+				37C7C19C16812C0D0030E9E3 /* GombotDBTest.h */,
 				37FC67FF1665459500CD480C /* GombotDB.m */,
 				37E6DAE81667D829007B5BF5 /* MzPassword.h */,
 				37E6DAE91667D829007B5BF5 /* MzPassword.m */,
@@ -213,6 +230,10 @@
 				3774367E1654524F005B0F43 /* Site.m */,
 				376004DB1651A645000E879C /* DetailViewController.h */,
 				376004DC1651A645000E879C /* DetailViewController.m */,
+				37B90BDC16769DFA006BC423 /* NSData+Base64.h */,
+				37B90BDD16769DFA006BC423 /* NSData+Base64.m */,
+				37B90BDE16769DFA006BC423 /* NSString+Base64.h */,
+				37B90BDF16769DFA006BC423 /* NSString+Base64.m */,
 				373C90FE164DC64B00602DBB /* Supporting Files */,
 			);
 			path = SkyCrane;
@@ -221,7 +242,6 @@
 		373C90FE164DC64B00602DBB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				375A4408166D6F9D00229E13 /* encryptedDB */,
 				370653FF1666C46E006FE67E /* greenlightoff.png */,
 				370654001666C46E006FE67E /* greenlightoff@2x.png */,
 				370654011666C46E006FE67E /* redlightoff.png */,
@@ -287,9 +307,9 @@
 			productReference = 373C90F3164DC64B00602DBB /* Gombot.app */;
 			productType = "com.apple.product-type.application";
 		};
-		373C911C164DC64B00602DBB /* SkyCraneTests */ = {
+		373C911C164DC64B00602DBB /* GombotTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 373C9132164DC64C00602DBB /* Build configuration list for PBXNativeTarget "SkyCraneTests" */;
+			buildConfigurationList = 373C9132164DC64C00602DBB /* Build configuration list for PBXNativeTarget "GombotTests" */;
 			buildPhases = (
 				373C9118164DC64B00602DBB /* Sources */,
 				373C9119164DC64B00602DBB /* Frameworks */,
@@ -299,9 +319,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				373C9123164DC64B00602DBB /* PBXTargetDependency */,
+				37F562F1167A988100333CFE /* PBXTargetDependency */,
 			);
-			name = SkyCraneTests;
+			name = GombotTests;
 			productName = SkyCraneTests;
 			productReference = 373C911D164DC64B00602DBB /* SkyCraneTests.octest */;
 			productType = "com.apple.product-type.bundle";
@@ -328,7 +348,7 @@
 			projectRoot = "";
 			targets = (
 				373C90F2164DC64B00602DBB /* Gombot */,
-				373C911C164DC64B00602DBB /* SkyCraneTests */,
+				373C911C164DC64B00602DBB /* GombotTests */,
 			);
 		};
 /* End PBXProject section */
@@ -361,7 +381,6 @@
 				370654081666CB1D006FE67E /* gombot_small@2x.png in Resources */,
 				376350F016697CCA00328A00 /* Icon.png in Resources */,
 				376350F216697CD600328A00 /* Icon@2x.png in Resources */,
-				375A4409166D6F9D00229E13 /* encryptedDB in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +426,8 @@
 				37FC68001665459500CD480C /* GombotDB.m in Sources */,
 				37E6DAEA1667D829007B5BF5 /* MzPassword.m in Sources */,
 				37E6DAF816681B15007B5BF5 /* AuthViewController.m in Sources */,
+				37B90BE016769DFA006BC423 /* NSData+Base64.m in Sources */,
+				37B90BE116769DFA006BC423 /* NSString+Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,6 +435,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37F562EF167A932C00333CFE /* Site.m in Sources */,
+				37F562E8167A92ED00333CFE /* GombotDB.m in Sources */,
+				37F562EA167A92ED00333CFE /* MzPassword.m in Sources */,
+				37F562EC167A92ED00333CFE /* NSData+Base64.m in Sources */,
+				37F562EE167A92ED00333CFE /* NSString+Base64.m in Sources */,
 				373C912C164DC64C00602DBB /* SkyCraneTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -421,10 +447,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		373C9123164DC64B00602DBB /* PBXTargetDependency */ = {
+		37F562F1167A988100333CFE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 373C90F2164DC64B00602DBB /* Gombot */;
-			targetProxy = 373C9122164DC64B00602DBB /* PBXContainerItemProxy */;
+			targetProxy = 37F562F0167A988100333CFE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -490,6 +516,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -603,7 +630,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		373C9132164DC64C00602DBB /* Build configuration list for PBXNativeTarget "SkyCraneTests" */ = {
+		373C9132164DC64C00602DBB /* Build configuration list for PBXNativeTarget "GombotTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				373C9133164DC64C00602DBB /* Debug */,

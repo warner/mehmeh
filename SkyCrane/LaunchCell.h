@@ -13,7 +13,6 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLbl;
 @property (nonatomic, retain) IBOutlet UILabel *loginLbl;
-//@property (nonatomic, retain) IBOutlet UILabel *urlLbl;
 
 @property (nonatomic, retain) Site* site;
 
