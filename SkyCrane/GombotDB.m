@@ -36,16 +36,22 @@ static NSString* private_account;
 
 
 //Fearing that the salts for these keys may become generated in the future, I have put them in functions here
++ (NSData*) getMasterSalt:(NSString*)account
+{
+    NSString* temp = [NSString stringWithFormat: @"identity.mozilla.com/gombot/v1/master:%@", account];
+    return [temp dataUsingEncoding:NSUTF8StringEncoding];
+}
+
++ (NSData*) getMasterSecret:(NSString*)secret andPassword:(NSString*)password
+{
+    NSString* temp = [NSString stringWithFormat: @"%@:%@", secret, password];
+    return [temp dataUsingEncoding:NSUTF8StringEncoding];
+}
+
 + (NSData*) getAuthSalt
 {
   //for now, return fixed string
   return [@"identity.mozilla.com/gombot/v1/authentication" dataUsingEncoding:NSUTF8StringEncoding];
-}
-
-+ (NSData*) getCryptSalt
-{
-  //for now, return fixed string
-  return [@"identity.mozilla.com/gombot/v1/encryption" dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 + (NSData*) getAesSalt
@@ -60,12 +66,6 @@ static NSString* private_account;
   return [@"identity.mozilla.com/gombot/v1/data/HMAC" dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-
-+ (NSData*) getDerivedSalt:(NSString*)account
-{
-  NSString* temp = [NSString stringWithFormat: @"identity.mozilla.com/gombot/v1/derivation:%@", account];
-  return [temp dataUsingEncoding:NSUTF8StringEncoding];
-}
 
 + (NSData*) makeKeyWithPassword:(NSData*)password andSalt:(NSData*)salt andRounds:(int)rounds
 {
@@ -83,31 +83,26 @@ static NSString* private_account;
   //save the account info (email)
   private_account = account;
   
-  //make initial derived key
-  NSData* derivedKey = [self makeKeyWithPassword: [password dataUsingEncoding:NSUTF8StringEncoding] andSalt:[self getDerivedSalt:account] andRounds:250000];
-  NSLog(@"derived: %@", derivedKey);
+  //make initial derived master key
+    NSData* masterKey = [self makeKeyWithPassword: [self getMasterSecret:@"" andPassword:password]
+                                          andSalt:[self getMasterSalt:account]
+                                        andRounds:250000];
+  NSLog(@"masterKey: %@", masterKey);
 
-  //first, use the password to create the auth and crypt key
-  NSData* authKey = [self makeKeyWithPassword: derivedKey andSalt:[self getAuthSalt] andRounds:1];
+  //first, use the master key to create the auth, aes, and hmac keys
+  NSData* authKey = [self makeKeyWithPassword: masterKey andSalt:[self getAuthSalt] andRounds:1];
   NSLog(@"auth: %@", authKey);
         
-  NSData* cryptKey = [self makeKeyWithPassword: derivedKey andSalt:[self getCryptSalt] andRounds:1];
-  NSLog(@"crypt: %@", cryptKey);
-
-  NSData* aesKey = [self makeKeyWithPassword: cryptKey andSalt:[self getAesSalt] andRounds:1];
+  NSData* aesKey = [self makeKeyWithPassword: masterKey andSalt:[self getAesSalt] andRounds:1];
   NSLog(@"aes: %@", aesKey);
 
-  NSData* hmacKey = [self makeKeyWithPassword: cryptKey andSalt:[self getHmacSalt] andRounds:1];
+  NSData* hmacKey = [self makeKeyWithPassword: masterKey andSalt:[self getHmacSalt] andRounds:1];
   NSLog(@"hmac: %@", hmacKey);
 
-  //save ALL FOUR (!) keychain items
+  //save ALL THREE (!) keychain items
   MzPassword* authKeychainItem = [[MzPassword alloc] initWithServer:_HOST account:account scheme: _SCHEME port:_PORT path:_AUTHPATH];
   [authKeychainItem setPass:authKey];
   [authKeychainItem save];
-  
-  MzPassword* cryptKeychainItem = [[MzPassword alloc] initWithServer:_HOST account:account scheme: _SCHEME port:_PORT path:_CRYPTPATH];
-  [cryptKeychainItem setPass:cryptKey];
-  [cryptKeychainItem save];
   
   MzPassword* aesKeychainItem = [[MzPassword alloc] initWithServer:_HOST account:account scheme: _SCHEME port:_PORT path:_AESPATH];
   [aesKeychainItem setPass:aesKey];
@@ -142,14 +137,14 @@ static NSString* private_account;
 + (void)loadDataFile
 {
   //Find neccessary keys
-  NSData* cryptKey = [GombotDB getKeyForPath:_CRYPTPATH];
+  NSData* aesKey = [GombotDB getKeyForPath:_AESPATH];
   NSData* hmacKey = [GombotDB getKeyForPath:_HMACPATH];
 
   //Read file
   NSData* encryptedData = [GombotDB loadLocalEncryptedDataFile];
 
   //Decrypt file into JSON using credentials
-  NSData* decryptedData = [GombotDB decryptData:encryptedData withHMACKey:hmacKey andCryptKey: cryptKey];
+  NSData* decryptedData = [GombotDB decryptData:encryptedData withHMACKey:hmacKey andAESKey: aesKey];
 
   //Parse JSON file into NSDictionary and save in private_data singleton
   NSDictionary* final = [GombotDB parseJSONdata:decryptedData];
@@ -221,8 +216,20 @@ step 2: IV = first 16 bytes
 step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 
 
-+ (NSData*) decryptData: (NSData*)message withHMACKey: (NSData*)HMACkey andCryptKey: (NSData*)cryptKey
++ (NSData*) decryptData: (NSData*)message withHMACKey: (NSData*)HMACkey andAESKey: (NSData*)AESKey
 {
+  // before anything else, check and remove the version prefix
+  NSData *versionPrefix = [@"identity.mozilla.com/gombot/v1:" dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *gotPrefix = [message subdataWithRange:NSMakeRange(0, [versionPrefix length])];
+  if (![gotPrefix isEqualToData:versionPrefix]) {
+    NSLog(@"unrecognized version prefix '%@'", gotPrefix);
+    NSException *exception = [NSException exceptionWithName:@"ParseException"
+                                                     reason:@"unrecognized version prefix"
+                                                  userInfo:nil];
+    @throw exception;
+  }
+  message = [message subdataWithRange:NSMakeRange([versionPrefix length], [message length])];
+
   //First, compute hmac of everything except the last 32 bytes
   NSData* hmacInput = [message subdataWithRange:NSMakeRange(0, [message length]-32)];
   NSLog(@"hmac input (iv+enc): %@", hmacInput);
