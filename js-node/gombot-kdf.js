@@ -79,44 +79,37 @@ function makeSalt(name, extra) {
 exports.makeSalt = makeSalt;
 
 function gombot_kdf(email, password) {
-    var deriveSalt = makeSalt("derivation", Buffer(email, "utf-8"));
-    var derivedKey_d = pbkdf2_sha256(Buffer(password, "utf-8"),
-                                     deriveSalt, 250*1000, 32);
-    return derivedKey_d
-        .then(function(dKey) {
-            //console.log("derived", dKey.toString("hex"));
-            var authKey = pbkdf2_sha256_sync(dKey, makeSalt("authentication"), 1, 32);
-            var cryptKey = pbkdf2_sha256_sync(dKey, makeSalt("encryption"), 1, 32);
-            return [authKey, cryptKey];
+    var masterSalt = makeSalt("master", Buffer(email, "utf-8"));
+    var secret = Buffer([]); // empty for now
+    var masterKey_d = pbkdf2_sha256(Buffer.concat([secret,
+                                                   Buffer(":"),
+                                                   Buffer(password, "utf-8")]),
+                                     masterSalt, 250*1000, 32);
+    return masterKey_d
+        .then(function(masterKey) {
+            console.log("master", masterKey.toString("hex"));
+            var authKey = pbkdf2_sha256_sync(masterKey, makeSalt("authentication"), 1, 32);
+            var aesKey = pbkdf2_sha256_sync(masterKey, makeSalt("data/AES"), 1, 32);
+            var hmacKey = pbkdf2_sha256_sync(masterKey, makeSalt("data/HMAC"), 1, 32);
+            return {authKey: authKey, aesKey: aesKey, hmacKey: hmacKey};
         });
 }
 exports.gombot_kdf = gombot_kdf;
 
 function test_one() {
-    gombot_kdf("foo@example.org", "password")
-        .spread(function(authKey, cryptKey) {
-            console.log("1 authKey :", authKey.toString("hex"));
-            console.log("1 cryptKey:", cryptKey.toString("hex"));
-        },
-                function(err) {
-                    console.log("ERROR", err);
-                });
-}
-
-function test_two() {
     gombot_kdf("andré@example.org", "pässwörd")
-        .spread(function(authKey, cryptKey) {
-            console.log("2 authKey :", authKey.toString("hex"));
-            console.log("2 cryptKey:", cryptKey.toString("hex"));
-        },
-                function(err) {
-                    console.log("ERROR", err);
-                });
+        .then(function(keys) {
+            console.log("authKey :", keys.authKey.toString("hex"));
+            console.log("aesKey  :", keys.aesKey.toString("hex"));
+            console.log("hmacKey :", keys.hmacKey.toString("hex"));
+        })
+        .then(null, function(err) {
+            console.log("ERROR", err);
+        });
 }
 
 exports.run_tests = function() {
     test_one();
-    //test_two();
     //console.log("'"+pbkdf2_sha256(Buffer("password"), Buffer("salt"), 100, 200).toString("hex")+"'");
 }
 
