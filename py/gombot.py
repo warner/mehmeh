@@ -43,15 +43,17 @@ def salt(name):
 def do_kdf(email, password, secret=""):
     dump("email", email.encode("utf-8"))
     dump("password", password.encode("utf-8"))
-    derivedKey = PBKDF2(secret+":"+password.encode("utf-8"),
-                        salt("derivation:" + email.encode("utf-8")),
-                        250*1000, 256/8)
-    dump("master", derivedKey)
-    authKey = PBKDF2(derivedKey, salt("authentication"), 1, 256/8)
-    cryptKey = PBKDF2(derivedKey, salt("encryption"), 1, 256/8)
+    masterKey = PBKDF2(secret+":"+password.encode("utf-8"),
+                       salt("master:" + email.encode("utf-8")),
+                       250*1000, 256/8)
+    dump("master", masterKey)
+    authKey = PBKDF2(masterKey, salt("authentication"), 1, 256/8)
+    aesKey = PBKDF2(masterKey, salt("data/AES"), 1, 256/8)
+    hmacKey = PBKDF2(masterKey, salt("data/HMAC"), 1, 256/8)
     dump(" authKey ", authKey)
-    dump(" cryptKey", cryptKey)
-    return authKey, cryptKey
+    dump(" aesKey", aesKey)
+    dump(" hmacKey", hmacKey)
+    return authKey, aesKey, hmacKey
 
 
 
@@ -64,11 +66,7 @@ def pkcs5_padding(datalen):
     return chr(needed)*needed
 
 def encrypt(email, password, data, secret="", forceIV=None):
-    authKey, cryptKey = do_kdf(email, password, secret)
-    aesKey = PBKDF2(cryptKey, salt("data/AES"), 1, 32)
-    hmacKey = PBKDF2(cryptKey, salt("data/HMAC"), 1, 32)
-    dump("aesKey", aesKey)
-    dump("hmacKey", hmacKey)
+    authKey, aesKey, hmacKey = do_kdf(email, password, secret)
     IV = forceIV or os.urandom(16)
     dump("IV", IV)
     c = AES.new(aesKey, mode=AES.MODE_CBC, IV=IV)
@@ -88,10 +86,7 @@ def encrypt(email, password, data, secret="", forceIV=None):
 def decrypt(email, password, versioned_msgmac, secret=""):
     assert versioned_msgmac.startswith(version_prefix)
     msgmac = versioned_msgmac[len(version_prefix):]
-    authKey, cryptKey = do_kdf(email, password, secret)
-    aesKey = PBKDF2(cryptKey, salt("data/AES"), 1, 32)
-    dump("aesKey", aesKey)
-    hmacKey = PBKDF2(cryptKey, salt("data/HMAC"), 1, 32)
+    authKey, aesKey, hmacKey = do_kdf(email, password, secret)
     msg,mac = msgmac[:-32], msgmac[-32:]
     # mac covers everything else: (IV+enc(data+padding))
     if mac != hmac.new(hmacKey, msg, hashlib.sha256).digest():
