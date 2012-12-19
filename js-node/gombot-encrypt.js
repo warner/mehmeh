@@ -88,4 +88,4 @@ function test_one_a() {
     ;
 }
 
-test_one();
+test_one_a();

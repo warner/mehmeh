@@ -116,7 +116,7 @@ function test_two() {
 
 exports.run_tests = function() {
     test_one();
-    test_two();
+    //test_two();
     //console.log("'"+pbkdf2_sha256(Buffer("password"), Buffer("salt"), 100, 200).toString("hex")+"'");
 }
 
