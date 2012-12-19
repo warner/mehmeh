@@ -43,7 +43,7 @@ def salt(name):
 def do_kdf(email, password, secret=""):
     dump("email", email.encode("utf-8"))
     dump("password", password.encode("utf-8"))
-    derivedKey = PBKDF2(secret+password.encode("utf-8"),
+    derivedKey = PBKDF2(secret+":"+password.encode("utf-8"),
                         salt("derivation:" + email.encode("utf-8")),
                         250*1000, 256/8)
     dump("master", derivedKey)
@@ -121,4 +121,5 @@ if __name__ == '__main__':
         password = u"pässwörd"
         data = '{"kéy": "valuë2"}'
         m = encrypt(email, password, data)
+        print decrypt(email, password, m)
     two()
