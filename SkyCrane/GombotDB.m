@@ -239,6 +239,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 
   NSData* computedHMAC = [GombotDB makeHMACFor:hmacInput withKey:[GombotDB getKeyForPath:_HMACPATH]];
   NSLog(@"computed hmac: %@", computedHMAC);
+  // TODO: use constant-time comparison here, to avoid a timing attack
   if (![computedHMAC isEqualToData:hmacValue]) {
     NSLog(@"invalid HMAC: encrypted data is corrupt");
     NSException *exception = [NSException exceptionWithName:@"ParseException"
