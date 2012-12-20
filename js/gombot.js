@@ -60,18 +60,22 @@ function gombot_kdf(email_str, password_str) {
 //  <script src="gombot.js" type="text/javascript" charset="UTF-8"></script>
 //  causes a double-decoding (WTF-8, for those in the know). 
 
-var email = "andré@example.org";
-var password = "pässwörd";
-//var email = "andr\u00e9@example.org"; // ugly workaround
-//var password = "p\u00e4ssw\u00f6rd";
-//console.log(email.charCodeAt(4), 0xe9);
-if (bits2hex(str2bits(password)) != "70c3a4737377c3b67264") {
-    console.log("WTF-8 PROBLEM!");
+function test() {
+    var email = "andré@example.org";
+    var password = "pässwörd";
+    //var email = "andr\u00e9@example.org"; // ugly workaround
+    //var password = "p\u00e4ssw\u00f6rd";
+    //console.log(email.charCodeAt(4), 0xe9);
+    if (bits2hex(str2bits(password)) != "70c3a4737377c3b67264") {
+        console.log("WTF-8 PROBLEM!");
+    }
+    logBits("email", str2bits(email));
+    logBits("password", str2bits(password));
+    var data = '{"kéy": "valuë2"}';
+    var start = new Date().getTime();
+    gombot_kdf(email, password);
+    var end = new Date().getTime();
+    console.log("elapsed", (end - start) / 1000);
 }
-logBits("email", str2bits(email));
-logBits("password", str2bits(password));
-var data = '{"kéy": "valuë2"}';
-var start = new Date().getTime();
-gombot_kdf(email, password);
-var end = new Date().getTime();
-console.log("elapsed", (end - start) / 1000);
+
+test();
