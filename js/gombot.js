@@ -94,11 +94,14 @@ function test() {
     logBits("password", str2bits(password));
     var data = '{"kéy": "valuë2"}';
     var start = new Date().getTime();
-    //gombot_kdf(email, password);
-    var m = gombot_encrypt(email, password, str2bits(data),
-                           hex2bits("45fea09e3db6333762a8c6ab8ac50548")
-                          );
-    console.log("msgmac", bits2hex(m));
+    if (false)
+        gombot_kdf(email, password);
+    else {
+        var m = gombot_encrypt(email, password, str2bits(data),
+                               hex2bits("45fea09e3db6333762a8c6ab8ac50548")
+                              );
+        console.log("msgmac", bits2hex(m));
+    }
     var end = new Date().getTime();
     console.log("elapsed", (end - start) / 1000);
 }
