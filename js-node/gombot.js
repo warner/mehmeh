@@ -81,10 +81,12 @@ exports.makeSalt = makeSalt;
 function gombot_kdf(email, password) {
     var masterSalt = makeSalt("master", Buffer(email, "utf-8"));
     var secret = Buffer([]); // empty for now
-    var masterKey_d = pbkdf2_sha256(Buffer.concat([secret,
-                                                   Buffer(":"),
-                                                   Buffer(password, "utf-8")]),
-                                     masterSalt, 250*1000, 32);
+    var masterSecret = Buffer.concat([secret,
+                                      Buffer(":"),
+                                      Buffer(password, "utf-8")]);
+    console.log("masterSalt", masterSalt.toString("hex"));
+    console.log("masterSecret", masterSecret.toString("hex"));
+    var masterKey_d = pbkdf2_sha256(masterSecret, masterSalt, 250*1000, 32);
     return masterKey_d
         .then(function(masterKey) {
             console.log("master", masterKey.toString("hex"));
