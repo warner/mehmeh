@@ -59,6 +59,7 @@ function gombot_kdf(email_str, password_str) {
 var gombot_version_prefix = str2bits("identity.mozilla.com/gombot/v1/data:");
 
 function gombot_encrypt(email, password, data, forceIV) {
+    sjcl.beware["CBC mode is dangerous because it doesn't protect message integrity."]();
     var keys = gombot_kdf(email, password);
     if (!sjcl.random.isReady())
         throw new Error("sjcl.random is not ready, cannot create IV");
@@ -69,6 +70,7 @@ function gombot_encrypt(email, password, data, forceIV) {
     var ct = sjcl.mode.cbc.encrypt(new sjcl.cipher.aes(keys.aesKey), data, IV);
     var msg = concatBits(concatBits(gombot_version_prefix, IV), ct);
     var mac = new sjcl.misc.hmac(keys.hmacKey, sjcl.hash.sha256).mac(msg);
+    logBits("mac", mac);
     var msgmac = concatBits(msg, mac);
     console.log(bits2hex(IV), bits2hex(msg), bits2hex(mac));
     return msgmac;
@@ -77,7 +79,7 @@ function gombot_encrypt(email, password, data, forceIV) {
 
 // including UTF-8 in this file without declaring the charset like:
 //  <script src="gombot.js" type="text/javascript" charset="UTF-8"></script>
-//  causes a double-decoding (WTF-8, for those in the know). 
+//  causes a double-decoding (WTF-8, for those in the know).
 
 function test() {
     var email = "andré@example.org";
@@ -99,16 +101,4 @@ function test() {
     console.log("msgmac", bits2hex(m));
     var end = new Date().getTime();
     console.log("elapsed", (end - start) / 1000);
-}
-
-if (typeof(module) != "undefined") {
-    // node.js environment
-
-    var seed = Buffer(require("crypto").randomBytes(32), "binary").toString();
-    sjcl.random.addEntropy(seed, 8*32, "node.js/crypto/randomBytes");
-    if (!sjcl.random.isReady()) {
-        console.log("despite adding entropy, sjcl.random is not ready");
-        assert(0);
-    }
-    test();
 }
