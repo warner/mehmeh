@@ -295,7 +295,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
   for(MzPassword* pwd in results)
   {
     NSDictionary* result = [pwd discard];
-    //NSLog(@"removed password: %@", result);
+    if (!result) NSLog(@"failed to remove password");
   }
 
 }
