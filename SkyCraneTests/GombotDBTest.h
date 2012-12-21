@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSData+Base64.h"
+#import "NSString+Base64.h"
 
 @interface GombotDB (Testing)
 
-+ (NSData*) decryptData: (NSData*)encryptedData withHMACKey: (NSData*)HMACkey andCryptKey: (NSData*)cryptKey;
++ (NSData*) decryptData: (NSData*)encryptedData withHMACKey: (NSData*)HMACkey andAESKey: (NSData*)cryptKey;
 + (NSData*) getKeyForPath:(NSString*)keyPath;
-
++ (NSData*) makeHMACFor:(NSData*)payload withKey:(NSData*)key;
 @end

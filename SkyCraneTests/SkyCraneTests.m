@@ -23,90 +23,61 @@
 - (void)tearDown
 {
     // Tear-down code here.
-  
-    [super tearDown];
+  [GombotDB clearKeychain];
+  [super tearDown];
 }
 
-//- (void) testEncrypt
-//{
-//  //NSMutableData* payload = [NSMutableData dataWithLength:16];
-//  NSData* payload = [@"646174610c0c0c0c0c0c0c0c0c0c0c0c" hexToBytes];
-//  //NSData* key = [NSMutableData dataWithLength:32];
-//  NSData* key = [@"b183ca20aaea6813ce6de640e72dee7e2d395a4f8e699708f2e99dfe7724ef33" hexToBytes];
-//
-//  //NSData* iv = [NSMutableData dataWithLength:16];
-//  NSData* iv = [@"6a329494341af362581f7bf4c0577e4e " hexToBytes];
-//
-//  NSData* encryptedData = [payload AES256EncryptWithKey:key andIV:iv];
-//  
-//  NSLog(@"ENCRYPT OUTPUT: %@", encryptedData);
-//}
+- (void) testHMAC
+{
+  [GombotDB clearKeychain];
+  [GombotDB updateCredentialsWithAccount:@"andré@example.org" andPassword:@"pässwörd"];
+
+  NSData* payload = [@"646174610c0c0c0c0c0c0c0c0c0c0c0c" hexToBytes];
+
+  NSData* key = [GombotDB getKeyForPath:_HMACPATH];
+  NSData* hmac = [GombotDB makeHMACFor:payload withKey:key];
+
+  NSData* expected = [@"a3b6dba43a051a540c0a1a186e58524f9c1008a3dac16a33bb4439794edba2a8" hexToBytes];
+
+  if (!hmac || ![hmac isEqualToData:expected])
+  {
+    STFail(@"testEncrypt failed: expected '%@' but got '%@'", expected, hmac);
+  }
+}
 
 
-//- (void) testDecryptWarner
-//{
-//  //NSMutableData* payload = [NSMutableData dataWithLength:16];
-//  NSData* payload = [@"73165ae273aafb2033ec7286727f2469" hexToBytes];
-//  
-//  //NSData* key = [NSMutableData dataWithLength:32];
-//  NSData* key = [@"b183ca20aaea6813ce6de640e72dee7e2d395a4f8e699708f2e99dfe7724ef33" hexToBytes];
-//  
-//  //NSData* iv = [NSMutableData dataWithLength:16];
-//  NSData* iv = [@"6a329494341af362581f7bf4c0577e4e " hexToBytes];
-//  
-//  NSData* plaintext = [payload AES256DecryptWithKey:key andIV:iv];
-//  
-//  NSLog(@"DECRYPT OUTPUT: %@", plaintext);
-//}
-//
-//
-//
-//- (void) testDecrypt
-//{
-//  [GombotDB updateCredentialsWithAccount:@"foo@example.org" andPassword:@"password"];
-//  //NSData* DATA = [@"02c8c23573cc3be3cd931486b509140f549a787135a7871a752932d1dcb9496c19460c21d70545af43a8226810617f1a9728c60b378b198b679fb5026321847b" hexToBytes];
-//  NSData* DATA =   [@"6a329494341af362581f7bf4c0577e4e73165ae273aafb2033ec7286727f24694b57122dc84d7832089887f6c9a9f64eca516a7324976b58a93738b956f81c20" hexToBytes];
-//  
-//  NSData* plain = [GombotDB decryptData:DATA withHMACKey:[GombotDB getKeyForPath:_HMACPATH] andCryptKey:[GombotDB getKeyForPath:_AESPATH]];
-//  NSLog(@"raw version:  %@", plain);
-//  
-//  NSString *response = [[NSString alloc] initWithData:plain encoding:NSUTF8StringEncoding];
-//
-//  NSLog(@"string version: %@", response);
-//  
-//}
+- (void) testEncrypt
+{
+  NSData* payload = [@"646174610c0c0c0c0c0c0c0c0c0c0c0c" hexToBytes];
+  NSData* key = [@"b183ca20aaea6813ce6de640e72dee7e2d395a4f8e699708f2e99dfe7724ef33" hexToBytes];
+  NSData* iv = [@"6a329494341af362581f7bf4c0577e4e" hexToBytes];
+
+  NSData* encryptedData = [payload AES256EncryptWithKey:key andIV:iv];
+  NSData* expected = [@"73165ae273aafb2033ec7286727f2469dbbf3f1b65bcb898d51beff33ac15ea5" hexToBytes];
+  
+  if (!encryptedData || ![encryptedData isEqualToData:expected])
+  {
+    STFail(@"testEncrypt failed: expected '%@' but got '%@'", expected, encryptedData);
+  }
+}
+
 
 - (void) testDecryptWithUserInfoAndData
 {
-  [GombotDB updateCredentialsWithAccount:@"foo@example.org" andPassword:@"password"];
-  NSData* DATA =  [@"6a329494341af362581f7bf4c0577e4e73165ae273aafb2033ec7286727f24694b57122dc84d7832089887f6c9a9f64eca516a7324976b58a93738b956f81c20" hexToBytes];
-  NSData* plain = [GombotDB decryptData:DATA withHMACKey:[GombotDB getKeyForPath:_HMACPATH] andCryptKey:[GombotDB getKeyForPath:_AESPATH]];
+  [GombotDB clearKeychain];
+  [GombotDB updateCredentialsWithAccount:@"andré@example.org" andPassword:@"pässwörd"];
+  NSData* payload =  [@"6964656e746974792e6d6f7a696c6c612e636f6d2f676f6d626f742f76312f646174613a53c5b62914ed1c99122433cadcff8e7fbdff3597ac495f8784adb1d41b131c72fba29cef8fbc7e082a144de102736abc1f28b6346dc1e6f3e18399610e95abbfc4e6fa529eca5f8d2b067ce215bc376d993481bf78c9490eaff7506cdf8f665577e4f4cab4b74be148f2a7e4f8af1d67611c0e501458e63858daeb8c1b6422f1d342d4406079acf39453205d2098b3531cfe4cacf86b070e544ebc7777411f0aa0dfbb373825d29c75becba162835840d5be31ab43a38909eb49ddc3eaec8a3b24199292ad9e28545208b4940f1bf735fa6fc1ae55d04abe525ce2d43dd59a2a3efb4bd16e1554b665cd1c101aca223e0481ed3e3e6089a702662d2404cf9a7a212c585122d98b20e39f9f766cf8fd203f787bb7dc7c20671c7a86880d199b346c70ad80a358656692f1c6c04c50e3df" hexToBytes];
+  NSData* plain = [GombotDB decryptData:payload withHMACKey:[GombotDB getKeyForPath:_HMACPATH] andAESKey:[GombotDB getKeyForPath:_AESPATH]];
   NSString* readable = [[NSString alloc] initWithData:plain encoding:NSUTF8StringEncoding];
   
-  if (!readable || ![readable isEqualToString:@"data"])
+  if (!readable || ![readable isEqualToString:@"{\"logins\": {\"mozilla.com\": [{\"username\": \"gömbottest\", \"password\": \"grëën\", \"hostname\": \"mozilla.com\", \"pinLocked\": false, \"supplementalInformation\": {\"ffNumber\": \"234324\"}}]}, \"version\": \"identity.mozilla.com/gombot/v1/userData\", \"pin\": \"1234\"}"])
   {
-      STFail(@"testDecryptWithUserInfoAndData FAILED. Result was supposed to be 'data', but was '%@' instead.", readable);
+      STFail(@"testDecryptWithUserInfoAndData FAILED. Result was supposed to be '{\"logins\": {\"mozilla.com\": [{\"username\": \"gömbottest\", \"password\": \"grëën\", \"hostname\": \"mozilla.com\", \"pinLocked\": false, \"supplementalInformation\": {\"ffNumber\": \"234324\"}}]}, \"version\": \"identity.mozilla.com/gombot/v1/userData\", \"pin\": \"1234\"}', but was '%@' instead.", readable);
   }
 
 }
 
-////TEST CODE
-//- (void) testHMAC
-//{
-//  //timestamp \n http method \n path \n host \n port \n and extra stuff
-//  NSString* input = @"1352177818\nGET\n/v1/foo\napi.gombot.org\n10\none time only please\n";
-//  
-//  NSData* key = [@"I0aVNap4YYwJItXT409giaxMA4K313Q+iHerYBsgtu4=" dataUsingEncoding:NSUTF8StringEncoding];
-//  NSData* hmac = [GombotDB makeHMACFor:[input dataUsingEncoding:NSUTF8StringEncoding] withKey:key];
-//  
-//  NSLog(@"correct = 2JSJGewL+/9eoCKgf51mEbhI4cZuEVqNEeZkC3SfXp4=     computed = %@", [hmac base64EncodedString]);
-//}
 
 
 
-//- (void)testExample
-//{
-//    STFail(@"Unit tests are not implemented yet in SkyCraneTests");
-//}
-//
 @end
