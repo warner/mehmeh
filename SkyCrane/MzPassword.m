@@ -83,7 +83,7 @@
     return FALSE;
   }
 
-  NSLog(@"Success: password saved");
+  //NSLog(@"Success: password saved");
   return TRUE;
 }
 
@@ -121,11 +121,11 @@
       NSLog(@"Error: failed to delete item: %li", status);
       return nil;
     }
-    NSLog(@"Success: password removed");
+    //NSLog(@"Success: password removed");
     return matches[0];
   }
   
-  NSLog(@"Success: password not found, so not removed");
+  //NSLog(@"Success: password not found, so not removed");
   return @{};
 }
 
@@ -238,11 +238,6 @@
     scheme = @"http";
   else if ([encodedScheme isEqualToString: (__bridge NSString *)(kSecAttrProtocolHTTPS)])
     scheme = @"https";
-
-//  if ([encodedScheme intValue] == [(__bridge NSNumber *)kSecAttrProtocolHTTP intValue])
-//    scheme = @"http";
-//  else if ([encodedScheme intValue] == [(__bridge NSNumber *)kSecAttrProtocolHTTP intValue])
-//    scheme = @"https";
 
   NSData *encodedServer = [secItemDict objectForKey:(__bridge id)kSecAttrServer];
   NSString *server = [[NSString alloc] initWithBytes:[encodedServer bytes] length:[encodedServer length] encoding:NSUTF8StringEncoding];

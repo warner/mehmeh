@@ -36,15 +36,15 @@ static NSString* private_account;
 
 
 //Fearing that the salts for these keys may become generated in the future, I have put them in functions here
-+ (NSData*) getMasterSalt:(NSString*)account
++ (NSData*) makeMasterSaltFrom:(NSString*)userAccount
 {
-    NSString* temp = [NSString stringWithFormat: @"identity.mozilla.com/gombot/v1/master:%@", account];
+    NSString* temp = [NSString stringWithFormat: @"identity.mozilla.com/gombot/v1/master:%@", userAccount];
     return [temp dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-+ (NSData*) getMasterSecret:(NSString*)secret andPassword:(NSString*)password
++ (NSData*) makeMasterSecretFrom:(NSString*)secretInfo andPassword:(NSString*)userPassword
 {
-    NSString* temp = [NSString stringWithFormat: @"%@:%@", secret, password];
+    NSString* temp = [NSString stringWithFormat: @"%@:%@", secretInfo, userPassword];
     return [temp dataUsingEncoding:NSUTF8StringEncoding];
 }
 
@@ -84,20 +84,20 @@ static NSString* private_account;
   private_account = account;
   
   //make initial derived master key
-    NSData* masterKey = [self makeKeyWithPassword: [self getMasterSecret:@"" andPassword:password]
-                                          andSalt:[self getMasterSalt:account]
-                                        andRounds:250000];
-  NSLog(@"masterKey: %@", masterKey);
+  NSData* masterKey = [self makeKeyWithPassword: [self makeMasterSecretFrom:@"" andPassword:password]
+                                        andSalt:[self makeMasterSaltFrom:account]
+                                      andRounds:250000];
+  //NSLog(@"masterKey: %@", masterKey);
 
   //first, use the master key to create the auth, aes, and hmac keys
   NSData* authKey = [self makeKeyWithPassword: masterKey andSalt:[self getAuthSalt] andRounds:1];
-  NSLog(@"auth: %@", authKey);
+  //NSLog(@"auth: %@", authKey);
         
   NSData* aesKey = [self makeKeyWithPassword: masterKey andSalt:[self getAesSalt] andRounds:1];
-  NSLog(@"aes: %@", aesKey);
+  //NSLog(@"aes: %@", aesKey);
 
   NSData* hmacKey = [self makeKeyWithPassword: masterKey andSalt:[self getHmacSalt] andRounds:1];
-  NSLog(@"hmac: %@", hmacKey);
+  //NSLog(@"hmac: %@", hmacKey);
 
   //save ALL THREE (!) keychain items
   MzPassword* authKeychainItem = [[MzPassword alloc] initWithServer:_HOST account:account scheme: _SCHEME port:_PORT path:_AUTHPATH];
@@ -202,7 +202,6 @@ static NSString* private_account;
     @throw exception;
   }
 
-
   return jsonBlob;
 }
 
@@ -224,25 +223,25 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
   NSData *gotPrefix = [message subdataWithRange:NSMakeRange(0, verlen)];
   if (![gotPrefix isEqualToData:versionPrefix]) {
     NSLog(@"unrecognized version prefix '%@'", gotPrefix);
-    NSException *exception = [NSException exceptionWithName:@"ParseException"
+    NSException *exception = [NSException exceptionWithName:@"DecryptException"
                                                      reason:@"unrecognized version prefix"
-                                                  userInfo:nil];
+                                                   userInfo:nil];
     @throw exception;
   }
 
   //First, compute hmac of everything except the last 32 bytes
   NSData* hmacInput = [message subdataWithRange:NSMakeRange(0, [message length]-32)];
-  NSLog(@"hmac input (iv+enc): %@", hmacInput);
+  //NSLog(@"hmac input (iv+enc): %@", hmacInput);
   
   NSData* hmacValue = [message subdataWithRange:NSMakeRange([message length]-32, 32)];
-  NSLog(@"message hmac: %@", hmacValue);
+  //NSLog(@"message hmac: %@", hmacValue);
 
   NSData* computedHMAC = [GombotDB makeHMACFor:hmacInput withKey:[GombotDB getKeyForPath:_HMACPATH]];
-  NSLog(@"computed hmac: %@", computedHMAC);
+  //NSLog(@"computed hmac: %@", computedHMAC);
   // TODO: use constant-time comparison here, to avoid a timing attack
   if (![computedHMAC isEqualToData:hmacValue]) {
     NSLog(@"invalid HMAC: encrypted data is corrupt");
-    NSException *exception = [NSException exceptionWithName:@"ParseException"
+    NSException *exception = [NSException exceptionWithName:@"DecryptException"
                                                      reason:@"invalid HMAC"
                                                    userInfo:nil];
     @throw exception;
@@ -252,26 +251,10 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 
   //Second, extract the IV and payload, and decrypt
   NSData* IV = [message subdataWithRange:NSMakeRange(verlen, 16)];
-  NSLog(@"message IV: %@", IV);
+  //NSLog(@"message IV: %@", IV);
 
   NSData* payload = [message subdataWithRange:NSMakeRange(verlen+16, [message length]-verlen-16-32)];
-  NSLog(@"message payload: %@", payload);
-
-/* TEST!! */
-//  NSMutableData* test = [NSMutableData data];
-//  [test appendData:IV];
-//  [test appendData:payload];
-//  [test appendData:hmacValue];
-//  
-//  NSLog(@"IV= %@", IV);
-//  NSLog(@"Payload= %@", payload);
-//  NSLog(@"HMAC= %@", hmacValue);
-//
-//  if ([message isEqualToData:test]) NSLog(@"reconstructed data matches");
-//  else
-//  {
-//    NSLog(@"FAIL reconstructed data NO MATCH!  original:  %@      constructed: %@", message, test);
-//  }
+  //NSLog(@"message payload: %@", payload);
   
   NSData* plaintext = [payload AES256DecryptWithKey:[GombotDB getKeyForPath:_AESPATH] andIV:IV];
 
@@ -312,7 +295,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
   for(MzPassword* pwd in results)
   {
     NSDictionary* result = [pwd discard];
-    NSLog(@"removed password: %@", result);
+    //NSLog(@"removed password: %@", result);
   }
 
 }
@@ -351,7 +334,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
     else
     {
       //Get data, save to file, tell UI to update.
-      NSLog(@"Success getting file: %@", data);
+      //NSLog(@"Success getting file: %@", data);
       BOOL success = [[NSFileManager defaultManager] createFileAtPath:[GombotDB getDatafilePath] contents:data attributes:nil];
       if (!success) NSLog(@"failed to write new datafile");
     }
@@ -366,13 +349,13 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
   
   //timestamp \n http method \n path \n host \n port \n and extra stuff
   NSString* hmacBody = [NSString stringWithFormat:@"%ld\nGET\n%@\n%@\n%@\n", timestamp, _PATH, _HOST, _PORT];
-  NSLog(@"hmac input= \n---------------------\n%@\n----------------------\n", hmacBody);
+  //NSLog(@"hmac input= \n---------------------\n%@\n----------------------\n", hmacBody);
   
   NSData* hmac = [GombotDB makeHMACFor:[hmacBody dataUsingEncoding:NSUTF8StringEncoding] withKey:[GombotDB getKeyForPath:_AUTHPATH]];
-  NSLog(@"hmac= %@", hmac);
+  //NSLog(@"hmac= %@", hmac);
   
   NSString* hawkHeader = [NSString stringWithFormat:@"Hawk id=\"%@\", ts=\"%ld\", ext=\"\", mac=\"%@\"", private_account, timestamp, hmac];
-  NSLog(@"hawk header= %@", hawkHeader);
+  //NSLog(@"hawk header= %@", hawkHeader);
   
 
   [request setValue: hawkHeader forHTTPHeaderField: @"Authorization"];
@@ -393,11 +376,8 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 + (NSData*) makeHMACFor:(NSData*)payload withKey:(NSData*)key
 {
   unsigned char cHMAC[CC_SHA256_DIGEST_LENGTH];
-  
   CCHmac(kCCHmacAlgSHA256, [key bytes], [key length], [payload bytes], [payload length], cHMAC);
-  
-  NSData *HMAC = [[NSData alloc] initWithBytes:cHMAC length:sizeof(cHMAC)];
-  return HMAC;
+  return [[NSData alloc] initWithBytes:cHMAC length:sizeof(cHMAC)];
 }
 
 
@@ -429,58 +409,50 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 
 - (NSData *)AES256EncryptWithKey:(NSData *)key andIV:(NSData*) iv {
 	// 'key' should be 32 bytes for AES256, will be null-padded otherwise
-	
-	NSUInteger dataLength = [self length];
-	
+		
 	//See the doc: For block ciphers, the output size will always be less than or
 	//equal to the input size plus the size of one block.
 	//That's why we need to add the size of one block here
-	size_t bufferSize = dataLength + kCCBlockSizeAES128;
-	void *buffer = malloc(bufferSize);
+  NSMutableData* encryptBuffer = [NSMutableData dataWithLength:[self length] + kCCBlockSizeAES128];
 	
 	size_t numBytesEncrypted = 0;
-	CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, 0, /*kCCOptionPKCS7Padding,*/
+	CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding,
                                         [key bytes], kCCKeySizeAES256,
                                         [iv bytes] /* initialization vector */,
-                                        [self bytes], dataLength, /* input */
-                                        buffer, bufferSize, /* output */
+                                        [self bytes], [self length], /* input */
+                                        [encryptBuffer mutableBytes], [encryptBuffer length], /* output */
                                         &numBytesEncrypted);
 	if (cryptStatus == kCCSuccess) {
-		//the returned NSData takes ownership of the buffer and will free it on deallocation
-		return [NSData dataWithBytesNoCopy:buffer length:numBytesEncrypted];
+    [encryptBuffer setLength:numBytesEncrypted];
+    return encryptBuffer;
 	}
   
-	free(buffer); //free the buffer;
 	return nil;
 }
 
 
 - (NSData *)AES256DecryptWithKey:(NSData *)key andIV:(NSData*) iv {
 	// 'key' should be 32 bytes for AES256, will be null-padded otherwise
-	
-	NSUInteger dataLength = [self length];
-	
+		
 	//See the doc: For block ciphers, the output size will always be less than or
 	//equal to the input size plus the size of one block.
 	//That's why we need to add the size of one block here
-	size_t bufferSize = dataLength + kCCBlockSizeAES128;
-	void *buffer = malloc(bufferSize);
+  NSMutableData* decryptBuffer = [NSMutableData dataWithLength:[self length] + kCCBlockSizeAES128];
 	
 	size_t numBytesDecrypted = 0;
 	CCCryptorStatus cryptStatus = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding,
                                         [key bytes], kCCKeySizeAES256,
                                         [iv bytes] /* initialization vector */,
-                                        [self bytes], dataLength, /* input */
-                                        buffer, bufferSize, /* output */
+                                        [self bytes], [self length], /* input */
+                                        [decryptBuffer mutableBytes], [decryptBuffer length], /* output */
                                         &numBytesDecrypted);
 	
 	if (cryptStatus == kCCSuccess) {
-		//the returned NSData takes ownership of the buffer and will free it on deallocation
-		return [NSData dataWithBytesNoCopy:buffer length:numBytesDecrypted];
+    [decryptBuffer setLength:numBytesDecrypted];
+    return decryptBuffer;
 	}
-	
-	free(buffer); //free the buffer;
-	return nil;
+  
+  return nil;
 }
 
 @end
