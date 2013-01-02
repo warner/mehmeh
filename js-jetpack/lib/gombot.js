@@ -62,6 +62,12 @@ function gombot_kdf(email_str, password_str) {
 
 var gombot_version_prefix = str2bits("identity.mozilla.com/gombot/v1/data:");
 
+/* keys= is the {aesKey: hex, hmacKey: hex} output of gombot_kdf()
+ * data= is a string (probably the output of JSON.stringify)
+ * forceIV= is usually null, but tests can provide an sjcl.bitArray
+ *
+ * we return a base64-encoded string.
+ */
 function gombot_encrypt(keys, data, forceIV) {
     if (!sjcl.random.isReady())
         throw new Error("sjcl.random is not ready, cannot create IV");
@@ -70,13 +76,13 @@ function gombot_encrypt(keys, data, forceIV) {
         IV = forceIV;
 
     var ct = sjcl.mode.cbc.encrypt(new sjcl.cipher.aes(hex2bits(keys.aesKey)),
-                                   data, IV);
+                                   str2bits(data), IV);
     var msg = concatBits(concatBits(gombot_version_prefix, IV), ct);
     var mac = new sjcl.misc.hmac(hex2bits(keys.hmacKey), sjcl.hash.sha256).mac(msg);
     logBits("mac", mac);
     var msgmac = concatBits(msg, mac);
     console.log(bits2hex(IV), bits2hex(msg), bits2hex(mac));
-    return msgmac;
+    return bits2b64(msgmac);
 }
 
 
@@ -99,10 +105,10 @@ function test() {
     var start = new Date().getTime();
     var keys = gombot_kdf(email, password);
     console.log("keys", JSON.stringify(keys));
-    var m = gombot_encrypt(keys, str2bits(data),
-                           hex2bits("45fea09e3db6333762a8c6ab8ac50548")
-                          );
-    console.log("msgmac", bits2hex(m));
+    var m_b64 = gombot_encrypt(keys, data,
+                               hex2bits("45fea09e3db6333762a8c6ab8ac50548")
+                              );
+    console.log("msgmac_b64", m_b64);
     var end = new Date().getTime();
     console.log("elapsed", (end - start) / 1000);
 }

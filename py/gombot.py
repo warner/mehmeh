@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-import os, hashlib, hmac, binascii
+import os, hashlib, hmac, binascii, base64
 from pbkdf2 import PBKDF2
 from Crypto.Cipher import AES
 
@@ -65,8 +65,8 @@ def pkcs5_padding(datalen):
     needed = 16-(datalen%16)
     return chr(needed)*needed
 
-def encrypt(email, password, data, secret="", forceIV=None):
-    authKey, aesKey, hmacKey = do_kdf(email, password, secret)
+def encrypt(keys, data, forceIV=None):
+    authKey, aesKey, hmacKey = keys
     IV = forceIV or os.urandom(16)
     dump("IV", IV)
     c = AES.new(aesKey, mode=AES.MODE_CBC, IV=IV)
@@ -83,14 +83,14 @@ def encrypt(email, password, data, secret="", forceIV=None):
     dump("msgmac", msgmac, stride=32)
     return msgmac
 
-def decrypt(email, password, msgmac, secret=""):
+def decrypt(keys, msgmac):
     # we check this before checking the MAC, since it isn't secret, and will
     # detect gross version mismatches early
     prelen = len(version_prefix)
     if not msgmac.startswith(version_prefix):
         raise ValueError("unrecognized version prefix '%s'" % msgmac[:prelen])
 
-    authKey, aesKey, hmacKey = do_kdf(email, password, secret)
+    authKey, aesKey, hmacKey = keys
     msg,mac = msgmac[:-32], msgmac[-32:]
     # mac covers everything else: (prefix+IV+enc(data+padding))
     if mac != hmac.new(hmacKey, msg, hashlib.sha256).digest():
@@ -119,8 +119,10 @@ if __name__ == '__main__':
         email = u"andré@example.org"
         password = u"pässwörd"
         data = '{"kéy": "valuë2"}'
-        m = encrypt(email, password, data,
+        keys = do_kdf(email, password)
+        m = encrypt(keys, data,
                     forceIV="45fea09e3db6333762a8c6ab8ac50548".decode("hex")
                     )
-        print decrypt(email, password, m)
+        print "msgmac_b64", base64.b64encode(m)
+        print decrypt(keys, m)
     two()
