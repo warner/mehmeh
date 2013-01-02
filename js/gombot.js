@@ -1,4 +1,6 @@
 
+sjcl.beware["CBC mode is dangerous because it doesn't protect message integrity."]();
+
 // strings are managed as sjcl.bitArray most everywhere.
 // sjcl.bitArray.concat(a,b) works, but a.concat(b) does not.
 // sjcl.bitArray.bitSlice(a, start, end) works, but is indexed by bit, not by
@@ -59,7 +61,6 @@ function gombot_kdf(email_str, password_str) {
 var gombot_version_prefix = str2bits("identity.mozilla.com/gombot/v1/data:");
 
 function gombot_encrypt(email, password, data, forceIV) {
-    sjcl.beware["CBC mode is dangerous because it doesn't protect message integrity."]();
     var keys = gombot_kdf(email, password);
     if (!sjcl.random.isReady())
         throw new Error("sjcl.random is not ready, cannot create IV");
