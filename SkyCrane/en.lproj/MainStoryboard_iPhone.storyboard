@@ -649,6 +649,65 @@
         <image name="redlightoff.png" width="50" height="50"/>
         <image name="starburst.png" width="720" height="720"/>
     </resources>
+    <classes>
+        <class className="AuthViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AuthViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="connect:"/>
+                <relationship kind="action" name="textChanged:"/>
+                <relationship kind="outlet" name="account" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="connectButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="password" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="DetailViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailViewController.h"/>
+        </class>
+        <class className="LaunchCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LaunchCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="loginLbl" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="nameLbl" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="PINViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PINViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="numEnter:"/>
+                <relationship kind="outlet" name="button0" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="button1" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="button2" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="button3" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="button4" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="button5" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="button6" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="button7" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="button8" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="button9" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="digit0" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="digit1" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="digit2" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="digit3" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="fail0" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="fail1" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="fail2" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="SiteViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SiteViewController.h"/>
+        </class>
+        <class className="SplashViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SplashViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="background" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="robotView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="titleView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

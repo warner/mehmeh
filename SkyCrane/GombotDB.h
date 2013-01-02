@@ -33,7 +33,7 @@ typedef void (^NotifyBlock)(void);
 + (NSString*) getPin;
 
 //will return nil if no data file
-+ (NSArray*) getSites;
++ (NSDictionary*) getSites;
 
 @end
 
