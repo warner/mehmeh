@@ -52,10 +52,11 @@ function gombot_kdf(email_str, password_str) {
     var authKey = sjcl.misc.pbkdf2(masterKey, makeSalt("authentication"), 1, 8*32);
     var aesKey = sjcl.misc.pbkdf2(masterKey, makeSalt("data/AES"), 1, 8*32);
     var hmacKey = sjcl.misc.pbkdf2(masterKey, makeSalt("data/HMAC"), 1, 8*32);
-    logBits("authKey", authKey);
-    logBits("aesKey", aesKey);
-    logBits("hmacKey", hmacKey);
-    return {authKey: authKey, aesKey: aesKey, hmacKey: hmacKey};
+    // return an object that can be serialized as JSON for storage. We'll
+    // have to convert it back to an sjcl.bitArray before using it.
+    return {authKey: bits2hex(authKey),
+            aesKey: bits2hex(aesKey),
+            hmacKey: bits2hex(hmacKey)};
 }
 
 var gombot_version_prefix = str2bits("identity.mozilla.com/gombot/v1/data:");
@@ -67,9 +68,10 @@ function gombot_encrypt(keys, data, forceIV) {
     if (forceIV)
         IV = forceIV;
 
-    var ct = sjcl.mode.cbc.encrypt(new sjcl.cipher.aes(keys.aesKey), data, IV);
+    var ct = sjcl.mode.cbc.encrypt(new sjcl.cipher.aes(hex2bits(keys.aesKey)),
+                                   data, IV);
     var msg = concatBits(concatBits(gombot_version_prefix, IV), ct);
-    var mac = new sjcl.misc.hmac(keys.hmacKey, sjcl.hash.sha256).mac(msg);
+    var mac = new sjcl.misc.hmac(hex2bits(keys.hmacKey), sjcl.hash.sha256).mac(msg);
     logBits("mac", mac);
     var msgmac = concatBits(msg, mac);
     console.log(bits2hex(IV), bits2hex(msg), bits2hex(mac));
@@ -95,6 +97,7 @@ function test() {
     var data = '{"kéy": "valuë2"}';
     var start = new Date().getTime();
     var keys = gombot_kdf(email, password);
+    console.log("keys", keys);
     var m = gombot_encrypt(keys, str2bits(data),
                            hex2bits("45fea09e3db6333762a8c6ab8ac50548")
                           );
