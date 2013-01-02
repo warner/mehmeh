@@ -1,6 +1,5 @@
 
 var crypto = require("crypto");
-var Q = require("q"); // run "npm install q" first
 
 function HMAC(key, msg) {
     var h = crypto.createHmac("sha256", key.toString("binary"));
@@ -32,15 +31,6 @@ function HKDF(XTS, SKM, CTXinfo, length_bytes) {
     return HKDF_K(HKDF_PRK(XTS, SKM), length_bytes, CTXinfo);
 }
 
-function pbkdf2_sha1(password, salt, iterations, keylen) {
-    // Buffer-ify and Promise-ify it
-    // crypto.pbkdf2 is HMAC-SHA1.
-    return Q.nfcall(crypto.pbkdf2,
-                    password.toString("binary"), salt.toString("binary"),
-                    iterations, keylen)
-        .then(function(keyString) {return Buffer(keyString, "binary");});
-}
-
 var xor = require("./util").xor;
 function pbkdf2_sha256_sync(password, salt, iterations, keylen) {
     // roll our own
@@ -64,10 +54,6 @@ function pbkdf2_sha256_sync(password, salt, iterations, keylen) {
 }
 exports.pbkdf2_sha256_sync = pbkdf2_sha256_sync;
 
-function pbkdf2_sha256(password, salt, iterations, keylen) {
-    return Q.resolve(pbkdf2_sha256_sync(password, salt, iterations, keylen));
-}
-
 function makeSalt(name, extra) {
     var append = Buffer("");
     if (extra)
@@ -86,53 +72,41 @@ function gombot_kdf(email, password) {
                                       Buffer(password, "utf-8")]);
     console.log("masterSalt", masterSalt.toString("hex"));
     console.log("masterSecret", masterSecret.toString("hex"));
-    var masterKey_d = pbkdf2_sha256(masterSecret, masterSalt, 250*1000, 32);
-    return masterKey_d
-        .then(function(masterKey) {
-            console.log("master", masterKey.toString("hex"));
-            var authKey = pbkdf2_sha256_sync(masterKey, makeSalt("authentication"), 1, 32);
-            var aesKey = pbkdf2_sha256_sync(masterKey, makeSalt("data/AES"), 1, 32);
-            var hmacKey = pbkdf2_sha256_sync(masterKey, makeSalt("data/HMAC"), 1, 32);
-            console.log("authKey", authKey.toString("hex"));
-            console.log("aesKey", aesKey.toString("hex"));
-            console.log("hmacKey", hmacKey.toString("hex"));
-            return {authKey: authKey, aesKey: aesKey, hmacKey: hmacKey};
-        });
+    var masterKey = pbkdf2_sha256_sync(masterSecret, masterSalt, 250*1000, 32);
+    console.log("master", masterKey.toString("hex"));
+    var authKey = pbkdf2_sha256_sync(masterKey, makeSalt("authentication"), 1, 32);
+    var aesKey = pbkdf2_sha256_sync(masterKey, makeSalt("data/AES"), 1, 32);
+    var hmacKey = pbkdf2_sha256_sync(masterKey, makeSalt("data/HMAC"), 1, 32);
+    console.log("authKey", authKey.toString("hex"));
+    console.log("aesKey", aesKey.toString("hex"));
+    console.log("hmacKey", hmacKey.toString("hex"));
+    return {authKey: authKey, aesKey: aesKey, hmacKey: hmacKey};
 }
 exports.gombot_kdf = gombot_kdf;
 
 function test_keys() {
-    gombot_kdf("andré@example.org", "pässwörd")
-        .then(function(keys) {
-            console.log("authKey :", keys.authKey.toString("hex"));
-            console.log("aesKey  :", keys.aesKey.toString("hex"));
-            console.log("hmacKey :", keys.hmacKey.toString("hex"));
-        })
-        .then(null, function(err) {
-            console.log("ERROR", err);
-        });
+    var keys = gombot_kdf("andré@example.org", "pässwörd");
+    console.log("authKey :", keys.authKey.toString("hex"));
+    console.log("aesKey  :", keys.aesKey.toString("hex"));
+    console.log("hmacKey :", keys.hmacKey.toString("hex"));
 }
 
 var version_prefix = Buffer("identity.mozilla.com/gombot/v1/data:");
 
-function encrypt(email, password, data, forceIV) {
-    return gombot_kdf(email, password)
-        .then(function(keys) {
-            var IV = Buffer(crypto.randomBytes(16), "binary");
-            if (forceIV)
-                IV = forceIV;
-            var c = crypto.createCipheriv("aes256", keys.aesKey.toString("binary"), IV);
-            var msg = Buffer.concat([version_prefix,
-                                     IV,
-                                     Buffer(c.update(data), "binary"),
-                                     Buffer(c.final(), "binary")]);
-            var h = crypto.createHmac("sha256", keys.hmacKey.toString("binary"));
-            h.update(msg.toString("binary"));
-            var mac = Buffer(h.digest(), "binary");
-            //console.log([IV.toString("hex"), msg.toString("hex"), mac.toString("hex")]);
-            return Buffer.concat([msg, mac]);
-        })
-    ;
+function encrypt(keys, data, forceIV) {
+    var IV = Buffer(crypto.randomBytes(16), "binary");
+    if (forceIV)
+        IV = forceIV;
+    var c = crypto.createCipheriv("aes256", keys.aesKey.toString("binary"), IV);
+    var msg = Buffer.concat([version_prefix,
+                             IV,
+                             Buffer(c.update(data), "binary"),
+                             Buffer(c.final(), "binary")]);
+    var h = crypto.createHmac("sha256", keys.hmacKey.toString("binary"));
+    h.update(msg.toString("binary"));
+    var mac = Buffer(h.digest(), "binary");
+    //console.log([IV.toString("hex"), msg.toString("hex"), mac.toString("hex")]);
+    return Buffer.concat([msg, mac]).toString("base64");
 }
 exports.encrypt = encrypt;
 
@@ -146,46 +120,41 @@ function compare(a, b) { // vaguely constant-time
 }
 exports.compare = compare;
 
-function decrypt(email, password, msgmac) {
-    return gombot_kdf(email, password)
-        .then(function(keys) {
-            console.log("msgmac", msgmac.toString("hex"));
-            var prelen = version_prefix.length;
-            var gotPrefix = msgmac.slice(0, prelen);
-            if (gotPrefix.toString("hex") != version_prefix.toString("hex"))
-                throw Error("Unrecognized version prefix '"+gotPrefix+"'");
-            var h = crypto.createHmac("sha256", keys.hmacKey.toString("binary"));
-            h.update(msgmac.slice(0, msgmac.length-32).toString("binary"));
-            var expectedHmac = Buffer(h.digest(), "binary");
-            var gotHmac = msgmac.slice(msgmac.length-32, msgmac.length);
-            if (!compare(expectedHmac, gotHmac))
-                throw Error("Corrupt encrypted data");
-            var IV = msgmac.slice(prelen, prelen+16);
-            var msg = msgmac.slice(prelen+16, msgmac.length-32);
-            var c = crypto.createDecipheriv("aes256", keys.aesKey.toString("binary"), IV);
-            var data = Buffer.concat([Buffer(c.update(msg.toString("binary")), "binary"), 
-                                      Buffer(c.final(), "binary")]);
-            return data;
-        })
-    ;
+function decrypt(keys, msgmac_b64) {
+    var msgmac = new Buffer(msgmac_b64, "base64");
+    console.log("msgmac", msgmac.toString("hex"));
+    var prelen = version_prefix.length;
+    var gotPrefix = msgmac.slice(0, prelen);
+    if (gotPrefix.toString("hex") != version_prefix.toString("hex"))
+        throw Error("Unrecognized version prefix '"+gotPrefix+"'");
+    var h = crypto.createHmac("sha256", keys.hmacKey.toString("binary"));
+    h.update(msgmac.slice(0, msgmac.length-32).toString("binary"));
+    var expectedHmac = Buffer(h.digest(), "binary");
+    var gotHmac = msgmac.slice(msgmac.length-32, msgmac.length);
+    if (!compare(expectedHmac, gotHmac))
+        throw Error("Corrupt encrypted data");
+    var IV = msgmac.slice(prelen, prelen+16);
+    var msg = msgmac.slice(prelen+16, msgmac.length-32);
+    var c = crypto.createDecipheriv("aes256", keys.aesKey.toString("binary"), IV);
+    var data = Buffer.concat([Buffer(c.update(msg.toString("binary")), "binary"),
+                              Buffer(c.final(), "binary")]);
+    return data;
 }
 exports.decrypt = decrypt;
 
 function test_one() {
     var data = Buffer('{"kéy": "valuë2"}');
-    encrypt("andré@example.org", "pässwörd", data
-            //,Buffer("45fea09e3db6333762a8c6ab8ac50548", "hex")
-           )
-        .then(function(m) {console.log("m", m.toString("hex"));
-                           return decrypt("andré@example.org", "pässwörd", m);})
-        .then(function(data2) {console.log("data:", data2.toString("hex"));
-                              if (data.toString("hex") == data2.toString("hex"))
-                                  console.log("ok");
-                              else
-                                  console.log("NOT OK");
-                              })
-        .then(null, console.log)
-    ;
+    var keys = gombot_kdf("andré@example.org", "pässwörd");
+    var m = encrypt(keys, data
+                    //,Buffer("45fea09e3db6333762a8c6ab8ac50548", "hex")
+                   );
+    console.log("m", m.toString("hex"));
+    var data2 = decrypt(keys, m);
+    console.log("data:", data2.toString("hex"));
+    if (data.toString("hex") == data2.toString("hex"))
+        console.log("ok");
+    else
+        console.log("NOT OK");
 }
 
 exports.run_tests = function() {
