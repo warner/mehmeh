@@ -1,5 +1,6 @@
 
 var sjcl = require("./sjcl-with-cbc.js");
+sjcl.beware["CBC mode is dangerous because it doesn't protect message integrity."]();
 
 // strings are managed as sjcl.bitArray most everywhere.
 // sjcl.bitArray.concat(a,b) works, but a.concat(b) does not.
@@ -60,11 +61,9 @@ function gombot_kdf(email_str, password_str) {
 
 var gombot_version_prefix = str2bits("identity.mozilla.com/gombot/v1/data:");
 
-function gombot_encrypt(email, password, data, forceIV) {
-    sjcl.beware["CBC mode is dangerous because it doesn't protect message integrity."]();
+function gombot_encrypt(keys, data, forceIV) {
     if (!sjcl.random.isReady())
         throw new Error("sjcl.random is not ready, cannot create IV");
-    var keys = gombot_kdf(email, password);
     var IV = sjcl.random.randomWords(16/4);
     if (forceIV)
         IV = forceIV;
@@ -96,14 +95,11 @@ function test() {
     logBits("password", str2bits(password));
     var data = '{"kéy": "valuë2"}';
     var start = new Date().getTime();
-    if (false)
-        gombot_kdf(email, password);
-    else {
-        var m = gombot_encrypt(email, password, str2bits(data),
-                               hex2bits("45fea09e3db6333762a8c6ab8ac50548")
-                              );
-        console.log("msgmac", bits2hex(m));
-    }
+    var keys = gombot_kdf(email, password);
+    var m = gombot_encrypt(keys, str2bits(data),
+                           hex2bits("45fea09e3db6333762a8c6ab8ac50548")
+                          );
+    console.log("msgmac", bits2hex(m));
     var end = new Date().getTime();
     console.log("elapsed", (end - start) / 1000);
 }
