@@ -37,13 +37,15 @@
   self.tableView.contentOffset = CGPointMake(0, self.searchDisplayController.searchBar.frame.size.height);
   
   _sites = [NSMutableArray array];
-  
-  for (NSDictionary* value in _rawSiteList)
-  {    
-    Site* next = [[Site alloc] initWithName:[value objectForKey:@"name"] login:[value objectForKey:@"login"] url:[value objectForKey:@"url"] password:[value objectForKey:@"password"]];
-    //NSLog(@"%@", next);
+    
+  for (NSArray* value in [_rawSiteList allValues])
+  {
+    for (NSDictionary* entry in value)
+    {
+    Site* next = [[Site alloc] initWithName:[entry objectForKey:@"title"] login:[entry objectForKey:@"username"] url:[entry objectForKey:@"url"] password:[entry objectForKey:@"password"]];
     
     [_sites addObject:next];
+    }
   }
   
   //Sort the results

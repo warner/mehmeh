@@ -8,13 +8,15 @@
 
 #import "AppDelegate.h"
 #import "GombotDB.h"
+#import "Reachability.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    return YES;
+  // Override point for customization after application launch.
+  [self configureReachability];
+  return YES;
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -42,6 +44,49 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
   // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)configureReachability
+{
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(reachabilityChanged:)
+                                               name:kReachabilityChangedNotification
+                                             object:nil];
+  
+  Reachability * reach = [Reachability reachabilityWithHostname:@"www.gombot.org"];
+  
+//  reach.reachableBlock = ^(Reachability * reachability)
+//  {
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//    // block to handle change to reachable state
+//    });
+//  };
+//  
+//  reach.unreachableBlock = ^(Reachability * reachability)
+//  {
+//    dispatch_async(dispatch_get_main_queue(), ^{
+  //    // block to handle change to unreachable state
+//    });
+//  };
+  
+  [reach startNotifier];
+
+}
+
+
+//IMPLEMENT  make use of this, now that we know whether or not we can reach 
+-(void)reachabilityChanged:(NSNotification*)note
+{
+  Reachability * reach = [note object];
+  
+  if([reach isReachable])
+  {
+    NSLog(@"Notification Says Reachable");
+  }
+  else
+  {
+    NSLog(@"Notification Says Unreachable");
+  }
 }
 
 

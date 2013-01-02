@@ -40,6 +40,8 @@
 		373C912C164DC64C00602DBB /* SkyCraneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C912B164DC64C00602DBB /* SkyCraneTests.m */; };
 		373C913D164DD31200602DBB /* SiteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C913C164DD31200602DBB /* SiteViewController.m */; };
 		3740D696165C3A64005B1B88 /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3740D695165C3A64005B1B88 /* SplashViewController.m */; };
+		3753C284168D6B4000E26BD3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3753C283168D6B4000E26BD3 /* Reachability.m */; };
+		3753C285168D6B4000E26BD3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3753C283168D6B4000E26BD3 /* Reachability.m */; };
 		376004DD1651A645000E879C /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 376004DC1651A645000E879C /* DetailViewController.m */; };
 		376004E11651A842000E879C /* LaunchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 376004E01651A842000E879C /* LaunchCell.m */; };
 		376350F016697CCA00328A00 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 376350EF16697CCA00328A00 /* Icon.png */; };
@@ -47,6 +49,7 @@
 		3774367F1654524F005B0F43 /* Site.m in Sources */ = {isa = PBXBuildFile; fileRef = 3774367E1654524F005B0F43 /* Site.m */; };
 		37B90BE016769DFA006BC423 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B90BDD16769DFA006BC423 /* NSData+Base64.m */; };
 		37B90BE116769DFA006BC423 /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B90BDF16769DFA006BC423 /* NSString+Base64.m */; };
+		37C6CD8E1694D3E40071024F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C6CD8D1694D3E40071024F /* SystemConfiguration.framework */; };
 		37D5794F16657EEA004077F7 /* gombot_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 37D5794E16657EEA004077F7 /* gombot_small.png */; };
 		37D5795B16658CBA004077F7 /* starburst.png in Resources */ = {isa = PBXBuildFile; fileRef = 37D5795A16658CBA004077F7 /* starburst.png */; };
 		37E6DAEA1667D829007B5BF5 /* MzPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E6DAE91667D829007B5BF5 /* MzPassword.m */; };
@@ -116,6 +119,8 @@
 		373C913C164DD31200602DBB /* SiteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SiteViewController.m; sourceTree = "<group>"; };
 		3740D694165C3A64005B1B88 /* SplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplashViewController.h; sourceTree = "<group>"; };
 		3740D695165C3A64005B1B88 /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
+		3753C282168D6B4000E26BD3 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		3753C283168D6B4000E26BD3 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		376004DB1651A645000E879C /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		376004DC1651A645000E879C /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		376004DF1651A842000E879C /* LaunchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchCell.h; sourceTree = "<group>"; };
@@ -128,6 +133,7 @@
 		37B90BDD16769DFA006BC423 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 		37B90BDE16769DFA006BC423 /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
 		37B90BDF16769DFA006BC423 /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
+		37C6CD8D1694D3E40071024F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		37C7C19C16812C0D0030E9E3 /* GombotDBTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GombotDBTest.h; path = SkyCraneTests/GombotDBTest.h; sourceTree = SOURCE_ROOT; };
 		37D5794E16657EEA004077F7 /* gombot_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gombot_small.png; sourceTree = "<group>"; };
 		37D5795A16658CBA004077F7 /* starburst.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starburst.png; sourceTree = "<group>"; };
@@ -145,6 +151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37C6CD8E1694D3E40071024F /* SystemConfiguration.framework in Frameworks */,
 				37E6DAF11667D875007B5BF5 /* Security.framework in Frameworks */,
 				3722D069165D95420036156C /* QuartzCore.framework in Frameworks */,
 				373C90F8164DC64B00602DBB /* UIKit.framework in Frameworks */,
@@ -172,6 +179,7 @@
 		373C90E8164DC64B00602DBB = {
 			isa = PBXGroup;
 			children = (
+				37C6CD8D1694D3E40071024F /* SystemConfiguration.framework */,
 				376350F116697CD600328A00 /* Icon@2x.png */,
 				376350EF16697CCA00328A00 /* Icon.png */,
 				373C90FD164DC64B00602DBB /* SkyCrane */,
@@ -210,7 +218,6 @@
 				373C910F164DC64B00602DBB /* MainStoryboard_iPhone.storyboard */,
 				373C9112164DC64B00602DBB /* MainStoryboard_iPad.storyboard */,
 				37FC67FE1665459500CD480C /* GombotDB.h */,
-				37C7C19C16812C0D0030E9E3 /* GombotDBTest.h */,
 				37FC67FF1665459500CD480C /* GombotDB.m */,
 				37E6DAE81667D829007B5BF5 /* MzPassword.h */,
 				37E6DAE91667D829007B5BF5 /* MzPassword.m */,
@@ -234,6 +241,8 @@
 				37B90BDD16769DFA006BC423 /* NSData+Base64.m */,
 				37B90BDE16769DFA006BC423 /* NSString+Base64.h */,
 				37B90BDF16769DFA006BC423 /* NSString+Base64.m */,
+				3753C282168D6B4000E26BD3 /* Reachability.h */,
+				3753C283168D6B4000E26BD3 /* Reachability.m */,
 				373C90FE164DC64B00602DBB /* Supporting Files */,
 			);
 			path = SkyCrane;
@@ -271,6 +280,7 @@
 		373C9124164DC64B00602DBB /* SkyCraneTests */ = {
 			isa = PBXGroup;
 			children = (
+				37C7C19C16812C0D0030E9E3 /* GombotDBTest.h */,
 				373C912A164DC64B00602DBB /* SkyCraneTests.h */,
 				373C912B164DC64C00602DBB /* SkyCraneTests.m */,
 				373C9125164DC64B00602DBB /* Supporting Files */,
@@ -428,6 +438,7 @@
 				37E6DAF816681B15007B5BF5 /* AuthViewController.m in Sources */,
 				37B90BE016769DFA006BC423 /* NSData+Base64.m in Sources */,
 				37B90BE116769DFA006BC423 /* NSString+Base64.m in Sources */,
+				3753C284168D6B4000E26BD3 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,6 +452,7 @@
 				37F562EC167A92ED00333CFE /* NSData+Base64.m in Sources */,
 				37F562EE167A92ED00333CFE /* NSString+Base64.m in Sources */,
 				373C912C164DC64C00602DBB /* SkyCraneTests.m in Sources */,
+				3753C285168D6B4000E26BD3 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

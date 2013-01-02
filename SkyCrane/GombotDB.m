@@ -13,7 +13,7 @@
 #import "NSString+Base64.h"
 
 
-#define _GOMBOT_URL_TEMPORARY @"https://dl.dropbox.com/u/169445/SAMPLE_DB"                                         
+#define _GOMBOT_URL_TEMPORARY @"https://dl.dropbox.com/u/169445/gombotdata"                                         
 
 //necessary for keychain
 #define _HOST @"www.gombot.org"
@@ -25,7 +25,7 @@
 #define _GOMBOT_URL [NSString stringWithFormat:@"%@://%@%@", _SCHEME, _HOST, _PATH]
 
 
-#define DATA_FILE @"encryptedDB"
+#define DATA_FILE @"gombotdata"
 
 
 
@@ -141,10 +141,12 @@ static NSString* private_account;
   NSData* hmacKey = [GombotDB getKeyForPath:_HMACPATH];
 
   //Read file
-  NSData* encryptedData = [GombotDB loadLocalEncryptedDataFile];
+  NSString* b64String = [GombotDB loadLocalEncryptedDataFile];
+
+  NSData* encryptedData = [b64String base64DecodedData];
 
   //Decrypt file into JSON using credentials
-  NSData* decryptedData = [GombotDB decryptData:encryptedData withHMACKey:hmacKey andAESKey: aesKey];
+  NSData* decryptedData = [GombotDB decryptData:encryptedData withHMACKey:hmacKey andAESKey: aesKey]; /*[NSData dataWithData:encryptedData];*/ 
 
   //Parse JSON file into NSDictionary and save in private_data singleton
   NSDictionary* final = [GombotDB parseJSONdata:decryptedData];
@@ -167,11 +169,11 @@ static NSString* private_account;
 }
 
 //will return nil if no data file
-+ (NSArray*) getSites
++ (NSDictionary*) getSites
 {
   if (private_data)
   {
-    return [private_data objectForKey:@"passwords"];
+    return [private_data objectForKey:@"logins"];
   }
   else
   {
@@ -300,11 +302,13 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 
 }
 
-+ (NSData*) loadLocalEncryptedDataFile
++ (NSString*) loadLocalEncryptedDataFile
 {
   NSError *error = nil;
-  NSMutableData* fileData = [NSMutableData dataWithContentsOfFile:[self getDatafilePath] options:0 error:&error];
+  //NSMutableData* fileData = [NSMutableData dataWithContentsOfFile:[self getDatafilePath] options:0 error:&error];
 
+  NSString* fileData = [NSString stringWithContentsOfFile:[self getDatafilePath] encoding:NSUTF8StringEncoding error:&error];
+  
   if (error != nil)
   {
     NSException *exception = [NSException exceptionWithName: @"FileException"
