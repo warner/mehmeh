@@ -18,7 +18,9 @@ function assertBits(a) {
 
 var concatBits = sjcl.bitArray.concat;
 var str2bits = sjcl.codec.utf8String.toBits;
+var bits2str = sjcl.codec.utf8String.fromBits;
 var bits2b64 = sjcl.codec.base64.fromBits;
+var b642bits = sjcl.codec.base64.toBits;
 var bits2hex = sjcl.codec.hex.fromBits;
 var hex2bits = sjcl.codec.hex.toBits;
 function sliceBits(bits, start, end) { // byte offsets
@@ -84,6 +86,32 @@ function gombot_encrypt(keys, data, forceIV) {
     return bits2b64(msgmac);
 }
 
+/* keys= is the {aesKey: hex, hmacKey: hex} output of gombot_kdf()
+ * msgmac_b64= is a string, the output of gombot_encrypt()
+ *
+ * we return a string, probably ready for JSON.parse()
+ */
+function gombot_decrypt(keys, msgmac_b64) {
+    var bA = sjcl.bitArray;
+    var msgmac = b642bits(msgmac_b64);
+    var prelen = bA.bitLength(gombot_version_prefix);
+    var gotPrefix = bA.bitSlice(msgmac, 0, prelen);
+    if (!bA.equal(gotPrefix, gombot_version_prefix))
+        throw Error("unrecognized version prefix '"+bits2str(gotPrefix)+"'");
+    var macable = bA.bitSlice(msgmac, 0, bA.bitLength(msgmac)-32*8);
+    var expectedMac = new sjcl.misc.hmac(hex2bits(keys.hmacKey),
+                                         sjcl.hash.sha256).mac(macable);
+    var gotMac = bA.bitSlice(msgmac, bA.bitLength(msgmac)-32*8);
+    if (!bA.equal(expectedMac, gotMac)) // this is constant-time
+        throw Error("Corrupt encrypted data");
+    var IV = bA.bitSlice(macable, prelen, prelen+16*8);
+    var msg = bA.bitSlice(macable, prelen+16*8);
+    var pt = sjcl.mode.cbc.decrypt(new sjcl.cipher.aes(hex2bits(keys.aesKey)),
+                                   msg, IV);
+    logBits("pt", pt);
+    return bits2str(pt);
+}
+
 
 // including UTF-8 in this file without declaring the charset like:
 //  <script src="gombot.js" type="text/javascript" charset="UTF-8"></script>
@@ -110,4 +138,7 @@ function test() {
     console.log("msgmac_b64", m_b64);
     var end = new Date().getTime();
     console.log("elapsed", (end - start) / 1000);
+    var newdata = gombot_decrypt(keys, m_b64);
+    console.log("decrypted", newdata);
+    console.log(newdata == data);
 }
