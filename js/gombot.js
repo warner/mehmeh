@@ -97,13 +97,13 @@ function gombot_decrypt(keys, msgmac_b64) {
     var prelen = bA.bitLength(gombot_version_prefix);
     var gotPrefix = bA.bitSlice(msgmac, 0, prelen);
     if (!bA.equal(gotPrefix, gombot_version_prefix))
-        throw Error("unrecognized version prefix '"+bits2str(gotPrefix)+"'");
+        throw new Error("unrecognized version prefix '"+bits2str(gotPrefix)+"'");
     var macable = bA.bitSlice(msgmac, 0, bA.bitLength(msgmac)-32*8);
     var expectedMac = new sjcl.misc.hmac(hex2bits(keys.hmacKey),
                                          sjcl.hash.sha256).mac(macable);
     var gotMac = bA.bitSlice(msgmac, bA.bitLength(msgmac)-32*8);
     if (!bA.equal(expectedMac, gotMac)) // this is constant-time
-        throw Error("Corrupt encrypted data");
+        throw new Error("Corrupt encrypted data");
     var IV = bA.bitSlice(macable, prelen, prelen+16*8);
     var msg = bA.bitSlice(macable, prelen+16*8);
     var pt = sjcl.mode.cbc.decrypt(new sjcl.cipher.aes(hex2bits(keys.aesKey)),
