@@ -29,11 +29,11 @@ typedef void (^NotifyBlock)(void);
 //throws various exceptions for finding file, reading file, decrypting file, and parsing file
 + (void) loadDataFile;
 
-//will return nil if no data file
-+ (NSString*) getPin;
+//will return nil if no pin
++ (NSArray*) getPin;
 
-//will return nil if no data file
-+ (NSDictionary*) getSites;
+//will return nil if no site list
++ (NSArray*) getSites;
 
 @end
 

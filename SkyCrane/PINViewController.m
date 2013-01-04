@@ -64,10 +64,10 @@
   {
     [self enableKeypad: FALSE];
     
-    if ((pinAttempt[0] == actualPin[0]) &&
-        (pinAttempt[1] == actualPin[1]) &&
-        (pinAttempt[2] == actualPin[2]) &&
-        (pinAttempt[3] == actualPin[3]) )
+    if ((pinAttempt[0] == [[GombotDB getPin][0] intValue]) &&
+        (pinAttempt[1] == [[GombotDB getPin][1] intValue]) &&
+        (pinAttempt[2] == [[GombotDB getPin][2] intValue]) &&
+        (pinAttempt[3] == [[GombotDB getPin][3] intValue]) )
     {
       //Success! Go to the Site list
       [self performSelector:@selector(unlock) withObject:nil afterDelay:0.35];
@@ -125,12 +125,6 @@
   pinAttempt[0] = pinAttempt[1] = pinAttempt[2] = pinAttempt[3] = nextDigit = 0;
   failedAttempts = 0;
     
-  NSString* pinStr = [GombotDB getPin];
-  
-  for (int j=0; j<4; j++)
-  {
-    actualPin[j] = [[pinStr substringWithRange:NSMakeRange(j, 1)] intValue];
-  }
 }
 
 
@@ -143,8 +137,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
   if ([[segue identifier] isEqualToString:@"Unlock"]) {
-    SiteViewController* siteTable = (SiteViewController*)[segue destinationViewController];
-    siteTable.rawSiteList =  [GombotDB getSites];
+//    SiteViewController* siteTable = (SiteViewController*)[segue destinationViewController];
+//    siteTable.rawSiteList =  [GombotDB getSites];
   }
 }
 

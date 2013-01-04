@@ -8,6 +8,7 @@
 
 #import "GombotDB.h"
 #import "MzPassword.h"
+#import "Site.h"
 #import <CommonCrypto/CommonKeyDerivation.h>
 #import "NSData+Base64.h"
 #import "NSString+Base64.h"
@@ -30,7 +31,9 @@
 
 
 static NSDictionary* private_data = nil;
-static NSString* private_account;
+static NSString* private_account = nil;
+static NSMutableArray* private_sites = nil;
+static NSMutableArray* private_pin = nil;
 
 @implementation GombotDB
 
@@ -99,7 +102,7 @@ static NSString* private_account;
   NSData* hmacKey = [self makeKeyWithPassword: masterKey andSalt:[self getHmacSalt] andRounds:1];
   //NSLog(@"hmac: %@", hmacKey);
 
-  //save ALL THREE (!) keychain items
+  //save all three keychain items
   MzPassword* authKeychainItem = [[MzPassword alloc] initWithServer:_HOST account:account scheme: _SCHEME port:_PORT path:_AUTHPATH];
   [authKeychainItem setPass:authKey];
   [authKeychainItem save];
@@ -146,21 +149,48 @@ static NSString* private_account;
   NSData* encryptedData = [b64String base64DecodedData];
 
   //Decrypt file into JSON using credentials
-  NSData* decryptedData = [GombotDB decryptData:encryptedData withHMACKey:hmacKey andAESKey: aesKey]; /*[NSData dataWithData:encryptedData];*/ 
+  NSData* decryptedData = [GombotDB decryptData:encryptedData withHMACKey:hmacKey andAESKey: aesKey];
 
   //Parse JSON file into NSDictionary and save in private_data singleton
   NSDictionary* final = [GombotDB parseJSONdata:decryptedData];
   
+  //massage the data into useful formats for display
   private_data = final;
+  private_sites = [NSMutableArray array];
+  
+  for (NSArray* value in [[private_data objectForKey:@"logins"] allValues])
+  {
+    for (NSDictionary* entry in value)
+    {
+      Site* next = [[Site alloc] initWithName:[entry objectForKey:@"title"] login:[entry objectForKey:@"username"] url:[entry objectForKey:@"url"] password:[entry objectForKey:@"password"]];
+      
+      [private_sites addObject:next];
+    }
+  }
+  //Sort the results
+  NSSortDescriptor *nameSort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+  NSSortDescriptor *loginSort = [NSSortDescriptor sortDescriptorWithKey:@"login" ascending:YES];
+  
+  [private_sites sortUsingDescriptors:@[nameSort, loginSort]];
+
+  //pins are 4 digits long
+  private_pin = [NSMutableArray arrayWithCapacity:4];
+  NSString* pinStr = [private_data objectForKey:@"pin"];
+  
+  for (int j=0; j<4; j++)
+  {
+    private_pin[j] = [NSNumber numberWithInt:[[pinStr substringWithRange:NSMakeRange(j, 1)] intValue]];
+  }
+
 }
 
 
 //will return nil if no data file
-+ (NSString*) getPin
++ (NSArray*) getPin
 {
   if (private_data)
   {
-    return [private_data objectForKey:@"pin"];
+    return private_pin;
   }
   else
   {
@@ -169,11 +199,11 @@ static NSString* private_account;
 }
 
 //will return nil if no data file
-+ (NSDictionary*) getSites
++ (NSArray*) getSites
 {
-  if (private_data)
+  if (private_sites)
   {
-    return [private_data objectForKey:@"logins"];
+    return private_sites;
   }
   else
   {
@@ -276,6 +306,12 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 + (void) eraseDB
 {
   NSError *error = nil;
+  //dump in-memory copies.
+  private_data = nil;
+  private_account = nil;
+  private_sites = nil;
+  private_pin = nil;
+  
   if ([[NSFileManager defaultManager] fileExistsAtPath:[self getDatafilePath]])
   {
     [[NSFileManager defaultManager] removeItemAtPath:[self getDatafilePath] error:&error];
@@ -367,9 +403,6 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 
   
   [request setHTTPMethod: @"GET"];
-  
-//  [request setHTTPShouldHandleCookies: YES];
-//  [request setHTTPBody: [HTTP_BODY_DATA dataUsingEncoding: NSUTF8StringEncoding]];
   
   NSLog(@"%@ :: %@", request, [request allHTTPHeaderFields] );
   [NSURLConnection sendAsynchronousRequest: request queue: [NSOperationQueue mainQueue] completionHandler: completionHandler];

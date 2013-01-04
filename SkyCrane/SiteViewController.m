@@ -10,6 +10,7 @@
 #import "LaunchCell.h"
 #import "DetailViewController.h"
 #import "Site.h"
+#import "GombotDB.h"
 
 @interface SiteViewController ()
 
@@ -36,23 +37,7 @@
   //hide the search bar until they swipe it down
   self.tableView.contentOffset = CGPointMake(0, self.searchDisplayController.searchBar.frame.size.height);
   
-  _sites = [NSMutableArray array];
-    
-  for (NSArray* value in [_rawSiteList allValues])
-  {
-    for (NSDictionary* entry in value)
-    {
-    Site* next = [[Site alloc] initWithName:[entry objectForKey:@"title"] login:[entry objectForKey:@"username"] url:[entry objectForKey:@"url"] password:[entry objectForKey:@"password"]];
-    
-    [_sites addObject:next];
-    }
-  }
   
-  //Sort the results
-  NSSortDescriptor *nameSort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
-  NSSortDescriptor *loginSort = [NSSortDescriptor sortDescriptorWithKey:@"login" ascending:YES];
-
-  [_sites sortUsingDescriptors:@[nameSort, loginSort]];
   _searchHits = [NSMutableArray array];
 }
 
@@ -75,7 +60,7 @@
     // Return the number of rows in the section.
   if (tableView == self.tableView)
   {
-    return [_sites count];
+    return [[GombotDB getSites] count];
   }
   else
     return [_searchHits count];
@@ -111,7 +96,7 @@
     static NSString *CellIdentifier = @"LaunchCell";
     LaunchCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     if (tableView == self.tableView)
-      cell.site = [_sites objectAtIndex:[indexPath row]];
+      cell.site = [[GombotDB getSites] objectAtIndex:[indexPath row]];
     else
       cell.site = [_searchHits objectAtIndex:[indexPath row]];
     [cell reset];
@@ -134,7 +119,7 @@
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
   NSPredicate *match = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@", searchString];
- _searchHits = [_sites filteredArrayUsingPredicate:match];
+ _searchHits = [[GombotDB getSites] filteredArrayUsingPredicate:match];
 
   return YES;
 }
