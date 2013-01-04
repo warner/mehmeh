@@ -10,12 +10,13 @@
 
 @interface AuthViewController : UIViewController <UITextFieldDelegate>
 {
-  UIActivityIndicatorView* spinner;
 }
 
 @property (strong, nonatomic) IBOutlet UITextField* account;
 @property (strong, nonatomic) IBOutlet UITextField* password;
 @property (strong, nonatomic) IBOutlet UIButton* connectButton;
+@property (strong, nonatomic) IBOutlet UIView* spinnerFrame;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView* spinner;
 
 - (IBAction) connect:(id)sender;
 - (IBAction) textChanged:(id) sender;

@@ -13,7 +13,6 @@
   int nextDigit;
   int pinAttempt[4]; //the current attempt at the pin
   int failedAttempts;
-  int actualPin[4];
   
   UIButton* buttons[10];
   UIImageView* digits[4];
