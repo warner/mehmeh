@@ -2,7 +2,6 @@
 <head>
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
  <script src="sjcl.js" type="text/javascript" charset="UTF-8"></script>
- <script src="gombot.js" type="text/javascript" charset="UTF-8"></script>
 <title>gombot.js driver</title>
 </head>
 
@@ -10,7 +9,37 @@
 <h1>loader for gombot.js</h1>
 
 <p>Use the JS console to do anything useful.</p>
+<script>
 
+var str2bits = sjcl.codec.utf8String.toBits;
+var bits2hex = sjcl.codec.hex.fromBits;
+
+function test() {
+    var start = new Date().getTime();
+    var secret = str2bits("");
+    var masterKey = sjcl.misc.pbkdf2(secret, secret, 250*1000, 8*32);
+    console.log("masterKey", bits2hex(masterKey));
+    var end = new Date().getTime();
+    console.log("elapsed", (end - start) / 1000);
+}
+
+test(); /* this is fast */
+
+window.setTimeout(function() {
+ console.log("now running post-load test");
+ test(); /* this is fast */
+ console.log("all done");
+}, 1000);
+
+/* running test() from the JS console is slow */
+
+</script>
+
+<p>during-load inline script is done. Run test() in the JS console to do the
+post-load test.</p>
+
+<!-- this is fast -->
+<p><a href="#" onClick="test()">Click here</a> to run the test.</p>
 
 <hr>
 </body> </html>
