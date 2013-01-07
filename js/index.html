@@ -33,6 +33,18 @@ window.setTimeout(function() {
 
 /* running test() from the JS console is slow */
 
+function runInWorker() {
+  console.log("running in worker");
+  var wk = new Worker("./worker.js");
+  var start = new Date().getTime();
+  wk.addEventListener("message", function(e) {
+    console.log("worker made key", e.data.masterKey);
+    var end = new Date().getTime();
+    console.log("worker took", (end - start) / 1000);
+  }, false);
+  wk.postMessage({command: "go"});
+}
+
 </script>
 
 <p>during-load inline script is done. Run test() in the JS console to do the
@@ -40,6 +52,8 @@ post-load test.</p>
 
 <!-- this is fast -->
 <p><a href="#" onClick="test()">Click here</a> to run the test.</p>
+
+<p><a href="#" onClick="runInWorker()">Run in WebWorker</a></p>
 
 <hr>
 </body> </html>
