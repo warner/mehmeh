@@ -53,7 +53,7 @@
                                                name:kReachabilityChangedNotification
                                              object:nil];
   
-  Reachability * reach = [Reachability reachabilityWithHostname:@"www.gombot.org"];
+  Reachability * reach = [Reachability reachabilityWithHostname:@"dev.tobmog.org"];
   
 //  reach.reachableBlock = ^(Reachability * reachability)
 //  {

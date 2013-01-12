@@ -87,9 +87,9 @@
     [GombotDB updateCredentialsWithAccount:_account.text andPassword:_password.text];
     
     //put up spinner while we SYNCHRONOUSLY get their data, since we have no file at all.
-    [GombotDB retrieveDataFromNetwork:^{
-      [self finished];
-    }];
+    [GombotDB updateDatabase:(Notifier)^(BOOL success, NSString* message){
+                                                                            [self finished];
+                                                                        }];
   }
   @catch (NSException *exception) {
     NSLog(@"%@",exception);
