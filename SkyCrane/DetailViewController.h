@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "Site.h"
 @interface DetailViewController : UITableViewController
+{
+  NSArray* sortedKeys;
+}
 
 @property (nonatomic, retain) Site* site;
 @end

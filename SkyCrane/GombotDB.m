@@ -20,11 +20,11 @@
 #define _HOST @"www.gombot.org"
 #define _SCHEME @"https"
 #define _PORT @443
-#define _PATH @"/datafile"
 
 
-#define DATA_FILE @"gombotdata"
+#define LOCAL_DATA_FILE @"gombotdata"
 
+#define VERSION_PREFIX_1 @"identity.mozilla.com/gombot/v1/data:"
 
 
 static NSDictionary* private_data = nil;
@@ -85,9 +85,12 @@ static NSMutableArray* private_pin = nil;
   private_account = account;
   
   //make initial derived master key
+  //NSDate* before = [NSDate date];
   NSData* masterKey = [self makeKeyWithPassword: [self makeMasterSecretFrom:@"" andPassword:password]
                                         andSalt:[self makeMasterSaltFrom:account]
                                       andRounds:250000];
+  //NSDate* after = [NSDate date];
+  //NSLog(@"250k PBKDF: %f", [after timeIntervalSinceDate:before]);
   //NSLog(@"masterKey: %@", masterKey);
 
   //first, use the master key to create the auth, aes, and hmac keys
@@ -159,14 +162,11 @@ static NSMutableArray* private_pin = nil;
   private_data = final;
   private_sites = [NSMutableArray array];
   
-  for (NSArray* value in [[private_data objectForKey:@"logins"] allValues])
+  for (NSDictionary* site_entry in [private_data objectForKey:@"logins"])
   {
-    for (NSDictionary* entry in value)
-    {
-      Site* next = [[Site alloc] initWithName:[entry objectForKey:@"title"] login:[entry objectForKey:@"username"] url:[entry objectForKey:@"url"] password:[entry objectForKey:@"password"]];
+    Site* next = [[Site alloc] initWithName:[site_entry objectForKey:@"title"] login:[site_entry objectForKey:@"username"] url:[site_entry objectForKey:@"loginurl"] password:[site_entry objectForKey:@"password"] record:site_entry];
       
       [private_sites addObject:next];
-    }
   }
   //Sort the results
   NSSortDescriptor *nameSort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
@@ -241,6 +241,30 @@ static NSMutableArray* private_pin = nil;
 
 
 
++ (NSData*) encryptData: (NSData*)message withHMACKey: (NSData*)HMACkey andAESKey: (NSData*)AESKey
+{
+  // before anything else, check the version prefix
+  NSData *versionPrefix = [VERSION_PREFIX_1 dataUsingEncoding:NSUTF8StringEncoding];
+  
+  NSMutableData* outputBuffer = [NSMutableData dataWithData:versionPrefix];
+  
+  //FIX! correct IV calculation!!
+  NSData* IV = [@"0000000000000000" dataUsingEncoding:NSUTF8StringEncoding];
+  [outputBuffer appendData:IV];
+  NSData* ciphertext = [message AES256EncryptWithKey:AESKey andIV:IV];
+  [outputBuffer appendData:ciphertext];
+  
+  NSData* computedHMAC = [GombotDB makeHMACFor:outputBuffer withKey:HMACkey];
+  NSLog(@"computed hmac: %@", computedHMAC);
+  
+  [outputBuffer appendData:computedHMAC];
+    
+  return outputBuffer;
+}
+
+
+
+
 /*email="foo@example.org", password="password", ciphertext=hex(02c8c23573cc3be3cd931486b509140f549a787135a7871a752932d1dcb9496c19460c21d70545af43a8226810617f1a9728c60b378b198b679fb5026321847b), should yield data="data"*/
 
 /*step 1: compute HMAC on all but the last 32 bytes, compare it against the last 32 bytes, bail if mismatch
@@ -251,7 +275,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 + (NSData*) decryptData: (NSData*)message withHMACKey: (NSData*)HMACkey andAESKey: (NSData*)AESKey
 {
   // before anything else, check the version prefix
-  NSData *versionPrefix = [@"identity.mozilla.com/gombot/v1/data:" dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *versionPrefix = [VERSION_PREFIX_1 dataUsingEncoding:NSUTF8StringEncoding];
   NSUInteger verlen = [versionPrefix length];
   NSData *gotPrefix = [message subdataWithRange:NSMakeRange(0, verlen)];
   if (![gotPrefix isEqualToData:versionPrefix]) {
@@ -269,7 +293,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
   NSData* hmacValue = [message subdataWithRange:NSMakeRange([message length]-32, 32)];
   //NSLog(@"message hmac: %@", hmacValue);
 
-  NSData* computedHMAC = [GombotDB makeHMACFor:hmacInput withKey:[GombotDB getKeyForPath:_HMACPATH]];
+  NSData* computedHMAC = [GombotDB makeHMACFor:hmacInput withKey:HMACkey];
   //NSLog(@"computed hmac: %@", computedHMAC);
   // TODO: use constant-time comparison here, to avoid a timing attack
   if (![computedHMAC isEqualToData:hmacValue]) {
@@ -289,7 +313,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
   NSData* payload = [message subdataWithRange:NSMakeRange(verlen+16, [message length]-verlen-16-32)];
   //NSLog(@"message payload: %@", payload);
   
-  NSData* plaintext = [payload AES256DecryptWithKey:[GombotDB getKeyForPath:_AESPATH] andIV:IV];
+  NSData* plaintext = [payload AES256DecryptWithKey:AESKey andIV:IV];
 
   return plaintext;
 }
@@ -299,7 +323,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 {
   NSArray *pathArray = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
   NSString *documentsDirectory = [pathArray objectAtIndex:0];
-  return [documentsDirectory stringByAppendingPathComponent:DATA_FILE];
+  return [documentsDirectory stringByAppendingPathComponent:LOCAL_DATA_FILE];
 }
 
 
@@ -344,8 +368,6 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 {
   NSError *error = nil;
   NSMutableData* fileData = [NSMutableData dataWithContentsOfFile:[self getDatafilePath] options:0 error:&error];
-
-  //NSString* fileData = [NSString stringWithContentsOfFile:[self getDatafilePath] encoding:NSUTF8StringEncoding error:&error];
   
   if (error != nil)
   {
@@ -361,7 +383,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 //Send HAWK authenticated requests
 
 
-+ (void) makeAuthenticatedRequestToHost:(NSString*)host path:(NSString*)path port:(NSString*)port method:(NSString*)method withCompletion:(RequestCompletion)externalCompletion
++ (void) makeAuthenticatedRequestToHost:(NSString*)host path:(NSString*)path port:(NSString*)port method:(NSString*)method body:(NSData*)body withCompletion:(RequestCompletion)externalCompletion
 {
   //what time is it?
   long timestamp = [[NSDate new] timeIntervalSince1970];
@@ -383,6 +405,10 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
   [hawkRequest setValue: @"application/json" forHTTPHeaderField: @"content-type"];
   [hawkRequest setHTTPMethod: method];
   
+  if ([method isEqualToString:@"PUT"] && body != nil)
+  {
+    [hawkRequest setHTTPBody: body];
+  }
   
   //get ready to send it, by creating a block to handle the callbacks
   id internalHandler = ^(NSHTTPURLResponse* response, NSData* data, NSError* error)
@@ -399,8 +425,9 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
     }
   };
 
+  NSString* bodyString = [[NSString alloc] initWithData:[hawkRequest HTTPBody] encoding:NSUTF8StringEncoding];
   
-  //NSLog(@"%@ :: %@", request, [request allHTTPHeaderFields] );
+  NSLog(@"Request: %@\n %@\n %@\n %@", [hawkRequest HTTPMethod], hawkRequest, [hawkRequest allHTTPHeaderFields], bodyString );
   [NSURLConnection sendAsynchronousRequest: hawkRequest queue: [NSOperationQueue mainQueue] completionHandler: internalHandler];
 
 }
@@ -409,7 +436,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 
 
 //Do we have connectivity? if so, do we have the newest data?  if not, download freshest data from server
-+ (void) updateDatabase:(Notifier)ping
++ (void) updateLocalData:(Notifier)ping
 {
   //check for connectivity
   
@@ -433,7 +460,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
       if (private_timestamp < serverDate)
       {
         //ok, so make request for the fresher data
-        [GombotDB makeAuthenticatedRequestToHost:@"dev.tobmog.org" path:@"/api/v1/payload" port:@"80" method:@"GET" withCompletion:dataCompletion];
+        [GombotDB makeAuthenticatedRequestToHost:@"dev.tobmog.org" path:@"/api/v1/payload" port:@"80" method:@"GET" body:nil withCompletion:dataCompletion];
       }
       else
       {
@@ -447,7 +474,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
   };
   
   //make outer request for timestamp
-  [GombotDB makeAuthenticatedRequestToHost:@"dev.tobmog.org" path:@"/api/v1/payload/timestamp" port:@"80" method:@"GET" withCompletion:freshnessCompletion];
+  [GombotDB makeAuthenticatedRequestToHost:@"dev.tobmog.org" path:@"/api/v1/payload/timestamp" port:@"80" method:@"GET" body: nil withCompletion:freshnessCompletion];
   
 }
 

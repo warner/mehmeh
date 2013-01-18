@@ -9,7 +9,7 @@
 #import "Site.h"
 
 @implementation Site
-- (id) initWithName:(NSString*)name login:(NSString*)login url:(NSString*)url password:(NSString*)pass
+- (id) initWithName:(NSString*)name login:(NSString*)login url:(NSString*)url password:(NSString*)pass record:(NSDictionary *)record
 {
   self = [super init];
   if (self) {
@@ -17,6 +17,7 @@
     _login = login;
     _url = url;
     _pass = pass;
+    _record = record;
   }
   return self;
 }
