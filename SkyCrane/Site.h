@@ -13,8 +13,8 @@
 @property (strong, nonatomic) NSString* login;
 @property (strong, nonatomic) NSString* url;
 @property (strong, nonatomic) NSString* pass;
-@property BOOL prot;
+@property (strong, nonatomic) NSDictionary* record;
 
-- (id) initWithName:(NSString*)name login:(NSString*)login url:(NSString*)url password:(NSString*)pass;
+- (id) initWithName:(NSString*)name login:(NSString*)login url:(NSString*)url password:(NSString*)pass record:(NSDictionary*)record;
 - (NSString *)description;
 @end

@@ -12,6 +12,7 @@
 
 @interface GombotDB (Testing)
 
++ (NSData*) encryptData: (NSData*)message withHMACKey: (NSData*)HMACkey andAESKey: (NSData*)AESKey;
 + (NSData*) decryptData: (NSData*)encryptedData withHMACKey: (NSData*)HMACkey andAESKey: (NSData*)cryptKey;
 + (NSData*) getKeyForPath:(NSString*)keyPath;
 + (NSData*) makeHMACFor:(NSData*)payload withKey:(NSData*)key;
