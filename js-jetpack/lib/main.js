@@ -17,8 +17,8 @@ console.log("page-worker created");
 
 
 require("widget").Widget({
-    id: "gombot-test-widget",
-    label: "Gombot Test",
+    id: "gombot-test-widget-1",
+    label: "Gombot Test-in-pageworker #1",
     contentURL: "http://www.mozilla.org/favicon.ico",
     onClick: function() {
         console.log("asking worker to kdf");
@@ -30,6 +30,23 @@ require("widget").Widget({
         });
         worker.port.emit("kdf", { email: "andré@example.org",
                                   password: "pässwörd" });
+        console.log("asked worker to kdf");
+    }
+});
+
+require("widget").Widget({
+    id: "gombot-test-widget-3",
+    label: "Gombot Test-in-pageworker-in-webworker #3",
+    contentURL: "http://www.mozilla.org/favicon.ico",
+    onClick: function() {
+        console.log("asking worker to kdf");
+        var start = new Date().getTime();
+        worker.port.on("test-webworker-done", function(m) {
+            var end = new Date().getTime();
+            console.log("main elapsed", (end-start)/1000);
+            console.log("inner elapsed", JSON.stringify(m.elapsed));
+        });
+        worker.port.emit("test-webworker", {});
         console.log("asked worker to kdf");
     }
 });

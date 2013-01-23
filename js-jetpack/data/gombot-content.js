@@ -141,5 +141,6 @@ function test() {
     console.log("elapsed", (end - start) / 1000);
     var newdata = gombot_decrypt(keys, m_b64);
     console.log("decrypted", newdata);
-    console.log(newdata == data);
+    console.log("decrypt roundtrip good:", newdata == data);
+    return {elapsed: (end-start)/1000};
 }
