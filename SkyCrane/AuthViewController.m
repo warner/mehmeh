@@ -62,8 +62,21 @@
   }
 }
 
-- (void) finished
+- (void) showAlert:(NSString*) msg
 {
+  UIAlertView *alert = [[UIAlertView alloc]
+                        initWithTitle: @"Error"
+                        message: msg
+                        delegate: nil
+                        cancelButtonTitle:@"OK"
+                        otherButtonTitles:nil];
+  [alert show];  
+}
+
+- (void) finished: (NSString*) error
+{
+  if (error) [self showAlert:error];
+  
   //enable the buttons and fields, and remove the spinner
   [self working:NO];
   
@@ -86,11 +99,11 @@
   @try {
     [GombotDB updateCredentialsWithAccount:_account.text andPassword:_password.text];
     
-    //put up spinner while we SYNCHRONOUSLY get their data, since we have no file at all.
-    [GombotDB updateLocalData:(Notifier)^(BOOL success, NSString* message){
-                                                                            [self finished];
-                                                                        }];
-  }
+    //put up spinner while we pseudo-synchronously get their data, since we have no file at all.
+    [GombotDB updateLocalData:(Notifier)^(BOOL updated, NSString* errorMessage) {
+                                                                                  [self finished:errorMessage];
+                                                                                }];
+     }
   @catch (NSException *exception) {
     NSLog(@"%@",exception);
     [self working:NO];

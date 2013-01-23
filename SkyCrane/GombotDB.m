@@ -395,7 +395,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
   NSData* hmacOutput = [GombotDB makeHMACFor:[hmacInput dataUsingEncoding:NSUTF8StringEncoding] withKey:[GombotDB getKeyForPath:_AUTHPATH]];
 
   //create the request
-  NSURL* requestURL = [NSURL URLWithString:[NSString stringWithFormat:@"HTTP://%@:%@%@", host, port, path]];
+  NSURL* requestURL = [NSURL URLWithString:[NSString stringWithFormat:@"HTTPS://%@:%@%@", host, port, path]];
   NSMutableURLRequest* hawkRequest = [[NSMutableURLRequest alloc] initWithURL: requestURL cachePolicy: NSURLCacheStorageNotAllowed timeoutInterval: 5.0];
 
   //create the hawk auth header
@@ -444,8 +444,12 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
   {
     //save the file, which is JSON, containing a 'payload', and an 'updated' timestamp
     BOOL success = [[NSFileManager defaultManager] createFileAtPath:[GombotDB getDatafilePath] contents:body attributes:nil];
-    if (!success) NSLog(@"failed to write new datafile");
-    ping(YES, @"");
+    if (!success)
+    {
+      NSLog(@"failed to write new datafile");
+      ping(NO, @"Unable to create local database file.");
+    }
+    ping(YES, nil);
   };
   
   //check freshness date
@@ -460,21 +464,25 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
       if (private_timestamp < serverDate)
       {
         //ok, so make request for the fresher data
-        [GombotDB makeAuthenticatedRequestToHost:@"dev.tobmog.org" path:@"/api/v1/payload" port:@"80" method:@"GET" body:nil withCompletion:dataCompletion];
+        [GombotDB makeAuthenticatedRequestToHost:@"gombot.org" path:@"/api/v1/payload" port:@"443" method:@"GET" body:nil withCompletion:dataCompletion];
       }
       else
       {
-        ping(YES, @"");
+        //data was not updated, but no error
+        ping(NO, nil);
       }
     }
     else
     {
-      ping(NO, [NSString stringWithFormat: @"Server returned code: %d", status]);
+      //data was not updated, with error message
+      //why 13?
+      if (status == 13) ping(NO, @"Incorrect credentials");
+      else ping(NO, [NSString stringWithFormat: @"Server returned code: %d", status]);
     }
   };
   
   //make outer request for timestamp
-  [GombotDB makeAuthenticatedRequestToHost:@"dev.tobmog.org" path:@"/api/v1/payload/timestamp" port:@"80" method:@"GET" body: nil withCompletion:freshnessCompletion];
+  [GombotDB makeAuthenticatedRequestToHost:@"gombot.org" path:@"/api/v1/payload/timestamp" port:@"443" method:@"GET" body: nil withCompletion:freshnessCompletion];
   
 }
 
