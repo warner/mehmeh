@@ -58,13 +58,42 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-  return 1;
+  id chunk = [_site.record objectForKey:[sortedKeys objectAtIndex: section]];
+  
+  if ([chunk isKindOfClass:[NSDictionary class]])
+  {
+    return [[chunk allKeys] count];
+  }
+  else if ([chunk isKindOfClass:[NSArray class]])
+  {
+    return [chunk count];
+  }
+  else
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
   UITableViewCell *cell  = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-  cell.textLabel.text = [[_site.record objectForKey:[sortedKeys objectAtIndex:[indexPath section]]] description];
+
+  id chunk = [_site.record objectForKey:[sortedKeys objectAtIndex: [indexPath section]]];
+  id rowValue;
+  
+  if ([chunk isKindOfClass:[NSDictionary class]])
+  {
+    id key = [[chunk allKeys] objectAtIndex:[indexPath row]];
+    rowValue = [NSString stringWithFormat:@"%@ : %@", key, [chunk objectForKey:key]];
+  }
+  else if ([chunk isKindOfClass:[NSArray class]])
+  {
+    rowValue = [chunk objectAtIndex:[indexPath row]];
+  }
+  else
+    rowValue = chunk;
+
+  
+  cell.textLabel.text = [rowValue description];
 
   return cell;
 }

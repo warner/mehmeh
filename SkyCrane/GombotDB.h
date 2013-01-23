@@ -13,9 +13,6 @@
 #define _AESPATH @"/aes_key"
 #define _HMACPATH @"/hmac_key"
 
-//just used as an async "I'm done!" message to poke callers.  This enables making async operations seem sync.
-typedef void (^Notifier)(BOOL success, NSString* message);
-
 @interface GombotDB : NSObject
 
 + (void) updateCredentialsWithAccount:(NSString*)account andPassword:(NSString*)password;
@@ -24,6 +21,10 @@ typedef void (^Notifier)(BOOL success, NSString* message);
 typedef void (^RequestCompletion)(NSInteger statusCode, NSData* body, NSError* err);
 
 + (void) makeAuthenticatedRequestToHost:(NSString*)host path:(NSString*)path port:(NSString*)port method:(NSString*)method body:(NSData*)body withCompletion:(RequestCompletion)externalCompletion;
+
+
+//callback used by updateLocalData, telling the caller whether the data was updated, requiring a view refresh, and any error message.
+typedef void (^Notifier)(BOOL updated, NSString* errorMessage);
 
 + (void) updateLocalData:(Notifier)ping;
 
