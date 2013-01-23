@@ -142,4 +142,5 @@ function test() {
     var newdata = gombot_decrypt(keys, m_b64);
     console.log("decrypted", newdata);
     console.log(newdata == data);
+    return {elapsed: (end-start)/1000};
 }

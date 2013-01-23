@@ -1,6 +1,14 @@
 
-div.button {
+input.button {
     background: #dfd;
+    border: 1px solid #000;
     border-radius: 5px;
     padding: 5px;
+}
+
+div#output {
+    background: #eee;
+    border: 1px solid #888;
+    margin: 5px;
+    padding: 2px;
 }

@@ -13,11 +13,40 @@ addon.port.on("kdf", function(m) {
 });
 */
 
+function emit(text) {
+    $("#output").append($("<div/>").text(text));
+}
+
 $(function() {
-    $("#start").on("click", function(e) {
-        console.log("starting test");
-        $("#output").append($("<div/>").text("starting test.."));
-        setTimeout(test, 0.1);
+    $("#start-in-content").on("click", function(e) {
+        console.log("starting test in-content..");
+        emit("starting test..");
+        setTimeout(function() {
+            var r = test();
+            emit("in-content test done");
+            emit("elapsed: "+r.elapsed+" seconds");
+        }, 1000);
+    });
+    $("#start-webworker").on("click", function(e) {
+        console.log("starting test in web-worker..");
+        setTimeout(function() {
+            var w = new Worker("worker.js");
+            w.onmessage = function(m) {
+                emit("web-worker test done");
+                emit("elapsed: "+m.data.elapsed+" seconds");
+            };
+            emit("starting test..");
+            w.postMessage({type: "test"});
+        }, 1000);
+    });
+    $("#start-contentscript").on("click", function(e) {
+        console.log("starting test in content-script..");
+        emit("starting test..");
+        setTimeout(function() {
+            var r = test();
+            emit("test done");
+            emit("elapsed: "+r.elapsed+" seconds");
+        }, 1000);
     });
 });
 
