@@ -15,19 +15,20 @@ const {defer} = require("sdk/core/promise");
 var worker = require("page-worker").Page({
     contentURL: data.url("gombot-worker1.html")
 });
-console.log("page-worker created");
+//console.log("page-worker created");
 
 
 exports.kdf = function(email, password) {
     // returns a Deferred
     var d = defer();
-    console.log("asking worker to kdf");
+    //console.log("asking worker to kdf");
     worker.port.on("kdf-done", function(m) {
         // note: doesn't handle concurrent requests, probably leaky too
+        //console.log("gombot.js kdf-done", JSON.stringify(m));
         d.resolve(m.keys);
     });
     worker.port.emit("kdf", {email: email, password: password});
-    console.log("asked worker to kdf");
+    //console.log("asked worker to kdf");
     return d.promise;
 }
 
