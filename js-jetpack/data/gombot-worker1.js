@@ -12,29 +12,19 @@ console = {log: function(m, m2) {dump(tostr(m));
                                      dump(" "+tostr(m2));
                                  dump("\n");
                                 }};
-console.log("worker.js loading");
-
-sjcl.random.addEntropy("seed", 8*32, "fake");
-
+console.log("gombot-worker1.js loading");
 
 addon.port.on("kdf", function(m) {
-    //console.log("worker do kdf", m);
-    var keys = gombot_kdf(m.email, m.password);
-    //console.log(" worker finish do kdf emit");
-    addon.port.emit("kdf-done", {keys: keys});
-    //console.log(" worker finish do kdf");
-});
-
-addon.port.on("test-webworker", function(m) {
     console.log("worker do test-webworker", m);
-    var w = new Worker("worker2.js");
+    var w = new Worker("gombot-worker2.js");
     w.onmessage = function(r) {
         //console.log(" worker finish test-webworker", r.data);
         var data = JSON.parse(r.data);
-        addon.port.emit("test-webworker-done", {elapsed: data.elapsed});
+        addon.port.emit("kdf-done", {keys: r.data.keys
+                                     elapsed: r.data.elapsed});
         console.log(" worker finish test-webworker sent response");
     };
-    w.postMessage({type: "test"});
+    w.postMessage({type: "kdf", email: m.email, password: m.password});
 });
 
 console.log("worker.js loaded");
