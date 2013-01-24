@@ -21,7 +21,8 @@ addon.port.on("kdf", function(m) {
     worker.onmessage = function(r) {
         //console.log(" worker finish test-webworker", r.data);
         var data = JSON.parse(r.data);
-        addon.port.emit("kdf-done", {keys: data.keys,
+        addon.port.emit("kdf-done", {reqID: m.reqID,
+                                     keys: data.keys,
                                      elapsed: data.elapsed});
         //console.log(" worker finish test-webworker sent response");
     };
@@ -32,7 +33,8 @@ addon.port.on("encrypt", function(m) {
     var w = new Worker("gombot-worker2.js");
     worker.onmessage = function(r) {
         var data = JSON.parse(r.data);
-        addon.port.emit("encrypt-done", {msgmac_b64: data.msgmac_b64,
+        addon.port.emit("encrypt-done", {reqID: m.reqID,
+                                         msgmac_b64: data.msgmac_b64,
                                          elapsed: data.elapsed});
     };
     worker.postMessage({type: "encrypt",
@@ -43,7 +45,8 @@ addon.port.on("decrypt", function(m) {
     var w = new Worker("gombot-worker2.js");
     worker.onmessage = function(r) {
         var data = JSON.parse(r.data);
-        addon.port.emit("decrypt-done", {plaintext: data.plaintext,
+        addon.port.emit("decrypt-done", {reqID: m.reqID,
+                                         plaintext: data.plaintext,
                                          elapsed: data.elapsed});
     };
     worker.postMessage({type: "decrypt",
