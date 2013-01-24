@@ -72,6 +72,12 @@ worker.port.on("decrypt-done", function(m) {
     delete pendingDecrypt[m.reqID];
 });
 
+worker.port.on("decrypt-error", function(m) {
+    console.log("gombot.js encrypt-error", m.error);
+    pendingDecrypt[m.reqID].reject(m.error);
+    delete pendingDecrypt[m.reqID];
+});
+
 exports.decrypt = function(keys, msgmac_b64) {
     if (typeof(msgmac_b64) != "string") {
         console.log("gombot.decrypt msgmac_b64= must be a string");

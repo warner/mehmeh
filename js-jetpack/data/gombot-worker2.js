@@ -51,12 +51,21 @@ self.onmessage = function(m) {
 
     if (m.data.type == "decrypt") {
         var start = new Date().getTime();
-        var plaintext = gombot_decrypt(m.data.keys, m.data.msgmac_b64);
-        var end = new Date().getTime();
-        self.postMessage(JSON.stringify({type: "decrypt-done",
-                                         reqID: m.data.reqID,
-                                         plaintext: plaintext,
-                                         elapsed: (end-start)/1000}));
+        try {
+            var plaintext = gombot_decrypt(m.data.keys, m.data.msgmac_b64);
+            var end = new Date().getTime();
+            self.postMessage(JSON.stringify({type: "decrypt-done",
+                                             reqID: m.data.reqID,
+                                             plaintext: plaintext,
+                                             elapsed: (end-start)/1000}));
+        } catch(e) {
+            // unrecognized version prefix, or corrupt MAC
+            var end = new Date().getTime();
+            self.postMessage(JSON.stringify({type: "decrypt-error",
+                                             reqID: m.data.reqID,
+                                             error: e.toString(),
+                                             elapsed: (end-start)/1000}));
+        }
     }
 };
 

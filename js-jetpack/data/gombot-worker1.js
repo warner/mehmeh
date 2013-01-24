@@ -31,6 +31,10 @@ worker.onmessage = function(r) {
         addon.port.emit("decrypt-done", {reqID: data.reqID,
                                          plaintext: data.plaintext,
                                          elapsed: data.elapsed});
+    } else if (data.type == "decrypt-error") {
+        addon.port.emit("decrypt-error", {reqID: data.reqID,
+                                         error: data.error,
+                                         elapsed: data.elapsed});
     } else {
         console.log("worker1 got weird response", r.data);
     }
