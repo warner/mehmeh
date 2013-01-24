@@ -46,17 +46,18 @@ function gombot_kdf(email_str, password_str) {
     var secret = str2bits("");
     var masterSecret = concatBits(concatBits(secret, str2bits(":")),
                                   str2bits(password_str));
-    logBits("masterSalt", masterSalt);
-    logBits("masterSecret", masterSecret);
+    //logBits("masterSalt", masterSalt);
+    //logBits("masterSecret", masterSecret);
     // sjcl's PBKDF2 defaults to HMAC-SHA256
     var masterKey = sjcl.misc.pbkdf2(masterSecret, masterSalt, 250*1000, 8*32);
-    logBits("masterKey", masterKey);
+    //logBits("masterKey", masterKey);
     var authKey = sjcl.misc.pbkdf2(masterKey, makeSalt("authentication"), 1, 8*32);
     var aesKey = sjcl.misc.pbkdf2(masterKey, makeSalt("data/AES"), 1, 8*32);
     var hmacKey = sjcl.misc.pbkdf2(masterKey, makeSalt("data/HMAC"), 1, 8*32);
     // return an object that can be serialized as JSON for storage. We'll
     // have to convert it back to an sjcl.bitArray before using it.
-    return {authKey: bits2hex(authKey),
+    return {masterKey: bits2hex(masterKey),
+            authKey: bits2hex(authKey),
             aesKey: bits2hex(aesKey),
             hmacKey: bits2hex(hmacKey)};
 }
