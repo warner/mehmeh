@@ -30,6 +30,7 @@ self.onmessage = function(m) {
         //console.log(" worker finish do kdf emit");
         var end = new Date().getTime();
         self.postMessage(JSON.stringify({type: "kdf-done",
+                                         reqID: m.data.reqID,
                                          keys: keys,
                                          elapsed: (end-start)/1000}));
         //console.log(" worker finish do kdf");
@@ -42,6 +43,7 @@ self.onmessage = function(m) {
         //console.log(" worker finish do encrypt emit");
         var end = new Date().getTime();
         self.postMessage(JSON.stringify({type: "encrypt-done",
+                                         reqID: m.data.reqID,
                                          msgmac_b64: msgmac_b64,
                                          elapsed: (end-start)/1000}));
         //console.log(" worker finish do encrypt");
@@ -52,6 +54,7 @@ self.onmessage = function(m) {
         var plaintext = gombot_decrypt(m.data.keys, m.data.msgmac_b64);
         var end = new Date().getTime();
         self.postMessage(JSON.stringify({type: "decrypt-done",
+                                         reqID: m.data.reqID,
                                          plaintext: plaintext,
                                          elapsed: (end-start)/1000}));
     }
