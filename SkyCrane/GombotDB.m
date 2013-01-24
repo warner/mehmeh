@@ -8,29 +8,30 @@
 
 #import "GombotDB.h"
 #import "MzPassword.h"
+#import "Site.h"
 #import <CommonCrypto/CommonKeyDerivation.h>
 #import "NSData+Base64.h"
 #import "NSString+Base64.h"
 
 
-#define _GOMBOT_URL_TEMPORARY @"https://dl.dropbox.com/u/169445/SAMPLE_DB"                                         
+//#define _GOMBOT_URL_TEMPORARY @"https://dl.dropbox.com/u/169445/gombotdata"
 
 //necessary for keychain
 #define _HOST @"www.gombot.org"
 #define _SCHEME @"https"
 #define _PORT @443
-#define _PATH @"/datafile"
 
 
-#define _GOMBOT_URL [NSString stringWithFormat:@"%@://%@%@", _SCHEME, _HOST, _PATH]
+#define LOCAL_DATA_FILE @"gombotdata"
 
-
-#define DATA_FILE @"encryptedDB"
-
+#define VERSION_PREFIX_1 @"identity.mozilla.com/gombot/v1/data:"
 
 
 static NSDictionary* private_data = nil;
-static NSString* private_account;
+static NSString* private_account = nil;
+static NSMutableArray* private_sites = nil;
+static NSInteger private_timestamp = 0;
+static NSMutableArray* private_pin = nil;
 
 @implementation GombotDB
 
@@ -84,9 +85,12 @@ static NSString* private_account;
   private_account = account;
   
   //make initial derived master key
+  //NSDate* before = [NSDate date];
   NSData* masterKey = [self makeKeyWithPassword: [self makeMasterSecretFrom:@"" andPassword:password]
                                         andSalt:[self makeMasterSaltFrom:account]
                                       andRounds:250000];
+  //NSDate* after = [NSDate date];
+  //NSLog(@"250k PBKDF: %f", [after timeIntervalSinceDate:before]);
   //NSLog(@"masterKey: %@", masterKey);
 
   //first, use the master key to create the auth, aes, and hmac keys
@@ -99,7 +103,7 @@ static NSString* private_account;
   NSData* hmacKey = [self makeKeyWithPassword: masterKey andSalt:[self getHmacSalt] andRounds:1];
   //NSLog(@"hmac: %@", hmacKey);
 
-  //save ALL THREE (!) keychain items
+  //save all three keychain items
   MzPassword* authKeychainItem = [[MzPassword alloc] initWithServer:_HOST account:account scheme: _SCHEME port:_PORT path:_AUTHPATH];
   [authKeychainItem setPass:authKey];
   [authKeychainItem save];
@@ -140,8 +144,13 @@ static NSString* private_account;
   NSData* aesKey = [GombotDB getKeyForPath:_AESPATH];
   NSData* hmacKey = [GombotDB getKeyForPath:_HMACPATH];
 
-  //Read file
-  NSData* encryptedData = [GombotDB loadLocalEncryptedDataFile];
+  //Read file, which is actually JSON
+  
+  NSData* fileData = [GombotDB loadLocalEncryptedDataFile];
+  NSDictionary* fileDict = [GombotDB parseJSONdata:fileData];
+  NSString* payload = [fileDict objectForKey:@"payload"];
+  
+  NSData* encryptedData = [payload base64DecodedData];
 
   //Decrypt file into JSON using credentials
   NSData* decryptedData = [GombotDB decryptData:encryptedData withHMACKey:hmacKey andAESKey: aesKey];
@@ -149,16 +158,40 @@ static NSString* private_account;
   //Parse JSON file into NSDictionary and save in private_data singleton
   NSDictionary* final = [GombotDB parseJSONdata:decryptedData];
   
+  //massage the data into useful formats for display
   private_data = final;
+  private_sites = [NSMutableArray array];
+  
+  for (NSDictionary* site_entry in [private_data objectForKey:@"logins"])
+  {
+    Site* next = [[Site alloc] initWithName:[site_entry objectForKey:@"title"] login:[site_entry objectForKey:@"username"] url:[site_entry objectForKey:@"loginurl"] password:[site_entry objectForKey:@"password"] record:site_entry];
+      
+      [private_sites addObject:next];
+  }
+  //Sort the results
+  NSSortDescriptor *nameSort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+  NSSortDescriptor *loginSort = [NSSortDescriptor sortDescriptorWithKey:@"login" ascending:YES];
+  
+  [private_sites sortUsingDescriptors:@[nameSort, loginSort]];
+
+  //pins are 4 digits long
+  private_pin = [NSMutableArray arrayWithCapacity:4];
+  NSString* pinStr = [private_data objectForKey:@"pin"];
+  
+  for (int j=0; j<4; j++)
+  {
+    private_pin[j] = [NSNumber numberWithInt:[[pinStr substringWithRange:NSMakeRange(j, 1)] intValue]];
+  }
+  private_timestamp = [[fileDict objectForKey:@"updated"] integerValue];
 }
 
 
 //will return nil if no data file
-+ (NSString*) getPin
++ (NSArray*) getPin
 {
   if (private_data)
   {
-    return [private_data objectForKey:@"pin"];
+    return private_pin;
   }
   else
   {
@@ -169,9 +202,9 @@ static NSString* private_account;
 //will return nil if no data file
 + (NSArray*) getSites
 {
-  if (private_data)
+  if (private_sites)
   {
-    return [private_data objectForKey:@"passwords"];
+    return private_sites;
   }
   else
   {
@@ -208,6 +241,30 @@ static NSString* private_account;
 
 
 
++ (NSData*) encryptData: (NSData*)message withHMACKey: (NSData*)HMACkey andAESKey: (NSData*)AESKey
+{
+  // before anything else, check the version prefix
+  NSData *versionPrefix = [VERSION_PREFIX_1 dataUsingEncoding:NSUTF8StringEncoding];
+  
+  NSMutableData* outputBuffer = [NSMutableData dataWithData:versionPrefix];
+  
+  //FIX! correct IV calculation!!
+  NSData* IV = [@"0000000000000000" dataUsingEncoding:NSUTF8StringEncoding];
+  [outputBuffer appendData:IV];
+  NSData* ciphertext = [message AES256EncryptWithKey:AESKey andIV:IV];
+  [outputBuffer appendData:ciphertext];
+  
+  NSData* computedHMAC = [GombotDB makeHMACFor:outputBuffer withKey:HMACkey];
+  NSLog(@"computed hmac: %@", computedHMAC);
+  
+  [outputBuffer appendData:computedHMAC];
+    
+  return outputBuffer;
+}
+
+
+
+
 /*email="foo@example.org", password="password", ciphertext=hex(02c8c23573cc3be3cd931486b509140f549a787135a7871a752932d1dcb9496c19460c21d70545af43a8226810617f1a9728c60b378b198b679fb5026321847b), should yield data="data"*/
 
 /*step 1: compute HMAC on all but the last 32 bytes, compare it against the last 32 bytes, bail if mismatch
@@ -218,7 +275,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 + (NSData*) decryptData: (NSData*)message withHMACKey: (NSData*)HMACkey andAESKey: (NSData*)AESKey
 {
   // before anything else, check the version prefix
-  NSData *versionPrefix = [@"identity.mozilla.com/gombot/v1/data:" dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *versionPrefix = [VERSION_PREFIX_1 dataUsingEncoding:NSUTF8StringEncoding];
   NSUInteger verlen = [versionPrefix length];
   NSData *gotPrefix = [message subdataWithRange:NSMakeRange(0, verlen)];
   if (![gotPrefix isEqualToData:versionPrefix]) {
@@ -236,7 +293,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
   NSData* hmacValue = [message subdataWithRange:NSMakeRange([message length]-32, 32)];
   //NSLog(@"message hmac: %@", hmacValue);
 
-  NSData* computedHMAC = [GombotDB makeHMACFor:hmacInput withKey:[GombotDB getKeyForPath:_HMACPATH]];
+  NSData* computedHMAC = [GombotDB makeHMACFor:hmacInput withKey:HMACkey];
   //NSLog(@"computed hmac: %@", computedHMAC);
   // TODO: use constant-time comparison here, to avoid a timing attack
   if (![computedHMAC isEqualToData:hmacValue]) {
@@ -256,7 +313,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
   NSData* payload = [message subdataWithRange:NSMakeRange(verlen+16, [message length]-verlen-16-32)];
   //NSLog(@"message payload: %@", payload);
   
-  NSData* plaintext = [payload AES256DecryptWithKey:[GombotDB getKeyForPath:_AESPATH] andIV:IV];
+  NSData* plaintext = [payload AES256DecryptWithKey:AESKey andIV:IV];
 
   return plaintext;
 }
@@ -266,7 +323,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 {
   NSArray *pathArray = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
   NSString *documentsDirectory = [pathArray objectAtIndex:0];
-  return [documentsDirectory stringByAppendingPathComponent:DATA_FILE];
+  return [documentsDirectory stringByAppendingPathComponent:LOCAL_DATA_FILE];
 }
 
 
@@ -274,6 +331,13 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 + (void) eraseDB
 {
   NSError *error = nil;
+  //dump in-memory copies.
+  private_data = nil;
+  private_account = nil;
+  private_sites = nil;
+  private_pin = nil;
+  private_timestamp = 0;
+  
   if ([[NSFileManager defaultManager] fileExistsAtPath:[self getDatafilePath]])
   {
     [[NSFileManager defaultManager] removeItemAtPath:[self getDatafilePath] error:&error];
@@ -295,7 +359,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
   for(MzPassword* pwd in results)
   {
     NSDictionary* result = [pwd discard];
-    //NSLog(@"removed password: %@", result);
+    if (!result) NSLog(@"failed to remove password");
   }
 
 }
@@ -304,7 +368,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 {
   NSError *error = nil;
   NSMutableData* fileData = [NSMutableData dataWithContentsOfFile:[self getDatafilePath] options:0 error:&error];
-
+  
   if (error != nil)
   {
     NSException *exception = [NSException exceptionWithName: @"FileException"
@@ -316,60 +380,113 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 }
 
 
+//Send HAWK authenticated requests
 
-//DOWNLOAD DATAFILE
-+ (void) retrieveDataFromNetwork:(NotifyBlock)notifier
+
++ (void) makeAuthenticatedRequestToHost:(NSString*)host path:(NSString*)path port:(NSString*)port method:(NSString*)method body:(NSData*)body withCompletion:(RequestCompletion)externalCompletion
 {
-  //authenticate to the server, download the datafile, save it in the correct place, then decrypt/reload it, and notify the UI that
-  // the data has updated.  This is done asynchronously, but synchronicity can be achieved by sending the callback necessary to
-  // 'wake up' the caller
+  //what time is it?
+  long timestamp = [[NSDate new] timeIntervalSince1970];
+
+  //carefully assemble the bytes that are used to create the MAC. NOTE the extra empty line at the end!
+  NSString* hmacInput = [NSString stringWithFormat:@"%ld\n%@\n%@\n%@\n%@\n\n", timestamp, method, path, host, port];
+
+  //generate the MAC for this string
+  NSData* hmacOutput = [GombotDB makeHMACFor:[hmacInput dataUsingEncoding:NSUTF8StringEncoding] withKey:[GombotDB getKeyForPath:_AUTHPATH]];
+
+  //create the request
+  NSURL* requestURL = [NSURL URLWithString:[NSString stringWithFormat:@"HTTPS://%@:%@%@", host, port, path]];
+  NSMutableURLRequest* hawkRequest = [[NSMutableURLRequest alloc] initWithURL: requestURL cachePolicy: NSURLCacheStorageNotAllowed timeoutInterval: 5.0];
+
+  //create the hawk auth header
+  NSString* hawkHeader = [NSString stringWithFormat:@"Hawk id=\"%@\", ts=\"%ld\", ext=\"\", mac=\"%@\"", private_account, timestamp, [hmacOutput base64EncodedString]];
+
+  [hawkRequest setValue: hawkHeader forHTTPHeaderField: @"Authorization"];
+  [hawkRequest setValue: @"application/json" forHTTPHeaderField: @"content-type"];
+  [hawkRequest setHTTPMethod: method];
   
-  id completionHandler = ^(NSHTTPURLResponse* response, NSData* data, NSError* error)
+  if ([method isEqualToString:@"PUT"] && body != nil)
   {
-    if (error)
+    [hawkRequest setHTTPBody: body];
+  }
+  
+  //get ready to send it, by creating a block to handle the callbacks
+  id internalHandler = ^(NSHTTPURLResponse* response, NSData* data, NSError* error)
+  {
+    if (error || [response statusCode] != 200)
     {
-      //Handle error
-      NSLog(@"Error getting file: %@", error);
+      NSLog(@"request error. response code: %d  error: %@", [response statusCode], error);
+      externalCompletion([response statusCode], nil, error);
     }
     else
     {
-      //Get data, save to file, tell UI to update.
-      //NSLog(@"Success getting file: %@", data);
-      BOOL success = [[NSFileManager defaultManager] createFileAtPath:[GombotDB getDatafilePath] contents:data attributes:nil];
-      if (!success) NSLog(@"failed to write new datafile");
+      NSLog(@"request success");
+      externalCompletion([response statusCode], data, error);
     }
-    
-    notifier();
+  };
+
+  NSString* bodyString = [[NSString alloc] initWithData:[hawkRequest HTTPBody] encoding:NSUTF8StringEncoding];
+  
+  NSLog(@"Request: %@\n %@\n %@\n %@", [hawkRequest HTTPMethod], hawkRequest, [hawkRequest allHTTPHeaderFields], bodyString );
+  [NSURLConnection sendAsynchronousRequest: hawkRequest queue: [NSOperationQueue mainQueue] completionHandler: internalHandler];
+
+}
+
+
+
+
+//Do we have connectivity? if so, do we have the newest data?  if not, download freshest data from server
++ (void) updateLocalData:(Notifier)ping
+{
+  //check for connectivity
+  
+  RequestCompletion dataCompletion = ^(NSInteger status, NSData* body, NSError* err)
+  {
+    //save the file, which is JSON, containing a 'payload', and an 'updated' timestamp
+    BOOL success = [[NSFileManager defaultManager] createFileAtPath:[GombotDB getDatafilePath] contents:body attributes:nil];
+    if (!success)
+    {
+      NSLog(@"failed to write new datafile");
+      ping(NO, @"Unable to create local database file.");
+    }
+    ping(YES, nil);
   };
   
-  NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString:_GOMBOT_URL_TEMPORARY] cachePolicy: NSURLCacheStorageAllowed timeoutInterval: 5.0];
-  //Construct the HAWK header
+  //check freshness date
+  RequestCompletion freshnessCompletion = ^(NSInteger status, NSData* body, NSError* err)
+  {
+    //if not fresh
+    if (status == 200)
+    {
+      NSDictionary* timestampBlob = [GombotDB parseJSONdata:body];
+      long serverDate = [[timestampBlob objectForKey:@"updated"] integerValue];
+      
+      if (private_timestamp < serverDate)
+      {
+        //ok, so make request for the fresher data
+        [GombotDB makeAuthenticatedRequestToHost:@"gombot.org" path:@"/api/v1/payload" port:@"443" method:@"GET" body:nil withCompletion:dataCompletion];
+      }
+      else
+      {
+        //data was not updated, but no error
+        ping(NO, nil);
+      }
+    }
+    else
+    {
+      //data was not updated, with error message
+      //why 13?
+      if (status == 13) ping(NO, @"Incorrect credentials");
+      else ping(NO, [NSString stringWithFormat: @"Server returned code: %d", status]);
+    }
+  };
   
-  long timestamp = [[NSDate new] timeIntervalSince1970];
+  //make outer request for timestamp
+  [GombotDB makeAuthenticatedRequestToHost:@"gombot.org" path:@"/api/v1/payload/timestamp" port:@"443" method:@"GET" body: nil withCompletion:freshnessCompletion];
   
-  //timestamp \n http method \n path \n host \n port \n and extra stuff
-  NSString* hmacBody = [NSString stringWithFormat:@"%ld\nGET\n%@\n%@\n%@\n", timestamp, _PATH, _HOST, _PORT];
-  //NSLog(@"hmac input= \n---------------------\n%@\n----------------------\n", hmacBody);
-  
-  NSData* hmac = [GombotDB makeHMACFor:[hmacBody dataUsingEncoding:NSUTF8StringEncoding] withKey:[GombotDB getKeyForPath:_AUTHPATH]];
-  //NSLog(@"hmac= %@", hmac);
-  
-  NSString* hawkHeader = [NSString stringWithFormat:@"Hawk id=\"%@\", ts=\"%ld\", ext=\"\", mac=\"%@\"", private_account, timestamp, hmac];
-  //NSLog(@"hawk header= %@", hawkHeader);
-  
-
-  [request setValue: hawkHeader forHTTPHeaderField: @"Authorization"];
-  [request setValue: @"application/json" forHTTPHeaderField: @"content-type"];
-
-  
-  [request setHTTPMethod: @"GET"];
-  
-//  [request setHTTPShouldHandleCookies: YES];
-//  [request setHTTPBody: [HTTP_BODY_DATA dataUsingEncoding: NSUTF8StringEncoding]];
-  
-  NSLog(@"%@ :: %@", request, [request allHTTPHeaderFields] );
-  [NSURLConnection sendAsynchronousRequest: request queue: [NSOperationQueue mainQueue] completionHandler: completionHandler];
 }
+
+
 
 
 

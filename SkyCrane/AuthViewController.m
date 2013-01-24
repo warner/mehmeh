@@ -29,16 +29,6 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-  
-  spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:
-              UIActivityIndicatorViewStyleWhiteLarge];
-  
-  [self.view addSubview:spinner];
-  [spinner setFrame:CGRectMake( floorf((self.view.frame.size.width - spinner.frame.size.width) / 2.0),
-                                  floorf((self.view.frame.size.height - spinner.frame.size.height) / 4.0),
-                                  spinner.frame.size.width,
-                                  spinner.frame.size.height)];
-
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -49,37 +39,76 @@
   [GombotDB clearKeychain];
 }
 
-
-- (void) finished
+- (void)working:(BOOL)isWorking
 {
-  //enable the buttons and fields, and remove the spinner
-  _account.enabled = YES;
-  _password.enabled = YES;
-  _connectButton.enabled = YES;
+  if (isWorking)
+  {
+    _account.enabled = NO;
+    _password.enabled = NO;
+    _connectButton.enabled = NO;
+    
+    [_spinnerFrame setHidden:NO];
+    [_spinner startAnimating];
+  }
+  else
+  {
+    _account.enabled = YES;
+    _password.enabled = YES;
+    //_connectButton.enabled = YES;
+    _account.text = @"";
+    _password.text = @"";
+    [_spinnerFrame setHidden:YES];
+    [_spinner stopAnimating];
+  }
+}
 
-  [spinner stopAnimating];
-  [self dismissViewControllerAnimated:YES completion:^(void){}];
+- (void) showAlert:(NSString*) msg
+{
+  UIAlertView *alert = [[UIAlertView alloc]
+                        initWithTitle: @"Error"
+                        message: msg
+                        delegate: nil
+                        cancelButtonTitle:@"OK"
+                        otherButtonTitles:nil];
+  [alert show];  
+}
+
+- (void) finished: (NSString*) error
+{
+  if (error) [self showAlert:error];
+  
+  //enable the buttons and fields, and remove the spinner
+  [self working:NO];
+  
+  @try {
+    [GombotDB loadDataFile];
+    [self dismissViewControllerAnimated:YES completion:^(void){}];
+  }
+  @catch (NSException *exception) {
+    NSLog(@"%@",exception);
+    [GombotDB eraseDB];
+    [GombotDB clearKeychain];
+  }
 }
 
 - (IBAction) connect:(id)sender
 {
-  //disable the buttons and fields, and turn on the spinner
-  _account.enabled = NO;
-  _password.enabled = NO;
-  _connectButton.enabled = NO;
+  [self working:YES];
   
-  [spinner startAnimating];
-
   //get the account and password, and send it off to GombotDB to be saved in the keychain
-
-  [GombotDB updateCredentialsWithAccount:_account.text andPassword:_password.text];
+  @try {
+    [GombotDB updateCredentialsWithAccount:_account.text andPassword:_password.text];
+    
+    //put up spinner while we pseudo-synchronously get their data, since we have no file at all.
+    [GombotDB updateLocalData:(Notifier)^(BOOL updated, NSString* errorMessage) {
+                                                                                  [self finished:errorMessage];
+                                                                                }];
+     }
+  @catch (NSException *exception) {
+    NSLog(@"%@",exception);
+    [self working:NO];
+  }
   
-  //put up spinner while we SYNCHRONOUSLY get their data, since we have no file at all.
-  
-  [GombotDB retrieveDataFromNetwork:^{
-    [self finished];
-  }];
-   
 }
 
 - (void)didReceiveMemoryWarning
