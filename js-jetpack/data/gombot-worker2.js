@@ -34,6 +34,27 @@ self.onmessage = function(m) {
                                          elapsed: (end-start)/1000}));
         //console.log(" worker finish do kdf");
     }
+
+    if (m.data.type == "encrypt") {
+        //console.log("worker do encrypt", m.data);
+        var start = new Date().getTime();
+        var msgmac_b64 = gombot_encrypt(m.data.keys, m.data.data, m.data.forceIV);
+        //console.log(" worker finish do encrypt emit");
+        var end = new Date().getTime();
+        self.postMessage(JSON.stringify({type: "encrypt-done",
+                                         msgmac_b64: msgmac_b64,
+                                         elapsed: (end-start)/1000}));
+        //console.log(" worker finish do encrypt");
+    }
+
+    if (m.data.type == "decrypt") {
+        var start = new Date().getTime();
+        var plaintext = gombot_decrypt(m.data.keys, m.data.msgmac_b64);
+        var end = new Date().getTime();
+        self.postMessage(JSON.stringify({type: "decrypt-done",
+                                         plaintext: plaintext,
+                                         elapsed: (end-start)/1000}));
+    }
 };
 
 //console.log("worker.js loaded");

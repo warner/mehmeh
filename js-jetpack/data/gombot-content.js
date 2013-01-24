@@ -76,15 +76,15 @@ function gombot_encrypt(keys, data, forceIV) {
         throw new Error("sjcl.random is not ready, cannot create IV");
     var IV = sjcl.random.randomWords(16/4);
     if (forceIV)
-        IV = forceIV;
+        IV = hex2bits(forceIV);
 
     var ct = sjcl.mode.cbc.encrypt(new sjcl.cipher.aes(hex2bits(keys.aesKey)),
                                    str2bits(data), IV);
     var msg = concatBits(concatBits(gombot_version_prefix, IV), ct);
     var mac = new sjcl.misc.hmac(hex2bits(keys.hmacKey), sjcl.hash.sha256).mac(msg);
-    logBits("mac", mac);
+    //logBits("mac", mac);
     var msgmac = concatBits(msg, mac);
-    console.log(bits2hex(IV), bits2hex(msg), bits2hex(mac));
+    //console.log(bits2hex(IV), bits2hex(msg), bits2hex(mac));
     return bits2b64(msgmac);
 }
 
@@ -110,7 +110,7 @@ function gombot_decrypt(keys, msgmac_b64) {
     var msg = bA.bitSlice(macable, prelen+16*8);
     var pt = sjcl.mode.cbc.decrypt(new sjcl.cipher.aes(hex2bits(keys.aesKey)),
                                    msg, IV);
-    logBits("pt", pt);
+    //logBits("pt", pt);
     return bits2str(pt);
 }
 
@@ -134,9 +134,7 @@ function test() {
     var start = new Date().getTime();
     var keys = gombot_kdf(email, password);
     console.log("keys", keys);
-    var m_b64 = gombot_encrypt(keys, data,
-                               hex2bits("45fea09e3db6333762a8c6ab8ac50548")
-                              );
+    var m_b64 = gombot_encrypt(keys, data, "45fea09e3db6333762a8c6ab8ac50548");
     console.log("msgmac_b64", m_b64);
     var end = new Date().getTime();
     console.log("elapsed", (end - start) / 1000);

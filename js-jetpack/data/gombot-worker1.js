@@ -27,4 +27,24 @@ addon.port.on("kdf", function(m) {
     w.postMessage({type: "kdf", email: m.email, password: m.password});
 });
 
-//console.log("worker.js loaded");
+addon.port.on("encrypt", function(m) {
+    var w = new Worker("gombot-worker2.js");
+    w.onmessage = function(r) {
+        var data = JSON.parse(r.data);
+        addon.port.emit("encrypt-done", {msgmac_b64: data.msgmac_b64,
+                                         elapsed: data.elapsed});
+    };
+    w.postMessage({type: "encrypt",
+                   keys: m.keys, data: m.data, forceIV: m.forceIV});
+});
+
+addon.port.on("decrypt", function(m) {
+    var w = new Worker("gombot-worker2.js");
+    w.onmessage = function(r) {
+        var data = JSON.parse(r.data);
+        addon.port.emit("decrypt-done", {plaintext: data.plaintext,
+                                         elapsed: data.elapsed});
+    };
+    w.postMessage({type: "decrypt",
+                   keys: m.keys, msgmac_b64: m.msgmac_b64});
+});

@@ -30,5 +30,45 @@ exports.kdf = function(email, password) {
     worker.port.emit("kdf", {email: email, password: password});
     //console.log("asked worker to kdf");
     return d.promise;
-}
+};
+
+
+exports.encrypt = function(keys, data, forceIV) {
+    if (typeof(data) != "string") {
+        console.log("gombot.encrypt data= must be a string");
+        throw new Error("gombot.encrypt data= must be a string");
+    }
+    // forceIV is only for testing. In normal use, leave it undefined.
+
+    var d = defer();
+    //console.log("asking worker to kdf");
+    worker.port.on("encrypt-done", function(m) {
+        console.log("gombot.js encrypt-done", m.msgmac_b64);
+        console.log("gombot.js encrypt-done took", m.elapsed);
+        d.resolve(m);
+    });
+    worker.port.emit("encrypt", {keys: keys, data: data, forceIV: forceIV});
+    return d.promise;
+};
+
+exports.decrypt = function(keys, msgmac_b64) {
+    if (typeof(msgmac_b64) != "string") {
+        console.log("gombot.decrypt msgmac_b64= must be a string");
+        throw new Error("gombot.decrypt msgmac_b64= must be a string");
+    }
+    function delay(ms, value) {
+        let { promise, resolve } = defer();
+        require("timer").setTimeout(resolve, ms, value);
+        return promise;
+    }
+    //return delay(1000, {plaintext: "abc", elapsed: 1.0});
+    var d = defer();
+    worker.port.on("decrypt-done", function(m) {
+        console.log("gombot.js encrypt-done", m.plaintext);
+        console.log("gombot.js encrypt-done took", m.elapsed);
+        d.resolve(m);
+    });
+    worker.port.emit("decrypt", {keys: keys, msgmac_b64: msgmac_b64});
+    return d.promise;
+};
 
