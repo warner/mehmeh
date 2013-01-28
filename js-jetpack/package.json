@@ -1,9 +1,9 @@
 {
-    "name": "gombot-test", 
-    "license": "MPL 2.0", 
-    "author": "Brian Warner", 
-    "version": "0.1", 
-    "fullName": "gombot-test", 
-    "id": "jid1-t5EqHwVeWjdXfA", 
+    "name": "gombot-crypto-jetpack",
+    "license": "MPL 2.0",
+    "author": "Brian Warner",
+    "version": "0.1",
+    "fullName": "gombot-crypto-jetpack",
+    "id": "jid1-t5EqHwVeWjdXfA",
     "description": "a basic add-on"
 }
