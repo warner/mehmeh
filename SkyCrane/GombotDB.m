@@ -17,9 +17,21 @@
 //#define _GOMBOT_URL_TEMPORARY @"https://dl.dropbox.com/u/169445/gombotdata"
 
 //necessary for keychain
-#define _HOST @"www.gombot.org"
+#ifdef DEVSERVER
+#define _HOST @"dev.tobmog.org"
+#define _SCHEME @"http"
+#define _PORTSTRING @"80"
+#define _PORT @80
+#define _TIMESTAMP_PATH @"/api/v1/payload/timestamp"
+#define _PAYLOAD_PATH @"/api/v1/payload"
+#else
+#define _HOST @"gombot.org"
 #define _SCHEME @"https"
+#define _PORTSTRING @"443"
 #define _PORT @443
+#define _TIMESTAMP_PATH @"/api/v1/payload/timestamp"
+#define _PAYLOAD_PATH @"/api/v1/payload"
+#endif
 
 
 #define LOCAL_DATA_FILE @"gombotdata"
@@ -33,8 +45,15 @@ static NSMutableArray* private_sites = nil;
 static NSInteger private_timestamp = 0;
 static NSMutableArray* private_pin = nil;
 
+static UIBackgroundTaskIdentifier backgroundUpdateTask;
+static NSLock *updateLock;
+
 @implementation GombotDB
 
++ (void) initUpdateLock
+{
+  updateLock = [[NSLock alloc] init];
+}
 
 //Fearing that the salts for these keys may become generated in the future, I have put them in functions here
 + (NSData*) makeMasterSaltFrom:(NSString*)userAccount
@@ -85,13 +104,9 @@ static NSMutableArray* private_pin = nil;
   private_account = account;
   
   //make initial derived master key
-  //NSDate* before = [NSDate date];
   NSData* masterKey = [self makeKeyWithPassword: [self makeMasterSecretFrom:@"" andPassword:password]
-                                        andSalt:[self makeMasterSaltFrom:account]
+                                        andSalt:[self makeMasterSaltFrom:private_account]
                                       andRounds:250000];
-  //NSDate* after = [NSDate date];
-  //NSLog(@"250k PBKDF: %f", [after timeIntervalSinceDate:before]);
-  //NSLog(@"masterKey: %@", masterKey);
 
   //first, use the master key to create the auth, aes, and hmac keys
   NSData* authKey = [self makeKeyWithPassword: masterKey andSalt:[self getAuthSalt] andRounds:1];
@@ -104,19 +119,36 @@ static NSMutableArray* private_pin = nil;
   //NSLog(@"hmac: %@", hmacKey);
 
   //save all three keychain items
-  MzPassword* authKeychainItem = [[MzPassword alloc] initWithServer:_HOST account:account scheme: _SCHEME port:_PORT path:_AUTHPATH];
+  MzPassword* authKeychainItem = [[MzPassword alloc] initWithServer:_HOST account:private_account scheme: _SCHEME port:_PORT path:_AUTHPATH];
   [authKeychainItem setPass:authKey];
   [authKeychainItem save];
   
-  MzPassword* aesKeychainItem = [[MzPassword alloc] initWithServer:_HOST account:account scheme: _SCHEME port:_PORT path:_AESPATH];
+  MzPassword* aesKeychainItem = [[MzPassword alloc] initWithServer:_HOST account:private_account scheme: _SCHEME port:_PORT path:_AESPATH];
   [aesKeychainItem setPass:aesKey];
   [aesKeychainItem save];
 
-  MzPassword* hmacKeychainItem = [[MzPassword alloc] initWithServer:_HOST account:account scheme: _SCHEME port:_PORT path:_HMACPATH];
+  MzPassword* hmacKeychainItem = [[MzPassword alloc] initWithServer:_HOST account:private_account scheme: _SCHEME port:_PORT path:_HMACPATH];
   [hmacKeychainItem setPass:hmacKey];
   [hmacKeychainItem save];
 
 }
+
++ (NSString*) getAccount
+{
+  MzMatcher* keySearch = [MzMatcher createWithServer:_HOST account:nil scheme:_SCHEME port:_PORT path:_AUTHPATH];
+  NSArray* keys = [keySearch findMatching];
+  if ([keys count] != 1 || !keys[0])
+  {
+    NSException *exception = [NSException exceptionWithName: @"CredentialException"
+                                                     reason: [NSString stringWithFormat:@"Unable to load account name"]
+                                                   userInfo: nil];
+    @throw exception;
+  }
+  
+  MzPassword* key = keys[0];
+  return key.account;
+}
+
 
 + (NSData*) getKeyForPath:(NSString*)keyPath
 {
@@ -141,24 +173,25 @@ static NSMutableArray* private_pin = nil;
 + (void)loadDataFile
 {
   //Find neccessary keys
-  NSData* aesKey = [GombotDB getKeyForPath:_AESPATH];
-  NSData* hmacKey = [GombotDB getKeyForPath:_HMACPATH];
+  NSData* aesKey = [self getKeyForPath:_AESPATH];
+  NSData* hmacKey = [self getKeyForPath:_HMACPATH];
 
   //Read file, which is actually JSON
   
-  NSData* fileData = [GombotDB loadLocalEncryptedDataFile];
-  NSDictionary* fileDict = [GombotDB parseJSONdata:fileData];
+  NSData* fileData = [self loadLocalEncryptedDataFile];
+  NSDictionary* fileDict = [self parseJSONdata:fileData];
   NSString* payload = [fileDict objectForKey:@"payload"];
   
   NSData* encryptedData = [payload base64DecodedData];
 
   //Decrypt file into JSON using credentials
-  NSData* decryptedData = [GombotDB decryptData:encryptedData withHMACKey:hmacKey andAESKey: aesKey];
+  NSData* decryptedData = [self decryptData:encryptedData withHMACKey:hmacKey andAESKey: aesKey];
 
   //Parse JSON file into NSDictionary and save in private_data singleton
-  NSDictionary* final = [GombotDB parseJSONdata:decryptedData];
+  NSDictionary* final = [self parseJSONdata:decryptedData];
   
   //massage the data into useful formats for display
+  private_account = [self getAccount];
   private_data = final;
   private_sites = [NSMutableArray array];
   
@@ -254,7 +287,7 @@ static NSMutableArray* private_pin = nil;
   NSData* ciphertext = [message AES256EncryptWithKey:AESKey andIV:IV];
   [outputBuffer appendData:ciphertext];
   
-  NSData* computedHMAC = [GombotDB makeHMACFor:outputBuffer withKey:HMACkey];
+  NSData* computedHMAC = [self makeHMACFor:outputBuffer withKey:HMACkey];
   NSLog(@"computed hmac: %@", computedHMAC);
   
   [outputBuffer appendData:computedHMAC];
@@ -293,7 +326,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
   NSData* hmacValue = [message subdataWithRange:NSMakeRange([message length]-32, 32)];
   //NSLog(@"message hmac: %@", hmacValue);
 
-  NSData* computedHMAC = [GombotDB makeHMACFor:hmacInput withKey:HMACkey];
+  NSData* computedHMAC = [self makeHMACFor:hmacInput withKey:HMACkey];
   //NSLog(@"computed hmac: %@", computedHMAC);
   // TODO: use constant-time comparison here, to avoid a timing attack
   if (![computedHMAC isEqualToData:hmacValue]) {
@@ -382,109 +415,223 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
 
 //Send HAWK authenticated requests
 
+//ASYNCH  NO LONGER USED!
 
-+ (void) makeAuthenticatedRequestToHost:(NSString*)host path:(NSString*)path port:(NSString*)port method:(NSString*)method body:(NSData*)body withCompletion:(RequestCompletion)externalCompletion
+//typedef void (^RequestCompletion)(NSInteger statusCode, NSData* body, NSError* err);
+
+//+ (void) makeAuthenticatedRequestToHost:(NSString*)host path:(NSString*)path port:(NSString*)port method:(NSString*)method body:(NSData*)body withCompletion:(RequestCompletion)externalCompletion
+//{
+//  //what time is it?
+//  long timestamp = [[NSDate new] timeIntervalSince1970];
+//
+//  //carefully assemble the bytes that are used to create the MAC. NOTE the extra empty line at the end!
+//  NSString* hmacInput = [NSString stringWithFormat:@"%ld\n%@\n%@\n%@\n%@\n\n", timestamp, method, path, host, port];
+//
+//  //generate the MAC for this string
+//  NSData* hmacOutput = [self makeHMACFor:[hmacInput dataUsingEncoding:NSUTF8StringEncoding] withKey:[self getKeyForPath:_AUTHPATH]];
+//
+//  //create the request
+//  NSURL* requestURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@:%@%@", _SCHEME, host, port, path]];
+//  NSMutableURLRequest* hawkRequest = [[NSMutableURLRequest alloc] initWithURL: requestURL cachePolicy: NSURLCacheStorageNotAllowed timeoutInterval: 5.0];
+//
+//  //create the hawk auth header
+//  NSString* hawkHeader = [NSString stringWithFormat:@"Hawk id=\"%@\", ts=\"%ld\", ext=\"\", mac=\"%@\"", private_account, timestamp, [hmacOutput base64EncodedString]];
+//
+//  [hawkRequest setValue: hawkHeader forHTTPHeaderField: @"Authorization"];
+//  [hawkRequest setValue: @"application/json" forHTTPHeaderField: @"content-type"];
+//  [hawkRequest setHTTPMethod: method];
+//  
+//  if ([method isEqualToString:@"PUT"] && body != nil)
+//  {
+//    [hawkRequest setHTTPBody: body];
+//  }
+//  
+//  //get ready to send it, by creating a block to handle the callbacks
+//  id internalHandler = ^(NSHTTPURLResponse* response, NSData* data, NSError* error)
+//  {
+//    if (error || [response statusCode] != 200)
+//    {
+//      NSLog(@"request error. response code: %d  error: %@", [response statusCode], error);
+//      externalCompletion([response statusCode], nil, error);
+//    }
+//    else
+//    {
+//      NSLog(@"request success");
+//      externalCompletion([response statusCode], data, error);
+//    }
+//  };
+//
+//  NSString* bodyString = [[NSString alloc] initWithData:[hawkRequest HTTPBody] encoding:NSUTF8StringEncoding];
+//  
+//  NSLog(@"Request: %@\n %@\n %@\n %@", [hawkRequest HTTPMethod], hawkRequest, [hawkRequest allHTTPHeaderFields], bodyString );
+//  [NSURLConnection sendAsynchronousRequest: hawkRequest queue: [NSOperationQueue mainQueue] completionHandler: internalHandler];
+//
+//}
+
+
++ (NSData*) makeSynchronousAuthenticatedRequestToHost:(NSString*)host path:(NSString*)path port:(NSString*)port method:(NSString*)method body:(NSData*)sendBody returningResponse:(NSURLResponse **)response error:(NSError **)error
 {
   //what time is it?
   long timestamp = [[NSDate new] timeIntervalSince1970];
-
+  
   //carefully assemble the bytes that are used to create the MAC. NOTE the extra empty line at the end!
   NSString* hmacInput = [NSString stringWithFormat:@"%ld\n%@\n%@\n%@\n%@\n\n", timestamp, method, path, host, port];
-
+  
   //generate the MAC for this string
-  NSData* hmacOutput = [GombotDB makeHMACFor:[hmacInput dataUsingEncoding:NSUTF8StringEncoding] withKey:[GombotDB getKeyForPath:_AUTHPATH]];
-
+  NSData* hmacOutput = [self makeHMACFor:[hmacInput dataUsingEncoding:NSUTF8StringEncoding] withKey:[self getKeyForPath:_AUTHPATH]];
+  
   //create the request
-  NSURL* requestURL = [NSURL URLWithString:[NSString stringWithFormat:@"HTTPS://%@:%@%@", host, port, path]];
+  NSURL* requestURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@:%@%@", _SCHEME, host, port, path]];
   NSMutableURLRequest* hawkRequest = [[NSMutableURLRequest alloc] initWithURL: requestURL cachePolicy: NSURLCacheStorageNotAllowed timeoutInterval: 5.0];
-
+  
   //create the hawk auth header
   NSString* hawkHeader = [NSString stringWithFormat:@"Hawk id=\"%@\", ts=\"%ld\", ext=\"\", mac=\"%@\"", private_account, timestamp, [hmacOutput base64EncodedString]];
-
+  
   [hawkRequest setValue: hawkHeader forHTTPHeaderField: @"Authorization"];
   [hawkRequest setValue: @"application/json" forHTTPHeaderField: @"content-type"];
   [hawkRequest setHTTPMethod: method];
   
-  if ([method isEqualToString:@"PUT"] && body != nil)
+  if ([method isEqualToString:@"PUT"] && sendBody != nil)
   {
-    [hawkRequest setHTTPBody: body];
+    [hawkRequest setHTTPBody: sendBody];
   }
-  
-  //get ready to send it, by creating a block to handle the callbacks
-  id internalHandler = ^(NSHTTPURLResponse* response, NSData* data, NSError* error)
-  {
-    if (error || [response statusCode] != 200)
-    {
-      NSLog(@"request error. response code: %d  error: %@", [response statusCode], error);
-      externalCompletion([response statusCode], nil, error);
-    }
-    else
-    {
-      NSLog(@"request success");
-      externalCompletion([response statusCode], data, error);
-    }
-  };
-
+    
   NSString* bodyString = [[NSString alloc] initWithData:[hawkRequest HTTPBody] encoding:NSUTF8StringEncoding];
   
-  NSLog(@"Request: %@\n %@\n %@\n %@", [hawkRequest HTTPMethod], hawkRequest, [hawkRequest allHTTPHeaderFields], bodyString );
-  [NSURLConnection sendAsynchronousRequest: hawkRequest queue: [NSOperationQueue mainQueue] completionHandler: internalHandler];
+  NSLog(@"Request: %@\n %@\n %@\n %@", [hawkRequest HTTPMethod], hawkRequest, [hawkRequest allHTTPHeaderFields], bodyString);
+  NSData* responseData = [NSURLConnection sendSynchronousRequest:hawkRequest returningResponse:response error:error];
 
+  return responseData;
 }
 
 
 
-
-//Do we have connectivity? if so, do we have the newest data?  if not, download freshest data from server
+// boolean tells you whether the data was updated, requiring a UI refresh, and userMessage != nil indicates an error, and should be displayed to the user
 + (void) updateLocalData:(Notifier)ping
 {
-  //check for connectivity
-  
-  RequestCompletion dataCompletion = ^(NSInteger status, NSData* body, NSError* err)
-  {
-    //save the file, which is JSON, containing a 'payload', and an 'updated' timestamp
-    BOOL success = [[NSFileManager defaultManager] createFileAtPath:[GombotDB getDatafilePath] contents:body attributes:nil];
-    if (!success)
-    {
-      NSLog(@"failed to write new datafile");
-      ping(NO, @"Unable to create local database file.");
-    }
-    ping(YES, nil);
-  };
-  
-  //check freshness date
-  RequestCompletion freshnessCompletion = ^(NSInteger status, NSData* body, NSError* err)
-  {
-    //if not fresh
-    if (status == 200)
-    {
-      NSDictionary* timestampBlob = [GombotDB parseJSONdata:body];
-      long serverDate = [[timestampBlob objectForKey:@"updated"] integerValue];
+  //PREVENT more than one thread running through here at a time
+  if ([updateLock tryLock]) {
+
+    NSLog(@"Checking data freshness");
+    //check for connectivity
+    
+    [self beginBackgroundUpdateTask];
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       
-      if (private_timestamp < serverDate)
+      
+      NSString* userMessage = nil;
+      BOOL needsUpdate = NO;
+      BOOL wasUpdated = NO;
+
+      
+      /////////////////////////////////////////////////////////////////////////////////
+      //make the timestamp check to see if data on server is newer
+      NSHTTPURLResponse* tsResponse;
+      NSError*       tsError;
+      NSData*       tsResponseBody = [self makeSynchronousAuthenticatedRequestToHost:_HOST path:_TIMESTAMP_PATH port:_PORTSTRING method:@"GET" body:nil returningResponse:&tsResponse error:&tsError];
+      
+      //if not fresh
+      if ([tsResponse statusCode] == 200)
       {
-        //ok, so make request for the fresher data
-        [GombotDB makeAuthenticatedRequestToHost:@"gombot.org" path:@"/api/v1/payload" port:@"443" method:@"GET" body:nil withCompletion:dataCompletion];
+        NSDictionary* timestampBlob = [self parseJSONdata:tsResponseBody];
+        long serverDate = [[timestampBlob objectForKey:@"updated"] integerValue];
+        
+        if (private_timestamp < serverDate)
+        {
+          NSLog(@"Data is stale, needs update");
+          needsUpdate = YES;
+        }
+        else
+        {
+          NSLog(@"data is fresh");
+        }
       }
       else
       {
-        //data was not updated, but no error
-        ping(NO, nil);
+        //data was not updated, with error
+        //why does auth failure return 13?
+        NSLog(@"error checking data freshness: %d", [tsResponse statusCode]);
+        
+        if ([tsResponse statusCode] == 13) {
+          userMessage = @"Incorrect Account or Password";
+        }
+        else
+        {
+          userMessage = [NSString stringWithFormat: @"Server returned code: %d (timestamp)", [tsResponse statusCode]];
+        }
       }
-    }
-    else
-    {
-      //data was not updated, with error message
-      //why 13?
-      if (status == 13) ping(NO, @"Incorrect credentials");
-      else ping(NO, [NSString stringWithFormat: @"Server returned code: %d", status]);
-    }
-  };
-  
-  //make outer request for timestamp
-  [GombotDB makeAuthenticatedRequestToHost:@"gombot.org" path:@"/api/v1/payload/timestamp" port:@"443" method:@"GET" body: nil withCompletion:freshnessCompletion];
+      
+      /////////////////////////////////////////////////////////////////////////////////
+
+      if (needsUpdate)
+      {
+        NSHTTPURLResponse* payloadResponse;
+        NSError*       payloadError;
+        NSData*        payloadResponseBody = [self makeSynchronousAuthenticatedRequestToHost:_HOST path:_PAYLOAD_PATH port:_PORTSTRING method:@"GET" body:nil returningResponse:&payloadResponse error:&payloadError];
+        
+        if ([payloadResponse statusCode] == 200)
+        {
+          BOOL success = [[NSFileManager defaultManager] createFileAtPath:[self getDatafilePath] contents:payloadResponseBody attributes:nil];
+          if (success)
+          {
+            wasUpdated = YES;
+          }
+          else
+          {
+            NSLog(@"failed to write new datafile");
+            userMessage = @"Unable to create local database file.";
+          }
+        }
+        else
+        {
+          //data was not updated, with error
+          //why does auth failure return 13?
+          if ([payloadResponse statusCode] == 13) {
+            userMessage = @"Incorrect Account or Password";
+          }
+          else
+          {
+            userMessage = [NSString stringWithFormat: @"Server returned code: %d (payload)", [payloadResponse statusCode]];
+          }
+        }
+      }
+      
+      //Tell the UI to update if necessary
+      [[NSOperationQueue mainQueue] addOperationWithBlock:^ {
+        ping(wasUpdated, userMessage);
+      }];
+      
+      [self endBackgroundUpdateTask];
+
+      
+    });
+    
+    [updateLock unlock];
+
+  }
+  else
+  {
+    NSLog(@"updateLock not available. different thread already updating data");
+  }
   
 }
+
+
+
++ (void) beginBackgroundUpdateTask
+{
+  backgroundUpdateTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+    [self endBackgroundUpdateTask];
+  }];
+}
+
++ (void) endBackgroundUpdateTask
+{
+  [[UIApplication sharedApplication] endBackgroundTask: backgroundUpdateTask];
+  backgroundUpdateTask = UIBackgroundTaskInvalid;
+}
+
 
 
 

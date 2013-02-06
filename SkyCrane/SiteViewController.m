@@ -18,27 +18,52 @@
 
 @implementation SiteViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+//- (id)initWithStyle:(UITableViewStyle)style
+//{
+//    self = [super initWithStyle:style];
+//    if (self) {
+//        // Custom initialization
+//
+//    }
+//    return self;
+//}
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+  [super viewDidLoad];
   
   //hide the search bar until they swipe it down
   self.tableView.contentOffset = CGPointMake(0, self.searchDisplayController.searchBar.frame.size.height);
-  
-  
   _searchHits = [NSMutableArray array];
+  
+  [[NSNotificationCenter defaultCenter]
+   addObserver:self
+   selector:@selector(refreshTable)
+   name:@"DataRefreshed"
+   object:nil];
+
+}
+
+- (void) refreshTable
+{
+  @try
+  {
+    [GombotDB loadDataFile];
+  }
+  @catch (NSException *exception)
+  {
+    NSLog(@"%@", exception);
+    UIAlertView *alert = [[UIAlertView alloc]
+                          initWithTitle: @"Error"
+                          message: @"Error Loading Data"
+                          delegate: nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil];
+    [alert show];  
+    return;
+  }
+
+  [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning

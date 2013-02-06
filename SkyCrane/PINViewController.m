@@ -54,6 +54,11 @@
 
 - (IBAction) numEnter:(id) sender;
 {
+  if (nextDigit == 4)
+  {
+    NSLog(@"OOPS!");
+  }
+  
   NSString* buttonString = ((UIButton*)sender).titleLabel.text;
   int value = [buttonString intValue];
   pinAttempt[nextDigit] = value;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C3006" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="b38-1s-w8b">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C3006" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="b38-1s-w8b">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
         <!--View Controller - Gombot-->
@@ -209,6 +209,7 @@
                             <constraint firstAttribute="trailing" secondItem="gKH-Im-ckT" secondAttribute="trailing" constant="22" id="5Oj-vN-HOq"/>
                             <constraint firstItem="I1W-xe-oMa" firstAttribute="top" secondItem="iSE-HZ-VZS" secondAttribute="top" type="default" id="80G-g2-g4t"/>
                             <constraint firstItem="eoj-DO-QaR" firstAttribute="baseline" secondItem="gKH-Im-ckT" secondAttribute="baseline" type="user" id="BpS-Uw-Ohh"/>
+                            <constraint firstAttribute="trailing" secondItem="Pp7-Iq-2Nc" secondAttribute="trailing" constant="117" id="DpH-mQ-g4y"/>
                             <constraint firstItem="F7u-b5-ZLh" firstAttribute="leading" secondItem="kwY-G9-Yrk" secondAttribute="leading" type="default" id="DxH-Pb-Gg4"/>
                             <constraint firstItem="F7u-b5-ZLh" firstAttribute="width" secondItem="YFS-s5-BcH" secondAttribute="width" type="user" id="E4E-Kn-eoi"/>
                             <constraint firstItem="Qln-DI-73z" firstAttribute="leading" secondItem="f2a-M6-VRL" secondAttribute="leading" type="default" id="EFb-A4-qUC"/>
@@ -229,7 +230,7 @@
                             <constraint firstItem="kwY-G9-Yrk" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="22" id="PLR-gA-n3n"/>
                             <constraint firstItem="ypc-SV-z54" firstAttribute="leading" secondItem="3" secondAttribute="leading" type="default" id="PhJ-ph-iy4"/>
                             <constraint firstItem="Uoh-AD-Mio" firstAttribute="baseline" secondItem="Qln-DI-73z" secondAttribute="baseline" type="user" id="QeR-xP-qxA"/>
-                            <constraint firstItem="wA1-13-eoL" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="57" id="Tpr-fO-vDp"/>
+                            <constraint firstItem="wA1-13-eoL" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="58" id="SBY-xz-O9z"/>
                             <constraint firstItem="aWo-fy-Qxq" firstAttribute="bottom" secondItem="wA1-13-eoL" secondAttribute="bottom" type="default" id="UOj-fM-sZc"/>
                             <constraint firstItem="1c4-wi-ZUj" firstAttribute="bottom" secondItem="f2a-M6-VRL" secondAttribute="bottom" type="default" id="Uho-ZK-FbV"/>
                             <constraint firstItem="5hb-eb-6hD" firstAttribute="top" secondItem="1c4-wi-ZUj" secondAttribute="bottom" constant="15" type="user" id="W3W-km-qG8"/>
@@ -238,7 +239,6 @@
                             <constraint firstItem="F7u-b5-ZLh" firstAttribute="width" secondItem="f2a-M6-VRL" secondAttribute="width" type="user" id="a4e-wa-GkA"/>
                             <constraint firstItem="F7u-b5-ZLh" firstAttribute="width" secondItem="gKH-Im-ckT" secondAttribute="width" type="user" id="aib-Mb-egz"/>
                             <constraint firstItem="F7u-b5-ZLh" firstAttribute="width" secondItem="eoj-DO-QaR" secondAttribute="width" type="user" id="bIH-Ie-xai"/>
-                            <constraint firstItem="aWo-fy-Qxq" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="115" id="bTX-ye-yk7"/>
                             <constraint firstItem="YFS-s5-BcH" firstAttribute="baseline" secondItem="Qln-DI-73z" secondAttribute="baseline" type="user" id="bsG-Il-j5M"/>
                             <constraint firstItem="iSE-HZ-VZS" firstAttribute="centerX" secondItem="ypc-SV-z54" secondAttribute="centerX" type="default" id="cEa-Hn-swe"/>
                             <constraint firstItem="nWE-UK-y7m" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="85" id="cJV-at-HmN"/>
@@ -250,7 +250,6 @@
                             <constraint firstItem="Uoh-AD-Mio" firstAttribute="top" secondItem="3" secondAttribute="top" constant="115" id="iah-Zx-0K5"/>
                             <constraint firstAttribute="trailing" secondItem="I1W-xe-oMa" secondAttribute="trailing" constant="84" id="jNF-qD-tNY"/>
                             <constraint firstItem="Uoh-AD-Mio" firstAttribute="baseline" secondItem="YFS-s5-BcH" secondAttribute="baseline" type="user" id="k78-cP-31n"/>
-                            <constraint firstAttribute="trailing" secondItem="Pp7-Iq-2Nc" secondAttribute="trailing" constant="116" id="mDv-ju-LxG"/>
                             <constraint firstItem="Uoh-AD-Mio" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="21" id="mhI-k4-ynO"/>
                             <constraint firstItem="wA1-13-eoL" firstAttribute="top" secondItem="3" secondAttribute="top" constant="2" id="mhp-ba-gZu"/>
                             <constraint firstItem="gKH-Im-ckT" firstAttribute="height" secondItem="eoj-DO-QaR" secondAttribute="height" type="user" id="mir-OM-wFY"/>
@@ -263,7 +262,8 @@
                             <constraint firstItem="iSE-HZ-VZS" firstAttribute="bottom" secondItem="nWE-UK-y7m" secondAttribute="bottom" type="default" id="rM9-dd-uG3"/>
                             <constraint firstItem="1c4-wi-ZUj" firstAttribute="leading" secondItem="5hb-eb-6hD" secondAttribute="leading" type="default" id="rZO-2c-zyc"/>
                             <constraint firstAttribute="bottom" secondItem="nWE-UK-y7m" secondAttribute="bottom" constant="14" id="sp2-Ix-D1d"/>
-                            <constraint firstAttribute="trailing" secondItem="sHy-QL-yxW" secondAttribute="trailing" constant="57" id="vty-Zf-jod"/>
+                            <constraint firstItem="aWo-fy-Qxq" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="116" id="wGE-dI-ckb"/>
+                            <constraint firstAttribute="trailing" secondItem="sHy-QL-yxW" secondAttribute="trailing" constant="58" id="wXc-aY-dPn"/>
                             <constraint firstItem="sHy-QL-yxW" firstAttribute="top" secondItem="Pp7-Iq-2Nc" secondAttribute="top" type="default" id="zOH-rk-IaK"/>
                         </constraints>
                     </view>
@@ -271,15 +271,16 @@
                         <barButtonItem key="backBarButtonItem" title="Lock" id="gwk-LO-NRo"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="button0" destination="kwY-G9-Yrk" id="Xzh-Lx-DXW"/>
-                        <outlet property="button1" destination="eoj-DO-QaR" id="Ve3-BQ-hp9"/>
-                        <outlet property="button2" destination="gKH-Im-ckT" id="KDe-kb-ixm"/>
-                        <outlet property="button3" destination="Uoh-AD-Mio" id="Pd8-hG-K51"/>
-                        <outlet property="button4" destination="YFS-s5-BcH" id="EKh-k4-ucd"/>
-                        <outlet property="button5" destination="Qln-DI-73z" id="75e-pg-wUI"/>
-                        <outlet property="button6" destination="F7u-b5-ZLh" id="qfL-dc-nuS"/>
-                        <outlet property="button7" destination="1c4-wi-ZUj" id="nZK-yx-1ci"/>
-                        <outlet property="button8" destination="f2a-M6-VRL" id="cxS-ey-MlF"/>
+                        <outlet property="button0" destination="5hb-eb-6hD" id="ZR4-ae-Oy8"/>
+                        <outlet property="button1" destination="kwY-G9-Yrk" id="VbL-dc-Kvw"/>
+                        <outlet property="button2" destination="eoj-DO-QaR" id="T7b-Pg-w9l"/>
+                        <outlet property="button3" destination="gKH-Im-ckT" id="aVy-Js-c5b"/>
+                        <outlet property="button4" destination="Uoh-AD-Mio" id="6I5-FC-sOA"/>
+                        <outlet property="button5" destination="YFS-s5-BcH" id="I5p-TA-Umg"/>
+                        <outlet property="button6" destination="Qln-DI-73z" id="Fr8-Tl-HwX"/>
+                        <outlet property="button7" destination="F7u-b5-ZLh" id="ntY-ZO-srX"/>
+                        <outlet property="button8" destination="1c4-wi-ZUj" id="zeT-NA-Ur2"/>
+                        <outlet property="button9" destination="f2a-M6-VRL" id="tpJ-le-CTD"/>
                         <outlet property="digit0" destination="wA1-13-eoL" id="MeT-yI-PhS"/>
                         <outlet property="digit1" destination="aWo-fy-Qxq" id="IjX-sI-kNe"/>
                         <outlet property="digit2" destination="Pp7-Iq-2Nc" id="nu0-53-jOY"/>
@@ -300,7 +301,7 @@
             <objects>
                 <tableViewController id="DIU-ww-IYa" customClass="SiteViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" id="XYn-Hg-lcO">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" barStyle="blackOpaque" id="wAI-oc-VLc">
@@ -392,7 +393,7 @@
             <objects>
                 <tableViewController id="8kz-aj-mS7" customClass="DetailViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="7yl-1o-xke">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections/>
@@ -475,7 +476,7 @@
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Account" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="psI-je-Czr">
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                 <connections>
                                     <action selector="textChanged:" destination="f7G-zs-veL" eventType="editingChanged" id="yDr-ub-ZKp"/>
                                     <outlet property="delegate" destination="f7G-zs-veL" id="0LV-XN-nqP"/>
@@ -483,7 +484,7 @@
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="hVo-Py-fnm">
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="go" secureTextEntry="YES"/>
                                 <connections>
                                     <action selector="textChanged:" destination="f7G-zs-veL" eventType="editingChanged" id="lQO-I5-pUw"/>
                                     <outlet property="delegate" destination="f7G-zs-veL" id="aIn-Hf-r9l"/>
@@ -657,6 +658,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="PoF-Sc-eVt"/>
-        <segue reference="ii5-p4-EPu"/>
+        <segue reference="7lU-Yn-qvt"/>
     </inferredMetricsTieBreakers>
 </document>

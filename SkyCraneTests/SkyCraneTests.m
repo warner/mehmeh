@@ -101,45 +101,45 @@
 
 
 
-- (void) testUpdateServerData
-{
-  [GombotDB clearKeychain];
-  [GombotDB updateCredentialsWithAccount:@"foo@example.com" andPassword:@"password"];
-  
-  NSURL *url = [NSURL URLWithString:@"https://dl.dropbox.com/u/169445/test_data"];
-  NSError *err;
-  NSString *fileContents = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&err];
-  
-  NSData* plaintext = [fileContents dataUsingEncoding:NSUTF8StringEncoding];
-  
-  NSData* ciphertext = [GombotDB encryptData: plaintext withHMACKey: [GombotDB getKeyForPath:_HMACPATH] andAESKey: [GombotDB getKeyForPath:_AESPATH]];
-
-  //create a proper put body using what I am given
-  NSString* theBody = [NSMutableString stringWithFormat:@"{ \"payload\": \"%@\" }", [ciphertext base64EncodedString]];
-  NSLog(@"TEST BODY:  %@", theBody);
-  err = nil;
-  __block BOOL asyncComplete = NO;
-  
-  RequestCompletion dataCompletion = ^(NSInteger status, NSData* body, NSError* err)
-  {
-    //save the file, which is JSON, containing a 'payload', and an 'updated' timestamp
-    if (err || status != 200)
-    {
-      NSLog(@"ERROR: %@", err);
-      STFail(@"failed to update server data");
-    }
-    else NSLog(@"UPDATED server data: %d", status);
-    asyncComplete = YES;
-  };
-  
-  [GombotDB makeAuthenticatedRequestToHost:@"dev.tobmog.org" path:@"/api/v1/payload" port:@"80" method:@"PUT" body:[theBody dataUsingEncoding:NSUTF8StringEncoding] withCompletion:dataCompletion];
-
-  NSRunLoop *theRL = [NSRunLoop currentRunLoop];
-  
-  // Begin a run loop terminated when the downloadComplete it set to true
-  while (!asyncComplete && [theRL runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);
-  
-}
+//- (void) testUpdateServerData
+//{
+//  [GombotDB clearKeychain];
+//  [GombotDB updateCredentialsWithAccount:@"foo@example.com" andPassword:@"password"];
+//  
+//  NSURL *url = [NSURL URLWithString:@"https://dl.dropbox.com/u/169445/test_data"];
+//  NSError *err;
+//  NSString *fileContents = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&err];
+//  
+//  NSData* plaintext = [fileContents dataUsingEncoding:NSUTF8StringEncoding];
+//  
+//  NSData* ciphertext = [GombotDB encryptData: plaintext withHMACKey: [GombotDB getKeyForPath:_HMACPATH] andAESKey: [GombotDB getKeyForPath:_AESPATH]];
+//
+//  //create a proper put body using what I am given
+//  NSString* theBody = [NSMutableString stringWithFormat:@"{ \"payload\": \"%@\" }", [ciphertext base64EncodedString]];
+//  NSLog(@"TEST BODY:  %@", theBody);
+//  err = nil;
+//  __block BOOL asyncComplete = NO;
+//  
+//  RequestCompletion dataCompletion = ^(NSInteger status, NSData* body, NSError* err)
+//  {
+//    //save the file, which is JSON, containing a 'payload', and an 'updated' timestamp
+//    if (err || status != 200)
+//    {
+//      NSLog(@"ERROR: %@", err);
+//      STFail(@"failed to update server data");
+//    }
+//    else NSLog(@"UPDATED server data: %d", status);
+//    asyncComplete = YES;
+//  };
+//  
+//  [GombotDB makeAuthenticatedRequestToHost:@"dev.tobmog.org" path:@"/api/v1/payload" port:@"80" method:@"PUT" body:[theBody dataUsingEncoding:NSUTF8StringEncoding] withCompletion:dataCompletion];
+//
+//  NSRunLoop *theRL = [NSRunLoop currentRunLoop];
+//  
+//  // Begin a run loop terminated when the downloadComplete it set to true
+//  while (!asyncComplete && [theRL runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);
+//  
+//}
 
 @end
 

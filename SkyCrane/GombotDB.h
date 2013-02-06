@@ -14,19 +14,15 @@
 #define _HMACPATH @"/hmac_key"
 
 @interface GombotDB : NSObject
++ (void) initUpdateLock;
 
 + (void) updateCredentialsWithAccount:(NSString*)account andPassword:(NSString*)password;
-
-//used by makeAuthenticatedRequestToHost call. It may not need to be exposed here, but it's handy
-typedef void (^RequestCompletion)(NSInteger statusCode, NSData* body, NSError* err);
-
-+ (void) makeAuthenticatedRequestToHost:(NSString*)host path:(NSString*)path port:(NSString*)port method:(NSString*)method body:(NSData*)body withCompletion:(RequestCompletion)externalCompletion;
-
 
 //callback used by updateLocalData, telling the caller whether the data was updated, requiring a view refresh, and any error message.
 typedef void (^Notifier)(BOOL updated, NSString* errorMessage);
 
 + (void) updateLocalData:(Notifier)ping;
+
 
 //ERASE THE DB
 + (void) eraseDB;

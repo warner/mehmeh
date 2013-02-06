@@ -103,6 +103,7 @@
     [GombotDB updateLocalData:(Notifier)^(BOOL updated, NSString* errorMessage) {
                                                                                   [self finished:errorMessage];
                                                                                 }];
+    
      }
   @catch (NSException *exception) {
     NSLog(@"%@",exception);
@@ -139,7 +140,7 @@
   }
   else
   {
-    [_account becomeFirstResponder];
+    [self connect:self];
 
   }
   return NO;

@@ -50,6 +50,49 @@
 		378F4CEE16A628EA007726D6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C6CD8D1694D3E40071024F /* SystemConfiguration.framework */; };
 		37B90BE016769DFA006BC423 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B90BDD16769DFA006BC423 /* NSData+Base64.m */; };
 		37B90BE116769DFA006BC423 /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B90BDF16769DFA006BC423 /* NSString+Base64.m */; };
+		37C07CFE16B306C500744131 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C9103164DC64B00602DBB /* main.m */; };
+		37C07CFF16B306C500744131 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C9107164DC64B00602DBB /* AppDelegate.m */; };
+		37C07D0016B306C500744131 /* PINViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C9116164DC64B00602DBB /* PINViewController.m */; };
+		37C07D0116B306C500744131 /* SiteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 373C913C164DD31200602DBB /* SiteViewController.m */; };
+		37C07D0216B306C500744131 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 376004DC1651A645000E879C /* DetailViewController.m */; };
+		37C07D0316B306C500744131 /* LaunchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 376004E01651A842000E879C /* LaunchCell.m */; };
+		37C07D0416B306C500744131 /* Site.m in Sources */ = {isa = PBXBuildFile; fileRef = 3774367E1654524F005B0F43 /* Site.m */; };
+		37C07D0516B306C500744131 /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3740D695165C3A64005B1B88 /* SplashViewController.m */; };
+		37C07D0616B306C500744131 /* GombotDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 37FC67FF1665459500CD480C /* GombotDB.m */; };
+		37C07D0716B306C500744131 /* MzPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E6DAE91667D829007B5BF5 /* MzPassword.m */; };
+		37C07D0816B306C500744131 /* AuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E6DAF716681B15007B5BF5 /* AuthViewController.m */; };
+		37C07D0916B306C500744131 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B90BDD16769DFA006BC423 /* NSData+Base64.m */; };
+		37C07D0A16B306C500744131 /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B90BDF16769DFA006BC423 /* NSString+Base64.m */; };
+		37C07D0B16B306C500744131 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3753C283168D6B4000E26BD3 /* Reachability.m */; };
+		37C07D0D16B306C500744131 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C6CD8D1694D3E40071024F /* SystemConfiguration.framework */; };
+		37C07D0E16B306C500744131 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E6DAF01667D875007B5BF5 /* Security.framework */; };
+		37C07D0F16B306C500744131 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3722D067165D94C30036156C /* QuartzCore.framework */; };
+		37C07D1016B306C500744131 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373C90F7164DC64B00602DBB /* UIKit.framework */; };
+		37C07D1116B306C500744131 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373C90F9164DC64B00602DBB /* Foundation.framework */; };
+		37C07D1216B306C500744131 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373C90FB164DC64B00602DBB /* CoreGraphics.framework */; };
+		37C07D1416B306C500744131 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 373C9100164DC64B00602DBB /* InfoPlist.strings */; };
+		37C07D1516B306C500744131 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 373C9109164DC64B00602DBB /* Default.png */; };
+		37C07D1616B306C500744131 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 373C910B164DC64B00602DBB /* Default@2x.png */; };
+		37C07D1716B306C500744131 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 373C910D164DC64B00602DBB /* Default-568h@2x.png */; };
+		37C07D1816B306C500744131 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 373C910F164DC64B00602DBB /* MainStoryboard_iPhone.storyboard */; };
+		37C07D1916B306C500744131 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 373C9112164DC64B00602DBB /* MainStoryboard_iPad.storyboard */; };
+		37C07D1A16B306C500744131 /* gombot_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 37D5794E16657EEA004077F7 /* gombot_small.png */; };
+		37C07D1B16B306C500744131 /* starburst.png in Resources */ = {isa = PBXBuildFile; fileRef = 37D5795A16658CBA004077F7 /* starburst.png */; };
+		37C07D1C16B306C500744131 /* gombottitle.png in Resources */ = {isa = PBXBuildFile; fileRef = 373481C11665D6CF00521ECA /* gombottitle.png */; };
+		37C07D1D16B306C500744131 /* Key.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653F01666905B006FE67E /* Key.png */; };
+		37C07D1E16B306C500744131 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653F316669628006FE67E /* gradient.png */; };
+		37C07D1F16B306C500744131 /* Key@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653F5166699E6006FE67E /* Key@2x.png */; };
+		37C07D2016B306C500744131 /* greenlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653F716669A0A006FE67E /* greenlight.png */; };
+		37C07D2116B306C500744131 /* greenlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653F816669A0A006FE67E /* greenlight@2x.png */; };
+		37C07D2216B306C500744131 /* redlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653FB16669B71006FE67E /* redlight.png */; };
+		37C07D2316B306C500744131 /* redlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653FC16669B71006FE67E /* redlight@2x.png */; };
+		37C07D2416B306C500744131 /* greenlightoff.png in Resources */ = {isa = PBXBuildFile; fileRef = 370653FF1666C46E006FE67E /* greenlightoff.png */; };
+		37C07D2516B306C500744131 /* greenlightoff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370654001666C46E006FE67E /* greenlightoff@2x.png */; };
+		37C07D2616B306C500744131 /* redlightoff.png in Resources */ = {isa = PBXBuildFile; fileRef = 370654011666C46E006FE67E /* redlightoff.png */; };
+		37C07D2716B306C500744131 /* redlightoff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370654021666C46E006FE67E /* redlightoff@2x.png */; };
+		37C07D2816B306C500744131 /* gombot_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 370654071666CB1D006FE67E /* gombot_small@2x.png */; };
+		37C07D2916B306C500744131 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 376350EF16697CCA00328A00 /* Icon.png */; };
+		37C07D2A16B306C500744131 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 376350F116697CD600328A00 /* Icon@2x.png */; };
 		37C6CD8E1694D3E40071024F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C6CD8D1694D3E40071024F /* SystemConfiguration.framework */; };
 		37D5794F16657EEA004077F7 /* gombot_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 37D5794E16657EEA004077F7 /* gombot_small.png */; };
 		37D5795B16658CBA004077F7 /* starburst.png in Resources */ = {isa = PBXBuildFile; fileRef = 37D5795A16658CBA004077F7 /* starburst.png */; };
@@ -134,6 +177,7 @@
 		37B90BDD16769DFA006BC423 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 		37B90BDE16769DFA006BC423 /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
 		37B90BDF16769DFA006BC423 /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
+		37C07D2E16B306C500744131 /* Tobmog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tobmog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37C6CD8D1694D3E40071024F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		37C7C19C16812C0D0030E9E3 /* GombotDBTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GombotDBTest.h; path = SkyCraneTests/GombotDBTest.h; sourceTree = SOURCE_ROOT; };
 		37D5794E16657EEA004077F7 /* gombot_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gombot_small.png; sourceTree = "<group>"; };
@@ -175,6 +219,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		37C07D0C16B306C500744131 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37C07D0D16B306C500744131 /* SystemConfiguration.framework in Frameworks */,
+				37C07D0E16B306C500744131 /* Security.framework in Frameworks */,
+				37C07D0F16B306C500744131 /* QuartzCore.framework in Frameworks */,
+				37C07D1016B306C500744131 /* UIKit.framework in Frameworks */,
+				37C07D1116B306C500744131 /* Foundation.framework in Frameworks */,
+				37C07D1216B306C500744131 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -196,6 +253,7 @@
 			children = (
 				373C90F3164DC64B00602DBB /* Gombot.app */,
 				373C911D164DC64B00602DBB /* SkyCraneTests.octest */,
+				37C07D2E16B306C500744131 /* Tobmog.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -338,6 +396,23 @@
 			productReference = 373C911D164DC64B00602DBB /* SkyCraneTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
+		37C07CFC16B306C500744131 /* Tobmog */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 37C07D2B16B306C500744131 /* Build configuration list for PBXNativeTarget "Tobmog" */;
+			buildPhases = (
+				37C07CFD16B306C500744131 /* Sources */,
+				37C07D0C16B306C500744131 /* Frameworks */,
+				37C07D1316B306C500744131 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Tobmog;
+			productName = SkyCrane;
+			productReference = 37C07D2E16B306C500744131 /* Tobmog.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -360,6 +435,7 @@
 			projectRoot = "";
 			targets = (
 				373C90F2164DC64B00602DBB /* Gombot */,
+				37C07CFC16B306C500744131 /* Tobmog */,
 				373C911C164DC64B00602DBB /* GombotTests */,
 			);
 		};
@@ -401,6 +477,36 @@
 			buildActionMask = 2147483647;
 			files = (
 				373C9129164DC64B00602DBB /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		37C07D1316B306C500744131 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37C07D1416B306C500744131 /* InfoPlist.strings in Resources */,
+				37C07D1516B306C500744131 /* Default.png in Resources */,
+				37C07D1616B306C500744131 /* Default@2x.png in Resources */,
+				37C07D1716B306C500744131 /* Default-568h@2x.png in Resources */,
+				37C07D1816B306C500744131 /* MainStoryboard_iPhone.storyboard in Resources */,
+				37C07D1916B306C500744131 /* MainStoryboard_iPad.storyboard in Resources */,
+				37C07D1A16B306C500744131 /* gombot_small.png in Resources */,
+				37C07D1B16B306C500744131 /* starburst.png in Resources */,
+				37C07D1C16B306C500744131 /* gombottitle.png in Resources */,
+				37C07D1D16B306C500744131 /* Key.png in Resources */,
+				37C07D1E16B306C500744131 /* gradient.png in Resources */,
+				37C07D1F16B306C500744131 /* Key@2x.png in Resources */,
+				37C07D2016B306C500744131 /* greenlight.png in Resources */,
+				37C07D2116B306C500744131 /* greenlight@2x.png in Resources */,
+				37C07D2216B306C500744131 /* redlight.png in Resources */,
+				37C07D2316B306C500744131 /* redlight@2x.png in Resources */,
+				37C07D2416B306C500744131 /* greenlightoff.png in Resources */,
+				37C07D2516B306C500744131 /* greenlightoff@2x.png in Resources */,
+				37C07D2616B306C500744131 /* redlightoff.png in Resources */,
+				37C07D2716B306C500744131 /* redlightoff@2x.png in Resources */,
+				37C07D2816B306C500744131 /* gombot_small@2x.png in Resources */,
+				37C07D2916B306C500744131 /* Icon.png in Resources */,
+				37C07D2A16B306C500744131 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,6 +561,27 @@
 				37F562EE167A92ED00333CFE /* NSString+Base64.m in Sources */,
 				373C912C164DC64C00602DBB /* SkyCraneTests.m in Sources */,
 				3753C285168D6B4000E26BD3 /* Reachability.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		37C07CFD16B306C500744131 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37C07CFE16B306C500744131 /* main.m in Sources */,
+				37C07CFF16B306C500744131 /* AppDelegate.m in Sources */,
+				37C07D0016B306C500744131 /* PINViewController.m in Sources */,
+				37C07D0116B306C500744131 /* SiteViewController.m in Sources */,
+				37C07D0216B306C500744131 /* DetailViewController.m in Sources */,
+				37C07D0316B306C500744131 /* LaunchCell.m in Sources */,
+				37C07D0416B306C500744131 /* Site.m in Sources */,
+				37C07D0516B306C500744131 /* SplashViewController.m in Sources */,
+				37C07D0616B306C500744131 /* GombotDB.m in Sources */,
+				37C07D0716B306C500744131 /* MzPassword.m in Sources */,
+				37C07D0816B306C500744131 /* AuthViewController.m in Sources */,
+				37C07D0916B306C500744131 /* NSData+Base64.m in Sources */,
+				37C07D0A16B306C500744131 /* NSString+Base64.m in Sources */,
+				37C07D0B16B306C500744131 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -568,9 +695,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SkyCrane/SkyCrane-Prefix.pch";
 				INFOPLIST_FILE = "SkyCrane/SkyCrane-Info.plist";
-				ONLY_ACTIVE_ARCH = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -578,13 +707,17 @@
 		373C9131164DC64C00602DBB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Daniel Walkowski";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Daniel Walkowski";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SkyCrane/SkyCrane-Prefix.pch";
 				INFOPLIST_FILE = "SkyCrane/SkyCrane-Info.plist";
-				ONLY_ACTIVE_ARCH = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "E6C1BBE0-02EE-4BE3-8391-8824D959390F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E6C1BBE0-02EE-4BE3-8391-8824D959390F";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -623,6 +756,45 @@
 			};
 			name = Release;
 		};
+		37C07D2C16B306C500744131 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SkyCrane/SkyCrane-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEVSERVER=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "SkyCrane/SkyCrane-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = Tobmog;
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		37C07D2D16B306C500744131 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Daniel Walkowski";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Daniel Walkowski";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SkyCrane/SkyCrane-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEVSERVER=1";
+				INFOPLIST_FILE = "SkyCrane/SkyCrane-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = Tobmog;
+				PROVISIONING_PROFILE = "3BE22E09-73D3-4446-8874-24A18C6BCE08";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3BE22E09-73D3-4446-8874-24A18C6BCE08";
+				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -649,6 +821,15 @@
 			buildConfigurations = (
 				373C9133164DC64C00602DBB /* Debug */,
 				373C9134164DC64C00602DBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		37C07D2B16B306C500744131 /* Build configuration list for PBXNativeTarget "Tobmog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37C07D2C16B306C500744131 /* Debug */,
+				37C07D2D16B306C500744131 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

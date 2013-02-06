@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
+{
+  NSTimer* dataRefreshTimer;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 
