@@ -139,10 +139,7 @@ static NSLock *updateLock;
   NSArray* keys = [keySearch findMatching];
   if ([keys count] != 1 || !keys[0])
   {
-    NSException *exception = [NSException exceptionWithName: @"CredentialException"
-                                                     reason: [NSString stringWithFormat:@"Unable to load account name"]
-                                                   userInfo: nil];
-    @throw exception;
+    return nil;
   }
   
   MzPassword* key = keys[0];
@@ -535,7 +532,7 @@ step 3: decrypt (with aesKey and IV) everything in msg[16:-32]*/
       if ([tsResponse statusCode] == 200)
       {
         NSDictionary* timestampBlob = [self parseJSONdata:tsResponseBody];
-        long serverDate = [[timestampBlob objectForKey:@"updated"] integerValue];
+        unsigned long serverDate = [[timestampBlob objectForKey:@"updated"] unsignedLongValue];
         
         if (private_timestamp < serverDate)
         {

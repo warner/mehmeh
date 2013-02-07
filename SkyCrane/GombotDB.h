@@ -32,6 +32,8 @@ typedef void (^Notifier)(BOOL updated, NSString* errorMessage);
 //throws various exceptions for finding file, reading file, decrypting file, and parsing file
 + (void) loadDataFile;
 
++ (NSString*) getAccount;
+
 //will return nil if no pin
 + (NSArray*) getPin;
 

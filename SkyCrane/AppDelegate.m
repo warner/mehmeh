@@ -49,25 +49,29 @@
 }
 
 - (void) refreshData {
-  NSLog(@"time: %@", [NSDate date]);
-  
-  typedef void (^Notifier)(BOOL updated, NSString* errorMessage);
-  
-  [GombotDB updateLocalData: (Notifier)^(BOOL updated, NSString* errorMessage) {
-    if (updated)
-    {
-      //send out a notification that the local data has changed on disk, so anyone who cares can refresh themselves
-      [[NSNotificationCenter defaultCenter] postNotificationName:@"DataRefreshed" object:self];
+  if ([GombotDB getAccount])
+  {
+  NSLog(@"Refresh now: %@", [NSDate date]);
+    
+    @try {
+      [GombotDB updateLocalData: (Notifier)^(BOOL updated, NSString* errorMessage) {
+        if (updated)
+        {
+          //send out a notification that the local data has changed on disk, so anyone who cares can refresh themselves
+          [[NSNotificationCenter defaultCenter] postNotificationName:@"DataRefreshed" object:self];
+        }
+        
+      }];
     }
-  
-  }];
-
+    @catch (NSException *exception) {
+      NSLog(@"AppDelegate.refreshdata: %@", exception);
+    }
+  }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
   // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-  [self refreshData];
   dataRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:15
                                                       target:self
                                                     selector:@selector(refreshData)
